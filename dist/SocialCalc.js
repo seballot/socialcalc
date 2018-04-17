@@ -26145,7 +26145,12 @@ SocialCalc.SpreadsheetControlClipboardOnclick = function(s, t) {
    var s = SocialCalc.GetSpreadsheetControlObject();
    clipele = document.getElementById(s.idPrefix+"clipboardtext");
    document.getElementById(s.idPrefix+"clipboardformat-tab").checked = true;
-   clipele.value = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
+   try {
+     clipele.value = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
+   } catch (err) {
+     console.log('kirikou')
+      console.error(err)
+   }
    return;
    }
 
