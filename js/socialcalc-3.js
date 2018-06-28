@@ -4540,6 +4540,9 @@ SocialCalc.PrecomputeSheetFontsAndLayouts = function(context) {
       s=s.replace(/(.+)\*(.+)/,"$1"+context.defaultfontsize+"$2");
       s=s.replace(/\*$/,context.defaultfontfamily);
       parts=s.match(/^(\S+?) (\S+?) (\S+?) (\S.*)$/);
+
+      if (!parts) continue
+
       context.fonts[num] = {style: parts[1], weight: parts[2], size: parts[3], family: parts[4]};
 
       }
