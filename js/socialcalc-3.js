@@ -1693,8 +1693,12 @@ SocialCalc.SheetCommandsTimerRoutine = function(sci, parseobj, saveundo) {
    sci.timerobj = null;
 
    while (!parseobj.EOF()) { // go through all commands (separated by newlines)
+      try {
+        errortext = SocialCalc.ExecuteSheetCommand(sci.sheetobj, parseobj, saveundo);
+      } catch (err) {
+        errortext = err.message
+      }
 
-      errortext = SocialCalc.ExecuteSheetCommand(sci.sheetobj, parseobj, saveundo);
       // Error - Use  log on server   OR  alert on client
       if (errortext) {
         if (typeof(alert) == "function")  {
