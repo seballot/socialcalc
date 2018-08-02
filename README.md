@@ -8,7 +8,7 @@ See it in action at [ethercalc.net](http://ethercalc.net)!
 * jQuery (only on the client-side)
 
 ## Usage
-You can `require('socialcalc')` or include `node_modules/socialcalc/SocialCalc.js` on your web page using a script tag.
+You can `require('socialcalc')` or include `node_modules/socialcalc/dist/SocialCalc.js` on your web page using a script tag.
 
 In order to create an editor instance use:
 ```js
@@ -17,6 +17,17 @@ socialCalcControl.InitializeSpreadsheetControl(el /*, height, width, spacebelow*
 ```
 
 This package also works in node.js. You don't need to callc `InitializeSpreadsheetControl` here, because that is just initializing the rendering.
+
+## Build from sources
+
+SocialCalc uses npm and gulp, to get the dependencies, use:
+```bash
+npm install
+```
+You can now compile the project using
+```bash
+npm run build
+```
 
 ## Licensing
 ### Common Public Attribution License (Socialtext Inc.)

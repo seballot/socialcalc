@@ -3133,6 +3133,8 @@ SocialCalc.Formula.IfFunction = function(fname, operand, foperand, sheet) {
 
    var cond, t;
 
+   var scf = SocialCalc.Formula;
+
    cond = SocialCalc.Formula.OperandValueAndType(sheet, foperand);
    t = cond.type.charAt(0);
    if (t != "n" && t != "b") {
