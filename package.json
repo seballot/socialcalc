@@ -1,6 +1,6 @@
 {
   "name": "socialcalc",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Collaborative spreadsheet editor",
   "main": "dist/SocialCalc.js",
   "scripts": {
