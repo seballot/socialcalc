@@ -163,6 +163,9 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    this.views = {}; // {viewname: view-object, ...}
 
+   // Generate html string from template : this.nunjucks.render('test.html.njk', { text: "hello" });
+   this.nunjucks = nunjucks.configure('../src/views', { autoescape: true });
+
    // Dynamic properties:
 
    this.sheet = null;
@@ -1021,35 +1024,35 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    // Initialize SocialCalc buttons
 
-spreadsheet.Buttons = {
-   button_undo: {tooltip: "Undo", command: "undo"},
-   button_redo: {tooltip: "Redo", command: "redo"},
-   button_copy: {tooltip: "Copy", command: "copy"},
-   button_cut: {tooltip: "Cut", command: "cut"},
-   button_paste: {tooltip: "Paste", command: "paste"},
-   button_pasteformats: {tooltip: "Paste Formats", command: "pasteformats"},
-   button_lock: {tooltip: "Lock Cell", command: "lock"},
-   button_unlock: {tooltip: "Unlock Cell", command: "unlock"},
-   button_delete: {tooltip: "Delete Cell Contents", command: "delete"},
-   button_filldown: {tooltip: "Fill Down", command: "filldown"},
-   button_fillright: {tooltip: "Fill Right", command: "fillright"},
-   button_movefrom: {tooltip: "Set/Clear Move From", command: "movefrom"},
-   button_movepaste: {tooltip: "Move Paste", command: "movepaste"},
-   button_moveinsert: {tooltip: "Move Insert", command: "moveinsert"},
-   button_alignleft: {tooltip: "Align Left", command: "align-left"},
-   button_aligncenter: {tooltip: "Align Center", command: "align-center"},
-   button_alignright: {tooltip: "Align Right", command: "align-right"},
-   button_borderon: {tooltip: "Borders On", command: "borderon"},
-   button_borderoff: {tooltip: "Borders Off", command: "borderoff"},
-   button_swapcolors: {tooltip: "Swap Colors", command: "swapcolors"},
-   button_merge: {tooltip: "Merge/Unmerge Cells", command: "merge"},
-   button_insertrow: {tooltip: "Insert Row Before", command: "insertrow"},
-   button_insertcol: {tooltip: "Insert Column Before", command: "insertcol"},
-   button_deleterow: {tooltip: "Delete Row", command: "deleterow"},
-   button_deletecol: {tooltip: "Delete Column", command: "deletecol"},
-   button_hiderow: {tooltip: "Hide Row", command: "hiderow"},
-   button_hidecol: {tooltip: "Hide Column", command: "hidecol"},
-   button_recalc: {tooltip: "Recalculate", command: "recalc"}
+   spreadsheet.Buttons = {
+      button_undo: {tooltip: "Undo", command: "undo"},
+      button_redo: {tooltip: "Redo", command: "redo"},
+      button_copy: {tooltip: "Copy", command: "copy"},
+      button_cut: {tooltip: "Cut", command: "cut"},
+      button_paste: {tooltip: "Paste", command: "paste"},
+      button_pasteformats: {tooltip: "Paste Formats", command: "pasteformats"},
+      button_lock: {tooltip: "Lock Cell", command: "lock"},
+      button_unlock: {tooltip: "Unlock Cell", command: "unlock"},
+      button_delete: {tooltip: "Delete Cell Contents", command: "delete"},
+      button_filldown: {tooltip: "Fill Down", command: "filldown"},
+      button_fillright: {tooltip: "Fill Right", command: "fillright"},
+      button_movefrom: {tooltip: "Set/Clear Move From", command: "movefrom"},
+      button_movepaste: {tooltip: "Move Paste", command: "movepaste"},
+      button_moveinsert: {tooltip: "Move Insert", command: "moveinsert"},
+      button_alignleft: {tooltip: "Align Left", command: "align-left"},
+      button_aligncenter: {tooltip: "Align Center", command: "align-center"},
+      button_alignright: {tooltip: "Align Right", command: "align-right"},
+      button_borderon: {tooltip: "Borders On", command: "borderon"},
+      button_borderoff: {tooltip: "Borders Off", command: "borderoff"},
+      button_swapcolors: {tooltip: "Swap Colors", command: "swapcolors"},
+      button_merge: {tooltip: "Merge/Unmerge Cells", command: "merge"},
+      button_insertrow: {tooltip: "Insert Row Before", command: "insertrow"},
+      button_insertcol: {tooltip: "Insert Column Before", command: "insertcol"},
+      button_deleterow: {tooltip: "Delete Row", command: "deleterow"},
+      button_deletecol: {tooltip: "Delete Column", command: "deletecol"},
+      button_hiderow: {tooltip: "Hide Row", command: "hiderow"},
+      button_hidecol: {tooltip: "Hide Column", command: "hidecol"},
+      button_recalc: {tooltip: "Recalculate", command: "recalc"}
    }
 
    for (button in spreadsheet.Buttons) {
@@ -1062,7 +1065,7 @@ spreadsheet.Buttons = {
           hoverstyle: "border:1px solid "+scc.ISCButtonBorderHover+";background-color:"+scc.ISCButtonHoverBackground+";",
           downstyle: "border:1px solid "+scc.ISCButtonBorderDown+";background-color:"+scc.ISCButtonDownBackground+";"}, 
          {MouseDown: SocialCalc.DoButtonCmd, command: spreadsheet.Buttons[button].command});
-      }
+   }
 
    // create formula bar
 
@@ -1085,7 +1088,7 @@ spreadsheet.Buttons = {
           hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
           downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
          {MouseDown: spreadsheet.formulabuttons[button].command, Disabled: function() {return spreadsheet.editor.ECellReadonly();}});
-   spreadsheet.formulabarDiv.appendChild(bele);
+      spreadsheet.formulabarDiv.appendChild(bele);
    }
 
    var input = $("<input id='searchbarinput' value='' placeholder='Search sheet…'>");

@@ -7,6 +7,7 @@ var filesExist = require('files-exist');
 var jshint = require('gulp-jshint');
 var rename = require('gulp-rename');
 var gutil = require('gulp-util');
+var nunjucks = require('gulp-nunjucks');
 
 var js_folder = 'src/js/';
 var css_folder = 'src/css/';
@@ -51,13 +52,21 @@ gulp.task('css', function () {
     .pipe(gulp.dest(assets_folder));
 });
 
+gulp.task('templates', function() {
+  return gulp.src(['src/views/**/*.html.njk'])
+    .pipe(nunjucks.precompile())
+    .pipe(concat('SocialCalcTemplates.js'))
+    .pipe(gulp.dest(assets_folder))
+});
+
 gulp.task('watch', function() 
 {
   gulp.watch(['src/css/**/*'], ['css']);
   gulp.watch(['src/js/**/*'], ['js']);
+  gulp.watch(['src/views/**/*'], ['templates']);
 });
 
-gulp.task('build', ['js', 'css'], function () {});
+gulp.task('build', ['js', 'css', 'templates'], function () {});
 
 gulp.task('default', ['build'], function () {});
 
@@ -65,7 +74,8 @@ gulp.task('default', ['build'], function () {});
 // Generate production files into dist folder
 gulp.task('move_assets', function() {
    gulp.src([assets_folder + 'images/*']).pipe(gulp.dest(dist_folder + 'images/'));
-   return gulp.src([assets_folder + '*.css', assets_folder + '*.js']).pipe(gulp.dest(dist_folder));
+   gulp.src([assets_folder + '*.css']).pipe(gulp.dest(dist_folder));
+   gulp.src([assets_folder + '*.js', 'node_modules/nunjucks/browser/nunjucks-slim.js']).pipe(concat('SocialCalc.js')).pipe(gulp.dest(dist_folder));
 });
 
 gulp.task('minify_js', function() {
