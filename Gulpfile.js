@@ -13,18 +13,19 @@ var css_folder = 'src/css/';
 var dist_folder = 'dist/';
 var assets_folder = 'web/assets/';
 
-var js_top_file = js_folder + 'module-wrapper-top.js';
-var js_bottom_file = js_folder + 'module-wrapper-bottom.js';
+var js_top_file = js_folder + 'umd/module-wrapper-top.js';
+var js_bottom_file = js_folder + 'umd/module-wrapper-bottom.js';
 
+// Order is important
 var js_files = [
-    js_folder + 'socialcalcconstants.js',
-    js_folder + 'socialcalc-3.js',
-    js_folder + 'socialcalctableeditor.js',
-    js_folder + 'formatnumber2.js',
-    js_folder + 'formula1.js',
-    js_folder + 'socialcalcpopup.js',
-    js_folder + 'socialcalcspreadsheetcontrol.js',
-    js_folder + 'socialcalcviewer.js'
+    js_folder + 'constants.js',
+    js_folder + 'socialcalc.js',
+    js_folder + 'table-editor.js',
+    js_folder + 'formatter.js',
+    js_folder + 'formula.js',
+    js_folder + 'popup.js',
+    js_folder + 'spreadsheet-control.js',
+    js_folder + 'viewer.js'
 ];
 
 gulp.task('validate-js', function () {
