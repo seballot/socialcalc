@@ -17,8 +17,10 @@ var js_top_file = js_folder + 'umd/module-wrapper-top.js';
 var js_bottom_file = js_folder + 'umd/module-wrapper-bottom.js';
 
 // Order is important
-var js_files = [
-    js_folder + 'constants.js',
+var js_files = [    
+    js_folder + 'constants/translations.js',
+    js_folder + 'constants/style.js',
+    js_folder + 'constants/settings.js',
     js_folder + 'socialcalc.js',
     js_folder + 'table-editor.js',
     js_folder + 'formatter.js',
