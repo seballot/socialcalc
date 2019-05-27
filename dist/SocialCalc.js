@@ -1,6 +1,8 @@
 // Taken from https://github.com/umdjs/umd/blob/master/templates/returnExports.js
 // (c) by The UMD contributors
 // MIT License: https://github.com/umdjs/umd/blob/master/LICENSE.md
+
+// This wrapper is plit in two files, so we encapsulate the whole SocalCalc javascript code with them (See Gulpfile.js)
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -229,7 +231,7 @@ SocialCalc.Constants = {
 
    //*** SocialCalc.TableEditor
 
-   defaultImagePrefix: "images/sc_", // URL prefix for images (e.g., "/images/sc")
+   defaultImagePrefix: "assets/images/sc_", // URL prefix for images (e.g., "/images/sc")
    defaultTableEditorIDPrefix: "te_", // if present, many TableEditor elements are assigned IDs with this prefix
    defaultPageUpDnAmount: 15, // number of rows to move cursor on PgUp/PgDn keys (numeric)
 
@@ -14865,6 +14867,9 @@ SocialCalc.intFunc = function(n) {
    }
 
 
+//
+//
+/*
 // SocialCalc Spreadsheet Formula Library
 //
 // Part of the SocialCalc package
@@ -14893,9 +14898,11 @@ SocialCalc.intFunc = function(n) {
 // Unless otherwise specified, referring to "SocialCalc" in comments refers to this
 // JavaScript version of the code, not the SocialCalc Perl code.
 //
+*/
 
-var SocialCalc;
-if (!SocialCalc) SocialCalc = {}; // May be used with other SocialCalc libraries or standalone. In any case, requires SocialCalc.Constants.
+   var SocialCalc;
+   if (!SocialCalc) SocialCalc = {}; // May be used with other SocialCalc libraries or standalone
+                                     // In any case, requires SocialCalc.Constants.
 
 SocialCalc.Formula = {};
 SocialCalc.TriggerIoAction = {}; // eddy
@@ -14904,95 +14911,95 @@ SocialCalc.TriggerIoAction = {}; // eddy
 // Formula constants for parsing:
 //
 
-SocialCalc.Formula.ParseState = {num: 1, alpha: 2, coord: 3, string: 4, stringquote: 5, numexp1: 6, numexp2: 7, alphanumeric: 8, specialvalue:9};
+   SocialCalc.Formula.ParseState = {num: 1, alpha: 2, coord: 3, string: 4, stringquote: 5, numexp1: 6, numexp2: 7, alphanumeric: 8, specialvalue:9};
 
-SocialCalc.Formula.TokenType = {num: 1, coord: 2, op: 3, name: 4, error: 5, string: 6, space: 7};
+   SocialCalc.Formula.TokenType = {num: 1, coord: 2, op: 3, name: 4, error: 5, string: 6, space: 7};
 
-SocialCalc.Formula.CharClass = {num: 1, numstart: 2, op: 3, eof: 4, alpha: 5, incoord: 6, error: 7, quote: 8, space: 9, specialstart: 10};
+   SocialCalc.Formula.CharClass = {num: 1, numstart: 2, op: 3, eof: 4, alpha: 5, incoord: 6, error: 7, quote: 8, space: 9, specialstart: 10};
+ 
+   SocialCalc.Formula.CharClassTable = {
+      " ": 9, "!": 3, '"': 8, "'": 8, "#": 10, "$":6, "%":3, "&":3, "(": 3, ")": 3, "*": 3, "+": 3, ",": 3, "-": 3, ".": 2, "/": 3,
+       "0": 1, "1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1, "7": 1, "8": 1, "9": 1,
+       ":": 3, "<": 3, "=": 3, ">": 3,
+       "A": 5, "B": 5, "C": 5, "D": 5, "E": 5, "F": 5, "G": 5, "H": 5, "I": 5, "J": 5, "K": 5, "L": 5, "M": 5, "N": 5,
+       "O": 5, "P": 5, "Q": 5, "R": 5, "S": 5, "T": 5, "U": 5, "V": 5, "W": 5, "X": 5, "Y": 5, "Z": 5,
+       "^": 3, "_": 5,
+       "a": 5, "b": 5, "c": 5, "d": 5, "e": 5, "f": 5, "g": 5, "h": 5, "i": 5, "j": 5, "k": 5, "l": 5, "m": 5, "n": 5,
+       "o": 5, "p": 5, "q": 5, "r": 5, "s": 5, "t": 5, "u": 5, "v": 5, "w": 5, "x": 5, "y": 5, "z": 5
+       };
 
-SocialCalc.Formula.CharClassTable = {
-  " ": 9, "!": 3, '"': 8, "'": 8, "#": 10, "$":6, "%":3, "&":3, "(": 3, ")": 3, "*": 3, "+": 3, ",": 3, "-": 3, ".": 2, "/": 3,
-   "0": 1, "1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1, "7": 1, "8": 1, "9": 1,
-   ":": 3, "<": 3, "=": 3, ">": 3,
-   "A": 5, "B": 5, "C": 5, "D": 5, "E": 5, "F": 5, "G": 5, "H": 5, "I": 5, "J": 5, "K": 5, "L": 5, "M": 5, "N": 5,
-   "O": 5, "P": 5, "Q": 5, "R": 5, "S": 5, "T": 5, "U": 5, "V": 5, "W": 5, "X": 5, "Y": 5, "Z": 5,
-   "^": 3, "_": 5,
-   "a": 5, "b": 5, "c": 5, "d": 5, "e": 5, "f": 5, "g": 5, "h": 5, "i": 5, "j": 5, "k": 5, "l": 5, "m": 5, "n": 5,
-   "o": 5, "p": 5, "q": 5, "r": 5, "s": 5, "t": 5, "u": 5, "v": 5, "w": 5, "x": 5, "y": 5, "z": 5
-   };
+   SocialCalc.Formula.UpperCaseTable = {
+       "a": "A", "b": "B", "c": "C", "d": "D", "e": "E", "f": "F", "g": "G", "h": "H", "i": "I", "j": "J", "k": "K", "l": "L", "m": "M",
+       "n": "N", "o": "O", "p": "P", "q": "Q", "r": "R", "s": "S", "t": "T", "u": "U", "v": "V", "w": "W", "x": "X", "y": "Y", "z": "Z",
+       "A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "F": "F", "G": "G", "H": "H", "I": "I", "J": "J", "K": "K", "L": "L", "M": "M",
+       "N": "N", "O": "O", "P": "P", "Q": "Q", "R": "R", "S": "S", "T": "T", "U": "U", "V": "V", "W": "W", "X": "X", "Y": "Y", "Z": "Z"
+       }
 
-SocialCalc.Formula.UpperCaseTable = {
-   "a": "A", "b": "B", "c": "C", "d": "D", "e": "E", "f": "F", "g": "G", "h": "H", "i": "I", "j": "J", "k": "K", "l": "L", "m": "M",
-   "n": "N", "o": "O", "p": "P", "q": "Q", "r": "R", "s": "S", "t": "T", "u": "U", "v": "V", "w": "W", "x": "X", "y": "Y", "z": "Z",
-   "A": "A", "B": "B", "C": "C", "D": "D", "E": "E", "F": "F", "G": "G", "H": "H", "I": "I", "J": "J", "K": "K", "L": "L", "M": "M",
-   "N": "N", "O": "O", "P": "P", "Q": "Q", "R": "R", "S": "S", "T": "T", "U": "U", "V": "V", "W": "W", "X": "X", "Y": "Y", "Z": "Z"
-   }
-
-SocialCalc.Formula.SpecialConstants = { // names that turn into constants for name lookup
-  "#NULL!": "0,e#NULL!", "#NUM!": "0,e#NUM!", "#DIV/0!": "0,e#DIV/0!", "#VALUE!": "0,e#VALUE!",
-  "#REF!": "0,e#REF!", "#NAME?": "0,e#NAME?"};
-
-
-// Operator Precedence table
-//
-// 1- !, 2- : ,, 3- M P, 4- %, 5- ^, 6- * /, 7- + -, 8- &, 9- < > = G(>=) L(<=) N(<>),
-// Negative value means Right Associative
-
-SocialCalc.Formula.TokenPrecedence = {
-  "!": 1,
-  ":": 2, ",": 2,
-  "M": -3, "P": -3,
-  "%": 4,
-  "^": 5,
-  "*": 6, "/": 6,
-  "+": 7, "-": 7,
-  "&": 8,
-  "<": 9, ">": 9, "G": 9, "L": 9, "N": 9
-  };
-
-// Convert one-char token text to input text:
-
-SocialCalc.Formula.TokenOpExpansion = {'G': '>=', 'L': '<=', 'M': '-', 'N': '<>', 'P': '+'};
-
-//
-// Information about the resulting value types when doing operations on values (used by LookupResultType)
-//
-// Each object entry is an object with specific types with result type info as follows:
-//
-//    'type1a': '|type2a:resulta|type2b:resultb|...
-//    Type of t* or n* matches any of those types not listed
-//    Results may be a type or the numbers 1 or 2 specifying to return type1 or type2
+   SocialCalc.Formula.SpecialConstants = { // names that turn into constants for name lookup
+      "#NULL!": "0,e#NULL!", "#NUM!": "0,e#NUM!", "#DIV/0!": "0,e#DIV/0!", "#VALUE!": "0,e#VALUE!",
+      "#REF!": "0,e#REF!", "#NAME?": "0,e#NAME?"};
 
 
-SocialCalc.Formula.TypeLookupTable = {
-   unaryminus: { 'n*': '|n*:1|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
-   unaryplus: { 'n*': '|n*:1|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
-   unarypercent: { 'n*': '|n:n%|n*:n|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
-   plus: {
-            'n%': '|n%:n%|nd:n|nt:n|ndt:n|n$:n|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'nd': '|n%:n|nd:nd|nt:ndt|ndt:ndt|n$:n|n:nd|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'nt': '|n%:n|nd:ndt|nt:nt|ndt:ndt|n$:n|n:nt|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'ndt': '|n%:n|nd:ndt|nt:ndt|ndt:ndt|n$:n|n:ndt|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'n$': '|n%:n|nd:n|nt:n|ndt:n|n$:n$|n:n$|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'nl': '|n%:n|nd:n|nt:n|ndt:n|n$:n|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'n': '|n%:n|nd:nd|nt:nt|ndt:ndt|n$:n$|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            'b': '|n%:n%|nd:nd|nt:nt|ndt:ndt|n$:n$|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
-            't*': '|ni:1|n*:e#VALUE!|t*:e#VALUE!|b:e#VALUE!|e*:2|',
-            'n*': '|ni:1|e*:2|',
-            'e*': '|e*:1|n*:1|t*:1|b:1|'
-           },
-   concat: {
-            't': '|t:t|th:th|tw:tw|tl:t|tr:tr|t*:2|e*:2|',
-            'th': '|t:th|th:th|tw:t|tl:th|tr:t|t*:t|e*:2|',
-            'tw': '|t:tw|th:t|tw:tw|tl:tw|tr:tw|t*:t|e*:2|',
-            'tl': '|t:tl|th:th|tw:tw|tl:tl|tr:tr|t*:t|e*:2|',
-            't*': '|t*:t|e*:2|',
-            'e*': '|e*:1|n*:1|t*:1|'
-           },
-   oneargnumeric: { 'n*': '|n*:n|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
-   twoargnumeric: { 'n*': '|n*:n|t*:e#VALUE!|e*:2|', 'e*': '|e*:1|n*:1|t*:1|', 't*': '|t*:e#VALUE!|n*:e#VALUE!|e*:2|'},
-   propagateerror: { 'n*': '|n*:2|e*:2|', 'e*': '|e*:2|', 't*': '|t*:2|e*:2|', 'b': '|b:2|e*:2|'}
-  };
+   // Operator Precedence table
+   //
+   // 1- !, 2- : ,, 3- M P, 4- %, 5- ^, 6- * /, 7- + -, 8- &, 9- < > = G(>=) L(<=) N(<>),
+   // Negative value means Right Associative
+
+   SocialCalc.Formula.TokenPrecedence = {
+      "!": 1,
+      ":": 2, ",": 2,
+      "M": -3, "P": -3,
+      "%": 4,
+      "^": 5,
+      "*": 6, "/": 6,
+      "+": 7, "-": 7,
+      "&": 8,
+      "<": 9, ">": 9, "G": 9, "L": 9, "N": 9
+      };
+
+   // Convert one-char token text to input text:
+
+   SocialCalc.Formula.TokenOpExpansion = {'G': '>=', 'L': '<=', 'M': '-', 'N': '<>', 'P': '+'};
+
+   //
+   // Information about the resulting value types when doing operations on values (used by LookupResultType)
+   //
+   // Each object entry is an object with specific types with result type info as follows:
+   //
+   //    'type1a': '|type2a:resulta|type2b:resultb|...
+   //    Type of t* or n* matches any of those types not listed
+   //    Results may be a type or the numbers 1 or 2 specifying to return type1 or type2
+   
+
+   SocialCalc.Formula.TypeLookupTable = {
+       unaryminus: { 'n*': '|n*:1|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
+       unaryplus: { 'n*': '|n*:1|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
+       unarypercent: { 'n*': '|n:n%|n*:n|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
+       plus: {
+                'n%': '|n%:n%|nd:n|nt:n|ndt:n|n$:n|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'nd': '|n%:n|nd:nd|nt:ndt|ndt:ndt|n$:n|n:nd|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'nt': '|n%:n|nd:ndt|nt:nt|ndt:ndt|n$:n|n:nt|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'ndt': '|n%:n|nd:ndt|nt:ndt|ndt:ndt|n$:n|n:ndt|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'n$': '|n%:n|nd:n|nt:n|ndt:n|n$:n$|n:n$|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'nl': '|n%:n|nd:n|nt:n|ndt:n|n$:n|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'n': '|n%:n|nd:nd|nt:nt|ndt:ndt|n$:n$|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                'b': '|n%:n%|nd:nd|nt:nt|ndt:ndt|n$:n$|n:n|n*:n|b:n|e*:2|t*:e#VALUE!|',
+                't*': '|ni:1|n*:e#VALUE!|t*:e#VALUE!|b:e#VALUE!|e*:2|',
+                'n*': '|ni:1|e*:2|',
+                'e*': '|e*:1|n*:1|t*:1|b:1|'
+               },
+       concat: {
+                't': '|t:t|th:th|tw:tw|tl:t|tr:tr|t*:2|e*:2|',
+                'th': '|t:th|th:th|tw:t|tl:th|tr:t|t*:t|e*:2|',
+                'tw': '|t:tw|th:t|tw:tw|tl:tw|tr:tw|t*:t|e*:2|',
+                'tl': '|t:tl|th:th|tw:tw|tl:tl|tr:tr|t*:t|e*:2|',
+                't*': '|t*:t|e*:2|',
+                'e*': '|e*:1|n*:1|t*:1|'
+               },
+       oneargnumeric: { 'n*': '|n*:n|', 'e*': '|e*:1|', 't*': '|t*:e#VALUE!|', 'b': '|b:n|'},
+       twoargnumeric: { 'n*': '|n*:n|t*:e#VALUE!|e*:2|', 'e*': '|e*:1|n*:1|t*:1|', 't*': '|t*:e#VALUE!|n*:e#VALUE!|e*:2|'},
+       propagateerror: { 'n*': '|n*:2|e*:2|', 'e*': '|e*:2|', 't*': '|t*:2|e*:2|', 'b': '|b:2|e*:2|'}
+      };
 
 /* *******************
 
@@ -23012,6 +23019,7 @@ SocialCalc.Popup.Types.ColorChooser.CloseOK = function(e) {
 //
 // SocialCalcSpreadsheetControl
 //
+/*
 // The code module of the SocialCalc package that lets you embed a spreadsheet
 // control with toolbar, etc., into a web page.
 //
@@ -23094,14 +23102,14 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
 
 */
 
-var SocialCalc;
-if (!SocialCalc) {
-   alert("Main SocialCalc code module needed");
-   SocialCalc = {};
-   }
-if (!SocialCalc.TableEditor) {
-   alert("SocialCalc TableEditor code module needed");
-   }
+   var SocialCalc;
+   if (!SocialCalc) {
+      alert("Main SocialCalc code module needed");
+      SocialCalc = {};
+      }
+   if (!SocialCalc.TableEditor) {
+      alert("SocialCalc TableEditor code module needed");
+      }
 
 // *************************************
 //
@@ -23111,7 +23119,7 @@ if (!SocialCalc.TableEditor) {
 
 // Global constants:
 
-SocialCalc.CurrentSpreadsheetControlObject = null; // right now there can only be one active at a time
+   SocialCalc.CurrentSpreadsheetControlObject = null; // right now there can only be one active at a time
 
 
 // Constructor:
@@ -24098,7 +24106,7 @@ spreadsheet.Buttons = {
    spreadsheet.formulabarDiv.appendChild(bele);
    }
 
-   var input = $("<input id='searchbarinput' value='' placeholder='Search sheet...'>");
+   var input = $("<input id='searchbarinput' value='' placeholder='Search sheet…'>");
    var searchBar = $("<span id='searchbar'></span>");
    searchBar.append("<div id='searchstatus'></div>");
    searchBar.append(input);

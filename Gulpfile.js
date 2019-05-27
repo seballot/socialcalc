@@ -8,10 +8,10 @@ var jshint = require('gulp-jshint');
 var rename = require('gulp-rename');
 var gutil = require('gulp-util');
 
-var js_folder = './js/';
-var css_folder = './css/';
-var dist_folder = './dist/';
-var build_folder = './build/';
+var js_folder = 'src/js/';
+var css_folder = 'src/css/';
+var dist_folder = 'dist/';
+var assets_folder = 'web/assets/';
 
 var js_top_file = js_folder + 'module-wrapper-top.js';
 var js_bottom_file = js_folder + 'module-wrapper-bottom.js';
@@ -38,30 +38,34 @@ gulp.task('js', function () {
     var files = filesExist([].concat(js_top_file, js_files, js_bottom_file));
     return gulp.src(files)
         .pipe(concat('SocialCalc.js'))
-        .pipe(gulp.dest(build_folder));
+        .pipe(gulp.dest(assets_folder));
 });
 
 gulp.task('css', function () {
   return gulp.src([css_folder + '**/*.scss'])
     .pipe(sass().on('error', sass.logError)) 
     .pipe(concat('SocialCalc.css')) 
-    .pipe(gulp.dest(build_folder));
+    .pipe(gulp.dest(assets_folder));
 });
 
 gulp.task('watch', function() 
 {
-  gulp.watch(['css/**/*'], ['css']);
-  gulp.watch(['js/**/*'], ['js']);
+  gulp.watch(['src/css/**/*'], ['css']);
+  gulp.watch(['src/js/**/*'], ['js']);
 });
 
-gulp.task('default', ['js', 'css'], function () {});
+gulp.task('build', ['js', 'css'], function () {});
+
+gulp.task('default', ['build'], function () {});
 
 
-// Generated production files into dist folder
-gulp.task('move_js', function() {
-   return gulp.src([build_folder + '*.js']).pipe(gulp.dest(dist_folder));
+// Generate production files into dist folder
+gulp.task('move_assets', function() {
+   gulp.src([assets_folder + 'images/*']).pipe(gulp.dest(dist_folder + 'images/'));
+   return gulp.src([assets_folder + '*.css', assets_folder + '*.js']).pipe(gulp.dest(dist_folder));
 });
-gulp.task('minify_js', ['move_js'], function() {
+
+gulp.task('minify_js', function() {
   return gulp.src(dist_folder + 'SocialCalc.js')
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
@@ -69,17 +73,14 @@ gulp.task('minify_js', ['move_js'], function() {
     .pipe(gulp.dest(dist_folder));
 });
 
-gulp.task('move_css', function() {
-   return gulp.src([build_folder + '*.css']).pipe(gulp.dest(dist_folder));
-});
-gulp.task('minify_css', ['move_css'], function() {
-  gulp.src([build_folder + '*.css']).pipe(gulp.dest(dist_folder));
+gulp.task('minify_css', function() {
+  gulp.src([assets_folder + '*.css']).pipe(gulp.dest(dist_folder));
   return gulp.src(dist_folder + 'SocialCalc.css')
     .pipe(rename({suffix: '.min'}))
     .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(gulp.dest(dist_folder));
 });
 
-gulp.task('dist', function() {
-    gulp.start('minify_js', 'minify_css');
+gulp.task('dist', ['move_assets'], function() {
+  gulp.start('minify_js', 'minify_css');
 });
