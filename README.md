@@ -18,15 +18,17 @@ socialCalcControl.InitializeSpreadsheetControl(el /*, height, width, spacebelow*
 
 This package also works in node.js. You don't need to callc `InitializeSpreadsheetControl` here, because that is just initializing the rendering.
 
-## Build from sources
+## Installing for developers
 
-SocialCalc uses npm and gulp, to get the dependencies, use:
+SocialCalc uses npm and gulp
 ```bash
+git clone https://github.com/marcelklehr/socialcalc.git
+cd socialcalc
 npm install
-```
-You can now compile the project using
-```bash
-npm run build
+gulp build
+# Auto compile when you change some file
+gulp watch 
+# Open web/index.html in your browser
 ```
 
 ## Licensing
