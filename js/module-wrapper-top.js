@@ -1,6 +1,8 @@
 // Taken from https://github.com/umdjs/umd/blob/master/templates/returnExports.js
 // (c) by The UMD contributors
 // MIT License: https://github.com/umdjs/umd/blob/master/LICENSE.md
+
+// This wrapper is plit in two files, so we encapsulate the whole SocalCalc javascript code with them (See Gulpfile.js)
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
