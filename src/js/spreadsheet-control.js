@@ -1,98 +1,3 @@
-//
-// SocialCalcSpreadsheetControl
-//
-/*
-// The code module of the SocialCalc package that lets you embed a spreadsheet
-// control with toolbar, etc., into a web page.
-//
-// (c) Copyright 2008, 2009, 2010 Socialtext, Inc.
-// All Rights Reserved.
-//
-
-
-/*
-
-LEGAL NOTICES REQUIRED BY THE COMMON PUBLIC ATTRIBUTION LICENSE:
-
-EXHIBIT A. Common Public Attribution License Version 1.0.
-
-The contents of this file are subject to the Common Public Attribution License Version 1.0 (the 
-"License"); you may not use this file except in compliance with the License. You may obtain a copy 
-of the License at http://socialcalc.org. The License is based on the Mozilla Public License Version 1.1 but 
-Sections 14 and 15 have been added to cover use of software over a computer network and provide for 
-limited attribution for the Original Developer. In addition, Exhibit A has been modified to be 
-consistent with Exhibit B.
-
-Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY 
-KIND, either express or implied. See the License for the specific language governing rights and 
-limitations under the License.
-
-The Original Code is SocialCalc JavaScript SpreadsheetControl.
-
-The Original Developer is the Initial Developer.
-
-The Initial Developer of the Original Code is Socialtext, Inc. All portions of the code written by 
-Socialtext, Inc., are Copyright (c) Socialtext, Inc. All Rights Reserved.
-
-Contributor: Dan Bricklin.
-
-
-EXHIBIT B. Attribution Information
-
-When the SpreadsheetControl is producing and/or controlling the display the Graphic Image must be
-displayed on the screen visible to the user in a manner comparable to that in the 
-Original Code. The Attribution Phrase must be displayed as a "tooltip" or "hover-text" for
-that image. The image must be linked to the Attribution URL so as to access that page
-when clicked. If the user interface includes a prominent "about" display which includes
-factual prominent attribution in a form similar to that in the "about" display included
-with the Original Code, including Socialtext copyright notices and URLs, then the image
-need not be linked to the Attribution URL but the "tool-tip" is still required.
-
-Attribution Copyright Notice:
-
- Copyright (C) 2010 Socialtext, Inc.
- All Rights Reserved.
-
-Attribution Phrase (not exceeding 10 words): SocialCalc
-
-Attribution URL: http://www.socialcalc.org/
-
-Graphic Image: The contents of the sc-logo.gif file in the Original Code or
-a suitable replacement from http://www.socialcalc.org/licenses specified as
-being for SocialCalc.
-
-Display of Attribution Information is required in Larger Works which are defined 
-in the CPAL as a work which combines Covered Code or portions thereof with code 
-not governed by the terms of the CPAL.
-
-*/
-
-//
-// Some of the other files in the SocialCalc package are licensed under
-// different licenses. Please note the licenses of the modules you use.
-//
-// Code History:
-//
-// Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
-// Unless otherwise specified, referring to "SocialCalc" in comments refers to this
-// JavaScript version of the code, not the SocialCalc Perl code.
-//
-
-/*
-
-See the comments in the main SocialCalc code module file of the SocialCalc package.
-
-*/
-
-   var SocialCalc;
-   if (!SocialCalc) {
-      alert("Main SocialCalc code module needed");
-      SocialCalc = {};
-      }
-   if (!SocialCalc.TableEditor) {
-      alert("SocialCalc TableEditor code module needed");
-      }
-
 // *************************************
 //
 // SpreadsheetControl class:
@@ -101,8 +6,7 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
 
 // Global constants:
 
-   SocialCalc.CurrentSpreadsheetControlObject = null; // right now there can only be one active at a time
-
+SocialCalc.CurrentSpreadsheetControlObject = null; // right now there can only be one active at a time
 
 // Constructor:
 
@@ -189,7 +93,6 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    this.tabbackground = scc.SCTabbackground; // "background-color:#CCC;";
    this.tabselectedCSS = scc.SCTabselectedCSS;
    this.tabplainCSS = scc.SCTabplainCSS;
-   this.toolbartext = scc.SCToolbartext;
 
    this.formulabarheight = scc.SCFormulabarheight; // in pixels, will contain a text input box
 
@@ -201,10 +104,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    this.ExportCallback = null; // a function called for Clipboard Export button: this.ExportCallback(spreadsheet_control_object)
 
    // Initialization Code:
-
-   // eddy Initialization {
    if(typeof SocialCalc.debug_log === 'undefined') SocialCalc.debug_log = [];   
-   // }   
    
    this.sheet = new SocialCalc.Sheet();
    this.context = new SocialCalc.RenderContext(this.sheet);
@@ -259,75 +159,18 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    // Edit
 
    this.tabnums.edit = this.tabs.length;
-   this.tabs.push({name: "edit", text: "Edit", html:
-     ' <div id="%id.edittools" style="padding:10px 0px 0px 0px;">'+
-'&nbsp;<img id="%id.button_undo" src="%img.undo.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_redo" src="%img.redo.png" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_copy" src="%img.copy.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_cut" src="%img.cut.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_paste" src="%img.paste.png" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_delete" src="%img.delete.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_pasteformats" src="%img.formatpaintbrush.png" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-' <span id="%id.locktools"><img id="%id.button_lock" src="%img.lock.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_unlock" src="%img.unlock.png" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp;</span> '+
-'<img id="%id.button_filldown" src="%img.filldown.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_fillright" src="%img.fillright.png" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_movefrom" src="%img.movefromoff.gif" style="vertical-align:bottom;">'+
-' <img id="%id.button_movepaste" src="%img.movepasteoff.gif" style="vertical-align:bottom;">'+
-' <img id="%id.button_moveinsert" src="%img.moveinsertoff.gif" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_alignleft" src="%img.alignleft.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_aligncenter" src="%img.aligncenter.png" style="vertical-align:bottom;">'+
-' <img id="%id.button_alignright" src="%img.alignright.png" style="vertical-align:bottom;">'+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_borderon" src="%img.borderson.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_borderoff" src="%img.bordersoff.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_swapcolors" src="%img.swapcolors.png" style="vertical-align:bottom;"> '+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_merge" src="%img.mergecells.png" style="vertical-align:bottom;"> '+
-' &nbsp;<img src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_insertrow" src="%img.insertrows.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_insertcol" src="%img.insertcolumns.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_deleterow" src="%img.deleterows.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_deletecol" src="%img.deletecolumns.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_hiderow" src="%img.hiderow.png" style="vertical-align:bottom;"> '+
-' <img id="%id.button_hidecol" src="%img.hidecol.png" style="vertical-align:bottom;"> '+
-' &nbsp;<img id="%id.divider_recalc" src="%img.divider1.png" style="vertical-align:bottom;">&nbsp; '+
-'<img id="%id.button_recalc" src="%img.recalc.png" style="vertical-align:bottom;"> '+
-      ' </div>',
-      oncreate: null, //function(spreadsheet, viewobject) {SocialCalc.DoCmd(null, "fill-rowcolstuff");},
-      onclick: null});
+   this.tabs.push({name: "edit", text: "Edit", 
+      html: this.nunjucks.render('tabs/edit.html.njk', { idPrefix: this.idPrefix, imagePrefix: this.imagePrefix }),
+      oncreate: null, onclick: null
+   });
 
    // Settings (Format)
 
    this.tabnums.settings = this.tabs.length;
-   this.tabs.push({name: "settings", text: "Format", html:
-      '<div id="%id.settingstools" style="display:none;">'+
-      ' <div id="%id.sheetsettingstoolbar" style="display:none;">'+
-      '  <table cellspacing="0" cellpadding="0"><tr><td>'+
-      '   <div style="%tbt.">%loc!SHEET SETTINGS!:</div>'+
-      '   </td></tr><tr><td>'+
-      '   <input id="%id.settings-savesheet" type="button" value="%loc!Save!" onclick="SocialCalc.SettingsControlSave(\'sheet\');">'+
-      '   <input type="button" value="%loc!Cancel!" onclick="SocialCalc.SettingsControlSave(\'cancel\');">'+
-      '   <input type="button" value="%loc!Show Cell Settings!" onclick="SocialCalc.SpreadsheetControlSettingsSwitch(\'cell\');return false;">'+
-      '   </td></tr></table>'+
-      ' </div>'+
-      ' <div id="%id.cellsettingstoolbar" style="display:none;">'+
-      '  <table cellspacing="0" cellpadding="0"><tr><td>'+
-      '   <div style="%tbt.">%loc!CELL SETTINGS!: <span id="%id.settingsecell">&nbsp;</span></div>'+
-      '   </td></tr><tr><td>'+
-      '  <input id="%id.settings-savecell" type="button" value="%loc!Save!" onclick="SocialCalc.SettingsControlSave(\'cell\');">'+
-      '  <input type="button" value="%loc!Cancel!" onclick="SocialCalc.SettingsControlSave(\'cancel\');">'+
-      '  <input type="button" value="%loc!Show Sheet Settings!" onclick="SocialCalc.SpreadsheetControlSettingsSwitch(\'sheet\');return false;">'+
-      '  </td></tr></table>'+
-      ' </div>'+
-      '</div>',
+   this.tabs.push({name: "settings", text: "Format", 
+      html: this.nunjucks.render('tabs/settings.html.njk', { idPrefix: this.idPrefix }),
       view: "settings",
+      onclickFocus: true,
       onclick: function(s, t) {
          SocialCalc.SettingsControls.idPrefix = s.idPrefix; // used to get color chooser div
          SocialCalc.SettingControlReset();
@@ -345,20 +188,19 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
             range = SocialCalc.crToCoord(s.editor.range.left, s.editor.range.top) + ":" +
                SocialCalc.crToCoord(s.editor.range.right, s.editor.range.bottom);
             }
-         else {
+         else
             range = s.editor.ecell.coord;
-            }
+          
          document.getElementById(s.idPrefix+"settings-savecell").value = SocialCalc.LocalizeString("Save to")+": "+range;
-         },
-      onclickFocus: true
-         });
+      }      
+   });
 
    this.views["settings"] = {name: "settings", values: {},
+      html: this.nunjucks.render('views/settings.html.njk', { idPrefix: this.idPrefix }),
       oncreate: function(s, viewobj) {
          var scc = SocialCalc.Constants;
 
          viewobj.values.sheetspanel = {
-//            name: "sheet",
             colorchooser: {id: s.idPrefix+"scolorchooser"},
             formatnumber: {setting: "numberformat", type: "PopupList", id: s.idPrefix+"formatnumber",
                initialdata: scc.SCFormatNumberFormats},
@@ -395,7 +237,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
             usermaxrow: {setting: "usermaxrow", type: "PopupList", id: s.idPrefix+"usermaxrow",
                initialdata: scc.SCFormatUserMaxRow}
 
-            };
+         };
          viewobj.values.cellspanel = {
             name: "cell",
             colorchooser: {id: s.idPrefix+"scolorchooser"},
@@ -431,324 +273,14 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
          SocialCalc.SettingsControlInitializePanel(viewobj.values.sheetspanel);
          SocialCalc.SettingsControlInitializePanel(viewobj.values.cellspanel);
-         },
-      replacements: {
-         itemtitle: {regex: /\%itemtitle\./g, replacement: 'style="padding:12px 10px 0px 10px;font-weight:bold;text-align:right;vertical-align:top;font-size:small;"'},
-         sectiontitle: {regex: /\%sectiontitle\./g, replacement: 'style="padding:16px 10px 0px 0px;font-weight:bold;vertical-align:top;font-size:small;color:#C00;"'},
-         parttitle: {regex: /\%parttitle\./g, replacement: 'style="font-weight:bold;font-size:x-small;padding:0px 0px 3px 0px;"'},
-         itembody: {regex: /\%itembody\./g, replacement: 'style="padding:12px 0px 0px 0px;vertical-align:top;font-size:small;"'},
-         bodypart: {regex: /\%bodypart\./g, replacement: 'style="padding:0px 10px 0px 0px;font-size:small;vertical-align:top;"'}
-         },
-      divStyle: "border:1px solid black;overflow:auto;",
-      html:
- '<div id="%id.scolorchooser" style="display:none;position:absolute;z-index:20;"></div>'+
-'<table cellspacing="0" cellpadding="0">'+
-' <tr><td style="vertical-align:top;">'+
-'<table id="%id.sheetsettingstable" style="display:none;" cellspacing="0" cellpadding="0">'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Default Format!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Number!</div>'+
-'     <span id="%id.formatnumber"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Text!</div>'+
-'     <span id="%id.formattext"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Default Alignment!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Text Horizontal!</div>'+
-'     <span id="%id.textalignhoriz"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Number Horizontal!</div>'+
-'     <span id="%id.numberalignhoriz"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Vertical!</div>'+
-'     <span id="%id.alignvert"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Default Font!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Family!</div>'+
-'     <span id="%id.fontfamily"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Bold &amp; Italics!</div>'+
-'     <span id="%id.fontlook"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Size!</div>'+
-'     <span id="%id.fontsize"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Color!</div>'+
-'     <div id="%id.textcolor"></div>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Background!</div>'+
-'     <div id="%id.bgcolor"></div>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Default Padding!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Top!</div>'+
-'     <span id="%id.padtop"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Right!</div>'+
-'     <span id="%id.padright"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Bottom!</div>'+
-'     <span id="%id.padbottom"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Left!</div>'+
-'     <span id="%id.padleft"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Default Column Width!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>&nbsp;</div>'+
-'     <span id="%id.colwidth"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Recalculation!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>&nbsp;</div>'+
-'     <span id="%id.recalc"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Dimensions!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Columns!</div>'+
-'     <span id="%id.usermaxcol"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Rows!</div>'+
-'     <span id="%id.usermaxrow"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'</table>'+
-'<table id="%id.cellsettingstable" cellspacing="0" cellpadding="0">'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Format!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Number!</div>'+
-'     <span id="%id.cformatnumber"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Text!</div>'+
-'     <span id="%id.cformattext"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Alignment!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Horizontal!</div>'+
-'     <span id="%id.calignhoriz"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Vertical!</div>'+
-'     <span id="%id.calignvert"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Font!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Family!</div>'+
-'     <span id="%id.cfontfamily"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Bold &amp; Italics!</div>'+
-'     <span id="%id.cfontlook"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Size!</div>'+
-'     <span id="%id.cfontsize"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Color!</div>'+
-'     <div id="%id.ctextcolor"></div>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Background!</div>'+
-'     <div id="%id.cbgcolor"></div>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Borders!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0">'+
-'    <tr><td %bodypart. colspan="3"><div %parttitle.>%loc!Top Border!</div></td>'+
-'     <td %bodypart. colspan="3"><div %parttitle.>%loc!Right Border!</div></td>'+
-'     <td %bodypart. colspan="3"><div %parttitle.>%loc!Bottom Border!</div></td>'+
-'     <td %bodypart. colspan="3"><div %parttitle.>%loc!Left Border!</div></td>'+
-'    </tr><tr>'+
-'    <td %bodypart.>'+
-'     <input id="%id.cbt-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div id="%id.cbt-color"></div>'+
-'    </td>'+
-'    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>'+
-'    <td %bodypart.>'+
-'     <input id="%id.cbr-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div id="%id.cbr-color"></div>'+
-'    </td>'+
-'    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>'+
-'    <td %bodypart.>'+
-'     <input id="%id.cbb-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div id="%id.cbb-color"></div>'+
-'    </td>'+
-'    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>'+
-'    <td %bodypart.>'+
-'     <input id="%id.cbl-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div id="%id.cbl-color"></div>'+
-'    </td>'+
-'    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'<tr>'+
-' <td %itemtitle.><br>%loc!Padding!:</td>'+
-' <td %itembody.>'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Top!</div>'+
-'     <span id="%id.cpadtop"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Right!</div>'+
-'     <span id="%id.cpadright"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Bottom!</div>'+
-'     <span id="%id.cpadbottom"></span>'+
-'    </td>'+
-'    <td %bodypart.>'+
-'     <div %parttitle.>%loc!Left!</div>'+
-'     <span id="%id.cpadleft"></span>'+
-'    </td>'+
-'   </tr></table>'+
-' </td>'+
-'</tr>'+
-'</table>'+
-' </td><td style="vertical-align:top;padding:12px 0px 0px 12px;">'+
-'  <div style="width:100px;height:100px;overflow:hidden;border:1px solid black;background-color:#EEE;padding:6px;">'+
-'   <table cellspacing="0" cellpadding="0"><tr>'+
-'    <td id="sample-text" style="height:100px;width:100px;"><div>%loc!This is a<br>sample!</div><div>-1234.5</div></td>'+
-'   </tr></table>'+
-'  </div>'+
-' </td></tr></table>'+
-'<br>'
-      };
+      } 
+   };
 
    // Sort
 
    this.tabnums.sort = this.tabs.length;
-   this.tabs.push({name: "sort", text: "Sort", html:
-      ' <div id="%id.sorttools" style="display:none;">'+
-      '  <table cellspacing="0" cellpadding="0"><tr>'+
-      '   <td style="vertical-align:top;padding-right:4px;width:160px;">'+
-      '    <div style="%tbt.">%loc!Set Cells To Sort!</div>'+
-      '    <select id="%id.sortlist" size="1" onfocus="%s.CmdGotFocus(this);"><option selected>[select range]</option><option value="all">Sort All</option></select>'+
-      '    <input type="button" value="%loc!OK!" onclick="%s.DoCmd(this, \'ok-setsort\');" style="font-size:x-small;">'+
-      '   </td>'+
-      '   <td style="vertical-align:middle;padding-right:16px;width:100px;text-align:right;">'+
-      '    <div style="%tbt.">&nbsp;</div>'+
-      '    <input type="button" id="%id.sortbutton" value="%loc!Sort Cells! A1:A1" onclick="%s.DoCmd(this, \'dosort\');" style="visibility:hidden;">'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:16px;">'+
-      '    <table cellspacing="0" cellpadding="0"><tr>'+
-      '     <td style="vertical-align:top;">'+
-      '      <div style="%tbt.">%loc!Major Sort!</div>'+
-      '      <select id="%id.majorsort" size="1" onfocus="%s.CmdGotFocus(this);"></select>'+
-      '     </td><td>'+
-      '      <input type="radio" name="majorsort" id="%id.majorsortup" value="up" checked><span style="font-size:x-small;color:#555753;">%loc!Up!</span><br>'+
-      '      <input type="radio" name="majorsort" id="%id.majorsortdown" value="down"><span style="font-size:x-small;color:#555753;">%loc!Down!</span>'+
-      '     </td>'+
-      '    </tr></table>'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:16px;">'+
-      '    <table cellspacing="0" cellpadding="0"><tr>'+
-      '     <td style="vertical-align:top;">'+
-      '      <div style="%tbt.">%loc!Minor Sort!</div>'+
-      '      <select id="%id.minorsort" size="1" onfocus="%s.CmdGotFocus(this);"></select>'+
-      '     </td><td>'+
-      '      <input type="radio" name="minorsort" id="%id.minorsortup" value="up" checked><span style="font-size:x-small;color:#555753;">%loc!Up!</span><br>'+
-      '      <input type="radio" name="minorsort" id="%id.minorsortdown" value="down"><span style="font-size:x-small;color:#555753;">%loc!Down!</span>'+
-      '     </td>'+
-      '    </tr></table>'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:16px;">'+
-      '    <table cellspacing="0" cellpadding="0"><tr>'+
-      '     <td style="vertical-align:top;">'+
-      '      <div style="%tbt.">%loc!Last Sort!</div>'+
-      '      <select id="%id.lastsort" size="1" onfocus="%s.CmdGotFocus(this);"></select>'+
-      '     </td><td>'+
-      '      <input type="radio" name="lastsort" id="%id.lastsortup" value="up" checked><span style="font-size:x-small;color:#555753;">%loc!Up!</span><br>'+
-      '      <input type="radio" name="lastsort" id="%id.lastsortdown" value="down"><span style="font-size:x-small;color:#555753;">%loc!Down!</span>'+
-      '     </td>'+
-      '    </tr></table>'+
-      '   </td>'+
-      '  </tr></table>'+
-      ' </div>',
+   this.tabs.push({name: "sort", text: "Sort", 
+      html: this.nunjucks.render('tabs/sort.html.njk', { idPrefix: this.idPrefix }),
       onclick: SocialCalc.SpreadsheetControlSortOnclick});
    this.editor.SettingsCallbacks.sort = {save: SocialCalc.SpreadsheetControlSortSave, load: SocialCalc.SpreadsheetControlSortLoad};
 
@@ -759,66 +291,54 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
       '<div id="%id.audittools" style="display:none;">'+
       ' <div style="%tbt.">&nbsp;</div>'+
       '</div>',
-      view: "audit",
-      onclick:
-         function(s, t) {
-            var SCLoc = SocialCalc.LocalizeString;
-            var i, j;
-            var str = '<table cellspacing="0" cellpadding="0" style="margin-bottom:10px;"><tr><td style="font-size:small;padding:6px;"><b>'+SCLoc("Audit Trail This Session")+':</b><br><br>';
-            var stack = s.sheet.changes.stack;
-            var tos = s.sheet.changes.tos;
-            for (i=0; i<stack.length; i++) {
-               if (i==tos+1) str += '<br></td></tr><tr><td style="font-size:small;background-color:#EEE;padding:6px;">'+SCLoc("UNDONE STEPS")+':<br>';
-               for (j=0; j<stack[i].command.length; j++) {
-                  str += SocialCalc.special_chars(stack[i].command[j]) + "<br>";
-                  }
-               }
-			// --------------------------------------------   
- 		    // eddy log {
+      view: "audit", 
+      onclickFocus: true,
+      onclick: function(s, t) {
+         var SCLoc = SocialCalc.LocalizeString;
+         var i, j;
+         var str = '<table cellspacing="0" cellpadding="0" style="margin-bottom:10px;"><tr><td style="font-size:small;padding:6px;"><b>'+SCLoc("Audit Trail This Session")+':</b><br><br>';
+         var stack = s.sheet.changes.stack;
+         var tos = s.sheet.changes.tos;
+         for (i=0; i<stack.length; i++) {
+            if (i==tos+1) str += '<br></td></tr><tr><td style="font-size:small;background-color:#EEE;padding:6px;">'+SCLoc("UNDONE STEPS")+':<br>';
+            for (j=0; j<stack[i].command.length; j++) {
+               str += SocialCalc.special_chars(stack[i].command[j]) + "<br>";
+            }
+         }
+      var ObjToSource = function(o){
+        if (typeof(o) == "string") return o;
+        if (!o) return 'null';
+        if (typeof(o) == "object") {
+          if (!ObjToSource.check) ObjToSource.check = new Array();
+          for (var i=0, k=ObjToSource.check.length ; i<k ; ++i) {
+            if (ObjToSource.check[i] == o) {return '{}';}
+          }
+          ObjToSource.check.push(o);
+        }
+        var k="",na=typeof(o.length)=="undefined"?1:0,str="";
+        for(var p in o){
+          if (na) k = "'"+p+ "':";
+          if (typeof o[p] == "string") str += k + "'" + o[p]+"',";
+          else if (typeof o[p] == "object") str += k + ObjToSource(o[p])+",";
+          else str += k + o[p] + ",";
+        }
+        if (typeof(o) == "object") ObjToSource.check.pop();
+        if (na) return "{"+str.slice(0,-1)+"}";
+        else return "["+str.slice(0,-1)+"]";
+      }
+      
+       if(typeof SocialCalc.debug_log != 'undefined') {
+        for(var index in SocialCalc.debug_log) { 
+          str += ObjToSource(SocialCalc.debug_log[index]) + "<br>";
+        }
+      }
+       
+         s.views.audit.element.innerHTML = str+"</td></tr></table>";
+         SocialCalc.CmdGotFocus(true);
+      },
+   });
 
-			// --------------------------------------------   
-			var ObjToSource = function(o){
-				if (typeof(o) == "string") return o;
-				if (!o) return 'null';
-				if (typeof(o) == "object") {
-					if (!ObjToSource.check) ObjToSource.check = new Array();
-					for (var i=0, k=ObjToSource.check.length ; i<k ; ++i) {
-						if (ObjToSource.check[i] == o) {return '{}';}
-					}
-					ObjToSource.check.push(o);
-				}
-				var k="",na=typeof(o.length)=="undefined"?1:0,str="";
-				for(var p in o){
-					if (na) k = "'"+p+ "':";
-					if (typeof o[p] == "string") str += k + "'" + o[p]+"',";
-					else if (typeof o[p] == "object") str += k + ObjToSource(o[p])+",";
-					else str += k + o[p] + ",";
-				}
-				if (typeof(o) == "object") ObjToSource.check.pop();
-				if (na) return "{"+str.slice(0,-1)+"}";
-				else return "["+str.slice(0,-1)+"]";
-			}
-			
-			// --------------------------------------------   
-			
-		    if(typeof SocialCalc.debug_log != 'undefined') {
-				for(var index in SocialCalc.debug_log) { 
-					str += ObjToSource(SocialCalc.debug_log[index]) + "<br>";
-				}
-			}
-		    // }   
-			// --------------------------------------------   
-			   
-            s.views.audit.element.innerHTML = str+"</td></tr></table>";
-            SocialCalc.CmdGotFocus(true);
-            },
-      onclickFocus: true
-         });
-
-   this.views["audit"] = {name: "audit",
-      divStyle: "border:1px solid black;overflow:auto;",
-      html: 'Audit Trail'
-      };
+   this.views["audit"] = {name: "audit", html: 'Audit Trail' };
 
    // Comment
 
@@ -839,36 +359,8 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    // Names
 
    this.tabnums.names = this.tabs.length;
-   this.tabs.push({name: "names", text: "Names", html:
-      '<div id="%id.namestools" style="display:none;">'+
-      '  <table cellspacing="0" cellpadding="0"><tr>'+
-      '   <td style="vertical-align:top;padding-right:24px;">'+
-      '    <div style="%tbt.">%loc!Existing Names!</div>'+
-      '    <select id="%id.nameslist" size="1" onchange="%s.SpreadsheetControlNamesChangedName();" onfocus="%s.CmdGotFocus(this);"><option selected>[New]</option></select>'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:6px;">'+
-      '    <div style="%tbt.">%loc!Name!</div>'+
-      '    <input type="text" id="%id.namesname" style="font-size:x-small;width:75px;" onfocus="%s.CmdGotFocus(this);">'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:6px;">'+
-      '    <div style="%tbt.">%loc!Description!</div>'+
-      '    <input type="text" id="%id.namesdesc" style="font-size:x-small;width:150px;" onfocus="%s.CmdGotFocus(this);">'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:6px;">'+
-      '    <div style="%tbt.">%loc!Value!</div>'+
-      '    <input type="text" id="%id.namesvalue" width="16" style="font-size:x-small;width:100px;" onfocus="%s.CmdGotFocus(this);">'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:12px;width:100px;">'+
-      '    <div style="%tbt.">%loc!Set Value To!</div>'+
-      '    <input type="button" id="%id.namesrangeproposal" value="A1" onclick="%s.SpreadsheetControlNamesSetValue();" style="font-size:x-small;">'+
-      '   </td>'+
-      '   <td style="vertical-align:top;padding-right:6px;">'+
-      '    <div style="%tbt.">&nbsp;</div>'+
-      '    <input type="button" value="%loc!Save!" onclick="%s.SpreadsheetControlNamesSave();" style="font-size:x-small;">'+
-      '    <input type="button" value="%loc!Delete!" onclick="%s.SpreadsheetControlNamesDelete()" style="font-size:x-small;">'+
-      '   </td>'+
-      '  </tr></table>'+
-      '</div>',
+   this.tabs.push({name: "names", text: "Names",
+      html: this.nunjucks.render('tabs/names.html.njk', { idPrefix: this.idPrefix }),
       view: "sheet",
       onclick: SocialCalc.SpreadsheetControlNamesOnclick,
       onunclick: SocialCalc.SpreadsheetControlNamesOnunclick
@@ -906,14 +398,10 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
       };
 
    return;
+}
 
-   }
-
-   
 // Methods:
 
-SocialCalc.SpreadsheetControl.prototype.InitializeSpreadsheetControl =
-   function(node, height, width, spacebelow) {return SocialCalc.InitializeSpreadsheetControl(this, node, height, width, spacebelow);};
 SocialCalc.SpreadsheetControl.prototype.DoOnResize = function() {return SocialCalc.DoOnResize(this);};
 SocialCalc.SpreadsheetControl.prototype.SizeSSDiv = function() {return SocialCalc.SizeSSDiv(this);};
 SocialCalc.SpreadsheetControl.prototype.ExecuteCommand = 
@@ -936,312 +424,13 @@ SocialCalc.SpreadsheetControl.prototype.ParseSheetSave = function(str) {return t
 SocialCalc.SpreadsheetControl.prototype.CreateSheetSave = function() {return this.sheet.CreateSheetSave();};
 
 
-// Functions:
-
-//
-// InitializeSpreadsheetControl(spreadsheet, node, height, width, spacebelow)
-//
-// Creates the control elements and makes them the child of node (string or element).
-// If present, height and width specify size.
-// If either is 0 or null (missing), the maximum that fits on the screen
-// (taking spacebelow into account) is used.
-//
-// Displays the tabs and creates the views (other than "sheet").
-// The first tab is set as selected, but onclick is not invoked.
-//
-// You should do a redisplay or recalc (which redisplays) after running this.
-//
-
-SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, width, spacebelow) {
-
-   var scc = SocialCalc.Constants;
-   var SCLoc = SocialCalc.LocalizeString;
-   var SCLocSS = SocialCalc.LocalizeSubstrings;
-
-   var html, child, i, vname, v, style, button, bele;
-   var tabs = spreadsheet.tabs;
-   var views = spreadsheet.views;
-
-   spreadsheet.requestedHeight = height;
-   spreadsheet.requestedWidth = width;
-   spreadsheet.requestedSpaceBelow = spacebelow;
-
-   if (typeof node == "string") node = document.getElementById(node);
-
-   if (node == null) {
-      alert("SocialCalc.SpreadsheetControl not given parent node.");
-      }
-
-   spreadsheet.parentNode = node;
-
-   // create node to hold spreadsheet control
-
-   spreadsheet.spreadsheetDiv = document.createElement("div");
-
-   spreadsheet.SizeSSDiv(); // calculate and fill in the size values
-
-   for (child=node.firstChild; child!=null; child=node.firstChild) {
-      node.removeChild(child);
-      }
-
-   // create the tabbed UI at the top
-
-   html = '<div>'
-   html += '<div style="'+spreadsheet.tabbackground+'">'+
-      '<table cellpadding="0" cellspacing="0"><tr>';
-
-   for (i=0; i<tabs.length; i++) {
-      html += '  <td id="%id.' + tabs[i].name + 'tab" style="' +
-         (i==0 ? spreadsheet.tabselectedCSS : spreadsheet.tabplainCSS) +
-         '" onclick="%s.SetTab(this);">' + SCLoc(tabs[i].text) + '</td>';
-      }
-
-   html += ' </tr></table></div>'
-   html += '<div style="'+spreadsheet.toolbarbackground+'padding:12px 10px 10px 4px;">';
-
-   for (i=0; i<tabs.length; i++) {
-      html += tabs[i].html;
-      }
-
-   html += '</div>'
-   html += '</div>';
-
-   spreadsheet.currentTab = 0; // this is where we started
-
-   for (style in spreadsheet.tabreplacements) {
-      html = html.replace(spreadsheet.tabreplacements[style].regex, spreadsheet.tabreplacements[style].replacement);
-      }
-   html = html.replace(/\%s\./g, "SocialCalc.");
-   html = html.replace(/\%id\./g, spreadsheet.idPrefix);
-   html = html.replace(/\%tbt\./g, spreadsheet.toolbartext);
-   html = html.replace(/\%img\./g, spreadsheet.imagePrefix);
-
-   html = SCLocSS(html); // localize with %loc!string! and %scc!constant!
-
-   spreadsheet.spreadsheetDiv.innerHTML = html;
-
-   node.appendChild(spreadsheet.spreadsheetDiv);
-
-   // Initialize SocialCalc buttons
-
-   spreadsheet.Buttons = {
-      button_undo: {tooltip: "Undo", command: "undo"},
-      button_redo: {tooltip: "Redo", command: "redo"},
-      button_copy: {tooltip: "Copy", command: "copy"},
-      button_cut: {tooltip: "Cut", command: "cut"},
-      button_paste: {tooltip: "Paste", command: "paste"},
-      button_pasteformats: {tooltip: "Paste Formats", command: "pasteformats"},
-      button_lock: {tooltip: "Lock Cell", command: "lock"},
-      button_unlock: {tooltip: "Unlock Cell", command: "unlock"},
-      button_delete: {tooltip: "Delete Cell Contents", command: "delete"},
-      button_filldown: {tooltip: "Fill Down", command: "filldown"},
-      button_fillright: {tooltip: "Fill Right", command: "fillright"},
-      button_movefrom: {tooltip: "Set/Clear Move From", command: "movefrom"},
-      button_movepaste: {tooltip: "Move Paste", command: "movepaste"},
-      button_moveinsert: {tooltip: "Move Insert", command: "moveinsert"},
-      button_alignleft: {tooltip: "Align Left", command: "align-left"},
-      button_aligncenter: {tooltip: "Align Center", command: "align-center"},
-      button_alignright: {tooltip: "Align Right", command: "align-right"},
-      button_borderon: {tooltip: "Borders On", command: "borderon"},
-      button_borderoff: {tooltip: "Borders Off", command: "borderoff"},
-      button_swapcolors: {tooltip: "Swap Colors", command: "swapcolors"},
-      button_merge: {tooltip: "Merge/Unmerge Cells", command: "merge"},
-      button_insertrow: {tooltip: "Insert Row Before", command: "insertrow"},
-      button_insertcol: {tooltip: "Insert Column Before", command: "insertcol"},
-      button_deleterow: {tooltip: "Delete Row", command: "deleterow"},
-      button_deletecol: {tooltip: "Delete Column", command: "deletecol"},
-      button_hiderow: {tooltip: "Hide Row", command: "hiderow"},
-      button_hidecol: {tooltip: "Hide Column", command: "hidecol"},
-      button_recalc: {tooltip: "Recalculate", command: "recalc"}
-   }
-
-   for (button in spreadsheet.Buttons) {
-      bele = document.getElementById(spreadsheet.idPrefix+button);
-      if (!bele) {alert("Button "+(spreadsheet.idPrefix+button)+" missing"); continue;}
-      bele.style.border = "1px solid "+scc.ISCButtonBorderNormal;
-      bele.title = SCLoc(spreadsheet.Buttons[button].tooltip);
-      SocialCalc.ButtonRegister(spreadsheet.editor, bele,
-         {normalstyle: "border:1px solid "+scc.ISCButtonBorderNormal+";background-color:"+scc.ISCButtonNormalBackground+";",
-          hoverstyle: "border:1px solid "+scc.ISCButtonBorderHover+";background-color:"+scc.ISCButtonHoverBackground+";",
-          downstyle: "border:1px solid "+scc.ISCButtonBorderDown+";background-color:"+scc.ISCButtonDownBackground+";"}, 
-         {MouseDown: SocialCalc.DoButtonCmd, command: spreadsheet.Buttons[button].command});
-   }
-
-   // create formula bar
-
-   spreadsheet.formulabarDiv = document.createElement("div");
-   //spreadsheet.formulabarDiv.style.height = spreadsheet.formulabarheight + "px"; // Allow line wrapping
-   spreadsheet.formulabarDiv.innerHTML = '<input type="text" size="60" value="">&nbsp;'; //'<textarea rows="4" cols="60" style="z-index:5;background-color:white;position:relative;"></textarea>&nbsp;';
-   spreadsheet.spreadsheetDiv.appendChild(spreadsheet.formulabarDiv);
-   var inputbox = new SocialCalc.InputBox(spreadsheet.formulabarDiv.firstChild, spreadsheet.editor);
-   
-   for (button in spreadsheet.formulabuttons) {
-      bele = document.createElement("img");
-      bele.id = spreadsheet.idPrefix+button;
-      bele.src = (spreadsheet.formulabuttons[button].skipImagePrefix ? "" : spreadsheet.imagePrefix)+spreadsheet.formulabuttons[button].image;
-      bele.style.verticalAlign = "middle";
-      bele.style.border = "1px solid #FFF";
-      bele.style.marginLeft = "4px";
-      bele.title = SCLoc(spreadsheet.formulabuttons[button].tooltip);
-      SocialCalc.ButtonRegister(spreadsheet.editor, bele,
-         {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
-          hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
-         {MouseDown: spreadsheet.formulabuttons[button].command, Disabled: function() {return spreadsheet.editor.ECellReadonly();}});
-      spreadsheet.formulabarDiv.appendChild(bele);
-   }
-
-   var input = $("<input id='searchbarinput' value='' placeholder='Search sheet…'>");
-   var searchBar = $("<span id='searchbar'></span>");
-   searchBar.append("<div id='searchstatus'></div>");
-   searchBar.append(input);
-
-   // find buttons (right of formula bar)
-   for (button in spreadsheet.findbuttons) {
-      bele = document.createElement("img");
-      bele.id = spreadsheet.idPrefix+button;
-      bele.src = (spreadsheet.imagePrefix)+spreadsheet.findbuttons[button].image;
-      bele.style.verticalAlign = "middle";
-      bele.style.border = "1px solid #FFF";
-      bele.title = SCLoc(spreadsheet.findbuttons[button].tooltip);
-      SocialCalc.ButtonRegister(spreadsheet.editor, bele,
-         {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
-          hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
-         {MouseDown: spreadsheet.findbuttons[button].command, Disabled: function() {return false;}});
-      searchBar[0].appendChild(bele);
-   } 
-   input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
-   input.on('focus', function() {
-        SocialCalc.Keyboard.passThru = true;
-   });
-   input.on('blur', function() {
-        SocialCalc.Keyboard.passThru = false;
-   });
-   input.keyup(function (e) {
-        if (e.keyCode == 13) {
-           // search down when enter is pressed
-           if (e.shiftKey) {
-               SocialCalc.SpreadsheetControl.SearchUp();
-           } else {
-               SocialCalc.SpreadsheetControl.SearchDown();
-           }
-        }
-   });
-   spreadsheet.formulabarDiv.appendChild(searchBar[0]);
-   
-   // initialize tabs that need it
-
-   for (i=0; i<tabs.length; i++) { // execute any tab-specific initialization code
-      if (tabs[i].oncreate) {
-         tabs[i].oncreate(spreadsheet, tabs[i].name);
-         }
-      }
-
-   // create sheet view and others
-
-   // InitializeSpreadsheetControl eddy {
-   SocialCalc.CalculateSheetNonViewHeight(spreadsheet);
-   // } InitializeSpreadsheetControl
-   spreadsheet.viewheight = spreadsheet.height-spreadsheet.nonviewheight;
-   spreadsheet.editorDiv=spreadsheet.editor.CreateTableEditor(spreadsheet.width, spreadsheet.viewheight);
-
-// eddy test add input 
-   var appViewDiv = document.createElement("div");
-   appViewDiv.id = "te_appView";
-   
-   appViewDiv.appendChild(spreadsheet.editorDiv)
-   spreadsheet.editorDiv = appViewDiv;
-
-   var formDataDiv = document.createElement("div");
-   formDataDiv.id = "te_formData";
-   //formDataDiv.style.visibility = "hidden";
-   formDataDiv.style.display = "none";
-   //formDataDiv.style.display = "inline";
-   
-  // spreadsheet.spreadsheetDiv.appendChild(formDataDiv);   
-   spreadsheet.editorDiv.appendChild(formDataDiv);
-       
-// }
-      
-   spreadsheet.spreadsheetDiv.appendChild(spreadsheet.editorDiv);
-
-// form data sheet - all input formulas set values in this sheet as well as the loaded sheet
-   spreadsheet.formDataViewer = new SocialCalc.SpreadsheetViewer("te_FormData-"); // should end with -
-   spreadsheet.formDataViewer.InitializeSpreadsheetViewer(formDataDiv.id, 180, 0, 200);
-   spreadsheet.formDataViewer.editor.ignoreRender = true; // formDataViewer is used for ExecuteSheetCommand only - no need to render
-// end
-   
-   for (vname in views) {
-      html = views[vname].html;
-      for (style in views[vname].replacements) {
-         html = html.replace(views[vname].replacements[style].regex, views[vname].replacements[style].replacement);
-         }
-      html = html.replace(/\%s\./g, "SocialCalc.");
-      html = html.replace(/\%id\./g, spreadsheet.idPrefix);
-      html = html.replace(/\%tbt\./g, spreadsheet.toolbartext);
-      html = html.replace(/\%img\./g, spreadsheet.imagePrefix);
-      v = document.createElement("div");
-      SocialCalc.setStyles(v, views[vname].divStyle);
-      v.style.display = "none";
-      v.style.width = spreadsheet.width + "px";
-      v.style.height = spreadsheet.viewheight + "px";
-      v.id = spreadsheet.idPrefix + views[vname].name + "view";
-
-      html = SCLocSS(html); // localize with %loc!string!, etc.
-
-      v.innerHTML = html;
-      spreadsheet.spreadsheetDiv.appendChild(v);
-      views[vname].element = v;
-      if (views[vname].oncreate) {
-         views[vname].oncreate(spreadsheet, views[vname]);
-         }
-      }
-
-   views.sheet = {name: "sheet", element: spreadsheet.editorDiv};
-
-   // create statusline
-
-   spreadsheet.statuslineDiv = document.createElement("div");
-   spreadsheet.statuslineDiv.style.cssText = spreadsheet.statuslineCSS;
-   spreadsheet.statuslineDiv.style.height = spreadsheet.statuslineheight -
-      (spreadsheet.statuslineDiv.style.paddingTop.slice(0,-2)-0) -
-      (spreadsheet.statuslineDiv.style.paddingBottom.slice(0,-2)-0) + "px";
-   spreadsheet.statuslineDiv.id = spreadsheet.idPrefix+"statusline";
-   spreadsheet.spreadsheetDiv.appendChild(spreadsheet.statuslineDiv);
-
-   // set current control object based on mouseover
-
-   if (spreadsheet.spreadsheetDiv.addEventListener) { // DOM Level 2 -- Firefox, et al
-      spreadsheet.spreadsheetDiv.addEventListener("mousedown", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); }, false);
-      spreadsheet.spreadsheetDiv.addEventListener("mouseover", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); }, false);
-      }
-   else if (spreadsheet.spreadsheetDiv.attachEvent) { // IE 5+
-      spreadsheet.spreadsheetDiv.attachEvent("onmousedown", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); });
-      spreadsheet.spreadsheetDiv.attachEvent("onmouseover", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); });
-      }
-   else { // don't handle this
-      throw SocialCalc.Constants.s_BrowserNotSupported;
-      }
-
-   // done - refresh screen needed
-
-   return;
-
-   }
-
-
-// eddy CalculateSheetNonViewHeight {
 SocialCalc.CalculateSheetNonViewHeight = function(spreadsheet) {
   spreadsheet.nonviewheight = spreadsheet.statuslineheight;
   for(var nodeIndex = 0;  nodeIndex < spreadsheet.spreadsheetDiv.childNodes.length;  nodeIndex++ ) {
     if(spreadsheet.spreadsheetDiv.childNodes[nodeIndex].id == "SocialCalc-statusline") continue;
     spreadsheet.nonviewheight += spreadsheet.spreadsheetDiv.childNodes[nodeIndex].offsetHeight;
-  }
-  
+  }  
 }
-
-// }
 
 
 //

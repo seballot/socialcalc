@@ -1,0 +1,66 @@
+<div id="{{ idPrefix }}sorttools" style="display:none;">
+   <table cellspacing="0" cellpadding="0">
+      <tr>
+         <td style="vertical-align:top;padding-right:4px;width:160px;">
+            <div style="%tbt.">%loc!Set Cells To Sort!</div>
+            <select id="{{ idPrefix }}sortlist" size="1" onfocus="SocialCalc.CmdGotFocus(this);">
+               <option selected>[select range]</option>
+               <option value="all">Sort All</option>
+            </select>
+            <input type="button" value="%loc!OK!" onclick="SocialCalc.DoCmd(this, 'ok-setsort');" style="font-size:x-small;">
+         </td>
+         <td style="vertical-align:middle;padding-right:16px;width:100px;text-align:right;">
+            <div style="%tbt.">&nbsp;</div>
+            <input type="button" id="{{ idPrefix }}sortbutton" value="%loc!Sort Cells! A1:A1" onclick="SocialCalc.DoCmd(this, 'dosort');" style="visibility:hidden;">
+         </td>
+         <td style="vertical-align:top;padding-right:16px;">
+            <table cellspacing="0" cellpadding="0">
+               <tr>
+                  <td style="vertical-align:top;">
+                     <div style="%tbt.">%loc!Major Sort!</div>
+                     <select id="{{ idPrefix }}majorsort" size="1" onfocus="SocialCalc.CmdGotFocus(this);"></select>
+                  </td>
+                  <td>
+                     <input type="radio" name="majorsort" id="{{ idPrefix }}majorsortup" value="up" checked/>
+                     <span style="font-size:x-small;color:#555753;">%loc!Up!</span>
+                     <input type="radio" name="majorsort" id="{{ idPrefix }}majorsortdown" value="down" />
+                     <span style="font-size:x-small;color:#555753;">%loc!Down!</span>
+                  </td>
+               </tr>
+            </table>
+         </td>
+         <td style="vertical-align:top;padding-right:16px;">
+            <table cellspacing="0" cellpadding="0">
+               <tr>
+                  <td style="vertical-align:top;">
+                     <div style="%tbt.">%loc!Minor Sort!</div>
+                     <select id="{{ idPrefix }}minorsort" size="1" onfocus="SocialCalc.CmdGotFocus(this);"></select>
+                  </td>
+                  <td>
+                     <input type="radio" name="minorsort" id="{{ idPrefix }}minorsortup" value="up" checked />
+                     <span style="font-size:x-small;color:#555753;">%loc!Up!</span>
+                     <input type="radio" name="minorsort" id="{{ idPrefix }}minorsortdown" value="down" />
+                     <span style="font-size:x-small;color:#555753;">%loc!Down!</span>
+                  </td>
+               </tr>
+            </table>
+         </td>
+         <td style="vertical-align:top;padding-right:16px;">
+            <table cellspacing="0" cellpadding="0">
+               <tr>
+                  <td style="vertical-align:top;">
+                     <div style="%tbt.">%loc!Last Sort!</div>
+                     <select id="{{ idPrefix }}lastsort" size="1" onfocus="SocialCalc.CmdGotFocus(this);"></select>
+                  </td>
+                  <td>
+                     <input type="radio" name="lastsort" id="{{ idPrefix }}lastsortup" value="up" checked />
+                     <span style="font-size:x-small;color:#555753;">%loc!Up!</span>
+                     <input type="radio" name="lastsort" id="{{ idPrefix }}lastsortdown" value="down" />
+                     <span style="font-size:x-small;color:#555753;">%loc!Down!</span>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+   </table>
+</div>

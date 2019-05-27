@@ -26,8 +26,9 @@ var js_files = [
     js_folder + 'table-editor.js',
     js_folder + 'formatter.js',
     js_folder + 'formula.js',
-    js_folder + 'popup.js',
+    js_folder + 'popup.js',    
     js_folder + 'spreadsheet-control.js',
+    js_folder + 'spreadsheet-control-initialize.js',
     js_folder + 'viewer.js'
 ];
 

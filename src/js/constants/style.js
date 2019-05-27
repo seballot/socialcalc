@@ -156,7 +156,6 @@ SocialCalc.Css = {
    SCTabbackground: "background-color:#CCC;",
    SCTabselectedCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#404040;cursor:default;border-right:1px solid #CCC;",
    SCTabplainCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#808080;cursor:default;border-right:1px solid #CCC;",
-   SCToolbartext: "font-size:x-small;font-weight:bold;color:#888",
 
    SCFormulabarheight: 30, // in pixels, will contain a text input box
 

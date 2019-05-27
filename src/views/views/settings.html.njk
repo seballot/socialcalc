@@ -1,0 +1,298 @@
+<div id="{{ idPrefix }}scolorchooser" style="display:none;position:absolute;z-index:20;"></div>
+
+<table cellspacing="0" cellpadding="0">
+   <tr>
+      <td style="vertical-align:top;">
+         <table id="{{ idPrefix }}sheetsettingstable" style="display:none;" cellspacing="0" cellpadding="0">
+            <tr>
+               <td class="item-title"><br>%loc!Default Format!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Number!</div>
+                           <span id="{{ idPrefix }}formatnumber"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Text!</div>
+                           <span id="{{ idPrefix }}formattext"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Default Alignment!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Text Horizontal!</div>
+                           <span id="{{ idPrefix }}textalignhoriz"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Number Horizontal!</div>
+                           <span id="{{ idPrefix }}numberalignhoriz"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Vertical!</div>
+                           <span id="{{ idPrefix }}alignvert"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Default Font!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Family!</div>
+                           <span id="{{ idPrefix }}fontfamily"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Bold &amp; Italics!</div>
+                           <span id="{{ idPrefix }}fontlook"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Size!</div>
+                           <span id="{{ idPrefix }}fontsize"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Color!</div>
+                           <div id="{{ idPrefix }}textcolor"></div>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Background!</div>
+                           <div id="{{ idPrefix }}bgcolor"></div>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Default Padding!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Top!</div>
+                           <span id="{{ idPrefix }}padtop"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Right!</div>
+                           <span id="{{ idPrefix }}padright"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Bottom!</div>
+                           <span id="{{ idPrefix }}padbottom"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Left!</div>
+                           <span id="{{ idPrefix }}padleft"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Default Column Width!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">&nbsp;</div>
+                           <span id="{{ idPrefix }}colwidth"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Recalculation!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">&nbsp;</div>
+                           <span id="{{ idPrefix }}recalc"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Dimensions!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Columns!</div>
+                           <span id="{{ idPrefix }}usermaxcol"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Rows!</div>
+                           <span id="{{ idPrefix }}usermaxrow"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+         </table>
+         <table id="{{ idPrefix }}cellsettingstable" cellspacing="0" cellpadding="0">
+            <tr>
+               <td class="item-title"><br>%loc!Format!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Number!</div>
+                           <span id="{{ idPrefix }}cformatnumber"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Text!</div>
+                           <span id="{{ idPrefix }}cformattext"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Alignment!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Horizontal!</div>
+                           <span id="{{ idPrefix }}calignhoriz"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Vertical!</div>
+                           <span id="{{ idPrefix }}calignvert"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Font!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Family!</div>
+                           <span id="{{ idPrefix }}cfontfamily"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Bold &amp; Italics!</div>
+                           <span id="{{ idPrefix }}cfontlook"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Size!</div>
+                           <span id="{{ idPrefix }}cfontsize"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Color!</div>
+                           <div id="{{ idPrefix }}ctextcolor"></div>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Background!</div>
+                           <div id="{{ idPrefix }}cbgcolor"></div>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Borders!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body" colspan="3">
+                           <div class="part-title">%loc!Top Border!</div>
+                        </td>
+                        <td class="part-body" colspan="3">
+                           <div class="part-title">%loc!Right Border!</div>
+                        </td>
+                        <td class="part-body" colspan="3">
+                           <div class="part-title">%loc!Bottom Border!</div>
+                        </td>
+                        <td class="part-body" colspan="3">
+                           <div class="part-title">%loc!Left Border!</div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="part-body">
+                           <input id="{{ idPrefix }}cbt-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">
+                        </td>
+                        <td class="part-body">
+                           <div id="{{ idPrefix }}cbt-color"></div>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="part-body">
+                           <input id="{{ idPrefix }}cbr-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">
+                        </td>
+                        <td class="part-body">
+                           <div id="{{ idPrefix }}cbr-color"></div>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="part-body">
+                           <input id="{{ idPrefix }}cbb-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">
+                        </td>
+                        <td class="part-body">
+                           <div id="{{ idPrefix }}cbb-color"></div>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="part-body">
+                           <input id="{{ idPrefix }}cbl-onoff-bcb" onclick="SocialCalc.SettingsControlOnchangeBorder(this);" type="checkbox">
+                        </td>
+                        <td class="part-body">
+                           <div id="{{ idPrefix }}cbl-color"></div>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="item-title"><br>%loc!Padding!:</td>
+               <td class="item-body">
+                  <table cellspacing="0" cellpadding="0">
+                     <tr>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Top!</div>
+                           <span id="{{ idPrefix }}cpadtop"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Right!</div>
+                           <span id="{{ idPrefix }}cpadright"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Bottom!</div>
+                           <span id="{{ idPrefix }}cpadbottom"></span>
+                        </td>
+                        <td class="part-body">
+                           <div class="part-title">%loc!Left!</div>
+                           <span id="{{ idPrefix }}cpadleft"></span>
+                        </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+         </table>
+      </td>
+      <td style="vertical-align:top;padding:12px 0px 0px 12px;">
+         <div style="width:100px;height:100px;overflow:hidden;border:1px solid black;background-color:#EEE;padding:6px;">
+            <table cellspacing="0" cellpadding="0">
+               <tr>
+                  <td id="sample-text" style="height:100px;width:100px;">
+                     <div>%loc!This is a sample!</div>
+                     <div>-1234.5</div>
+                  </td>
+               </tr>
+            </table>
+         </div>
+      </td>
+   </tr>
+</table>

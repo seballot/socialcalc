@@ -1,0 +1,33 @@
+<div id="{{ idPrefix }}namestools" style="display:none;">
+   <table cellspacing="0" cellpadding="0">
+      <tr>
+         <td style="vertical-align:top;padding-right:24px;">
+            <div class="toolbar-title">%loc!Existing Names!</div>
+            <select id="{{ idPrefix }}nameslist" size="1" onchange="SocialCalc.SpreadsheetControlNamesChangedName();" onfocus="SocialCalc.CmdGotFocus(this);">
+               <option selected>[New]</option>
+            </select>
+         </td>
+         <td style="vertical-align:top;padding-right:6px;">
+            <div class="toolbar-title">%loc!Name!</div>
+            <input type="text" id="{{ idPrefix }}namesname" style="font-size:x-small;width:75px;" onfocus="SocialCalc.CmdGotFocus(this);">
+         </td>
+         <td style="vertical-align:top;padding-right:6px;">
+            <div class="toolbar-title">%loc!Description!</div>
+            <input type="text" id="{{ idPrefix }}namesdesc" style="font-size:x-small;width:150px;" onfocus="SocialCalc.CmdGotFocus(this);">
+         </td>
+         <td style="vertical-align:top;padding-right:6px;">
+            <div class="toolbar-title">%loc!Value!</div>
+            <input type="text" id="{{ idPrefix }}namesvalue" width="16" style="font-size:x-small;width:100px;" onfocus="SocialCalc.CmdGotFocus(this);">
+         </td>
+         <td style="vertical-align:top;padding-right:12px;width:100px;">
+            <div class="toolbar-title">%loc!Set Value To!</div>
+            <input type="button" id="{{ idPrefix }}namesrangeproposal" value="A1" onclick="SocialCalc.SpreadsheetControlNamesSetValue();" style="font-size:x-small;">
+         </td>
+         <td style="vertical-align:top;padding-right:6px;">
+            <div class="toolbar-title">&nbsp;</div>
+            <input type="button" value="%loc!Save!" onclick="SocialCalc.SpreadsheetControlNamesSave();" style="font-size:x-small;">
+            <input type="button" value="%loc!Delete!" onclick="SocialCalc.SpreadsheetControlNamesDelete()" style="font-size:x-small;">
+         </td>
+      </tr>
+   </table>
+</div>
