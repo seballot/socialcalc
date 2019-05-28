@@ -847,7 +847,6 @@ SocialCalc.DoButtonCmd = function(e, buttoninfo, bobj) {
 //
 
 SocialCalc.DoCmd = function(obj, which) {
-
    var combostr, sstr, cl, i, clele, slist, slistele, str, sele, rele, lele, ele, sortrange, nrange, rparts;
    var sheet, cell, color, bgcolor, defaultcolor, defaultbgcolor;
 

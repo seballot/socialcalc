@@ -826,11 +826,9 @@ SocialCalc.EditorScheduleSheetCommands = function(editor, cmdstr, saveundo, igno
       return;
       }
 
-   // eddy ExecuteSheetCommand {
    var cmdTokens = cmdstr.split(" ");
 
    switch (cmdTokens[0]) {
-	   // } eddy ExecuteSheetCommand
       case "recalc":
       case "redisplay":
          editor.context.sheetobj.ScheduleSheetCommands(cmdstr, false);
@@ -1314,7 +1312,6 @@ SocialCalc.RemoveMouseMoveUp = function(move, up, element, event) {
 }
 
 SocialCalc.ProcessEditorMouseDown = function(e) {
-
    var editor, result, coord, textarea, wval, range;
 
    var event = e || window.event;
