@@ -72,47 +72,16 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
       stylestr+=scc.defaultCellLayout;
       }
 
-   num=cell.font || sheetattribs.defaultfont;
-   if (num && typeof(context.fonts[num]) !== "undefined") { // get expanded font strings in context
-      t = context.fonts[num]; // do each - plain "font:" style sets all sorts of other values, too (Safari font-stretch problem on cssText)
-      stylestr+="font-style:"+t.style+";font-weight:"+t.weight+";font-size:"+t.size+";font-family:"+t.family+";";
-      }
-   else {
-      if (scc.defaultCellFontSize) {
-         stylestr+="font-size:"+scc.defaultCellFontSize+";";
-         }
-      if (scc.defaultCellFontFamily) {
-         stylestr+="font-family:"+scc.defaultCellFontFamily+";";
-         }
-      }
+   // All style properties (font-weight, color etc...)
+   for(var property in cell.style) {
+      stylestr += property + ":" + cell.style[property] + ";";
+   }
 
    num=cell.color || sheetattribs.defaultcolor;
    if (num && typeof(sheetobj.colors[num]) !== "undefined") stylestr+="color:"+sheetobj.colors[num]+";";
 
    num=cell.bgcolor || sheetattribs.defaultbgcolor;
    if (num && typeof(sheetobj.colors[num]) !== "undefined") stylestr+="background-color:"+sheetobj.colors[num]+";";
-
-   num=cell.cellformat;
-   if (num && typeof(sheetobj.cellformats[num]) !== "undefined") {
-      stylestr+="text-align:"+sheetobj.cellformats[num]+";";
-      }
-   else {
-      t=cell.valuetype.charAt(0);
-      if (t=="t") {
-         num=sheetattribs.defaulttextformat;
-         if (num && typeof(sheetobj.cellformats[num]) !== "undefined") stylestr+="text-align:"+sheetobj.cellformats[num]+";";
-         }
-      else if (t=="n") {
-         num=sheetattribs.defaultnontextformat;
-         if (num && typeof(sheetobj.cellformats[num]) !== "undefined") {
-            stylestr+="text-align:"+sheetobj.cellformats[num]+";";
-            }
-         else {
-            stylestr+="text-align:right;";
-            }
-         }
-      else stylestr+="text-align:left;";
-      }
 
    // get the end cell for border styling
    if (cell.colspan > 1 || cell.rowspan > 1) {

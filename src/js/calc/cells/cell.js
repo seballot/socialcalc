@@ -51,6 +51,8 @@ SocialCalc.Cell = function(coord) {
    this.formula = "";
    this.valuetype = "b";
    this.readonly = false;
+   // All style properties like "font-weight", "color" etc...
+   this.style = {}
 
    }
 

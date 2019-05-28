@@ -99,12 +99,6 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       button_movefrom: {tooltip: "Set/Clear Move From", command: "movefrom"},
       button_movepaste: {tooltip: "Move Paste", command: "movepaste"},
       button_moveinsert: {tooltip: "Move Insert", command: "moveinsert"},
-      button_alignleft: {tooltip: "Align Left", command: "align-left"},
-      button_aligncenter: {tooltip: "Align Center", command: "align-center"},
-      button_alignright: {tooltip: "Align Right", command: "align-right"},
-      button_borderon: {tooltip: "Borders On", command: "borderon"},
-      button_borderoff: {tooltip: "Borders Off", command: "borderoff"},
-      button_swapcolors: {tooltip: "Swap Colors", command: "swapcolors"},
       button_merge: {tooltip: "Merge/Unmerge Cells", command: "merge"},
       button_insertrow: {tooltip: "Insert Row Before", command: "insertrow"},
       button_insertcol: {tooltip: "Insert Column Before", command: "insertcol"},
@@ -112,20 +106,24 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       button_deletecol: {tooltip: "Delete Column", command: "deletecol"},
       button_hiderow: {tooltip: "Hide Row", command: "hiderow"},
       button_hidecol: {tooltip: "Hide Column", command: "hidecol"},
-      button_recalc: {tooltip: "Recalculate", command: "recalc"}
+      button_recalc: {tooltip: "Recalculate", command: "recalc"},
+      button_borderon: {tooltip: "Borders On", command: "borderon"},
+      button_borderoff: {tooltip: "Borders Off", command: "borderoff"},
+      button_swapcolors: {tooltip: "Swap Colors", command: "swapcolors"},
    }
 
    for (button in spreadsheet.Buttons) {
-      bele = document.getElementById(spreadsheet.idPrefix+button);
-      if (!bele) {alert("Button "+(spreadsheet.idPrefix+button)+" missing"); continue;}
-      bele.style.border = "1px solid "+scc.ISCButtonBorderNormal;
-      bele.title = SCLoc(spreadsheet.Buttons[button].tooltip);
-      SocialCalc.ButtonRegister(spreadsheet.editor, bele,
-         {normalstyle: "border:1px solid "+scc.ISCButtonBorderNormal+";background-color:"+scc.ISCButtonNormalBackground+";",
-          hoverstyle: "border:1px solid "+scc.ISCButtonBorderHover+";background-color:"+scc.ISCButtonHoverBackground+";",
-          downstyle: "border:1px solid "+scc.ISCButtonBorderDown+";background-color:"+scc.ISCButtonDownBackground+";"}, 
-         {MouseDown: SocialCalc.DoButtonCmd, command: spreadsheet.Buttons[button].command});
+      buttonElement = document.getElementById(spreadsheet.idPrefix+button);
+      buttonElement.title = SCLoc(spreadsheet.Buttons[button].tooltip);
+      $(buttonElement).click(function() {
+         SocialCalc.DoCmd(spreadsheet.Buttons[button].command);
+      });
    }
+
+   // buttons for styling
+   $('#' + spreadsheet.idPrefix + 'edittools .style-btn').click(function() {
+      SocialCalc.HandleStyleButtonClicked(this);
+   });
 
    // create formula bar
 
@@ -134,7 +132,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    spreadsheet.formulabarDiv.innerHTML = '<input type="text" size="60" value="">&nbsp;'; //'<textarea rows="4" cols="60" style="z-index:5;background-color:white;position:relative;"></textarea>&nbsp;';
    spreadsheet.spreadsheetDiv.appendChild(spreadsheet.formulabarDiv);
    var inputbox = new SocialCalc.InputBox(spreadsheet.formulabarDiv.firstChild, spreadsheet.editor);
-   
+
    for (button in spreadsheet.formulabuttons) {
       bele = document.createElement("img");
       bele.id = spreadsheet.idPrefix+button;
@@ -146,7 +144,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       SocialCalc.ButtonRegister(spreadsheet.editor, bele,
          {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
           hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
+          downstyle: "border:1px solid #000;backgroundColor:#FFF;"},
          {MouseDown: spreadsheet.formulabuttons[button].command, Disabled: function() {return spreadsheet.editor.ECellReadonly();}});
       spreadsheet.formulabarDiv.appendChild(bele);
    }
@@ -167,10 +165,10 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       SocialCalc.ButtonRegister(spreadsheet.editor, bele,
          {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
           hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
+          downstyle: "border:1px solid #000;backgroundColor:#FFF;"},
          {MouseDown: spreadsheet.findbuttons[button].command, Disabled: function() {return false;}});
       searchBar[0].appendChild(bele);
-   } 
+   }
    input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
    input.on('focus', function() {
         SocialCalc.Keyboard.passThru = true;
@@ -189,7 +187,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
         }
    });
    spreadsheet.formulabarDiv.appendChild(searchBar[0]);
-   
+
    // initialize tabs that need it
 
    for (i=0; i<tabs.length; i++) { // execute any tab-specific initialization code
@@ -207,22 +205,22 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    var appViewDiv = document.createElement("div");
    appViewDiv.id = "te_appView";
-   
+
    appViewDiv.appendChild(spreadsheet.editorDiv)
    spreadsheet.editorDiv = appViewDiv;
 
    var formDataDiv = document.createElement("div");
    formDataDiv.id = "te_formData";
    formDataDiv.style.display = "none";
-   
-   spreadsheet.editorDiv.appendChild(formDataDiv);      
+
+   spreadsheet.editorDiv.appendChild(formDataDiv);
    spreadsheet.spreadsheetDiv.appendChild(spreadsheet.editorDiv);
 
    // form data sheet - all input formulas set values in this sheet as well as the loaded sheet
    spreadsheet.formDataViewer = new SocialCalc.SpreadsheetViewer("te_FormData-"); // should end with -
    spreadsheet.formDataViewer.InitializeSpreadsheetViewer(formDataDiv.id, 180, 0, 200);
    spreadsheet.formDataViewer.editor.ignoreRender = true; // formDataViewer is used for ExecuteSheetCommand only - no need to render
-   
+
    for (vname in views) {
       html = views[vname].html;
       for (style in views[vname].replacements) {
@@ -285,5 +283,5 @@ SocialCalc.CalculateSheetNonViewHeight = function(spreadsheet) {
   for(var nodeIndex = 0;  nodeIndex < spreadsheet.spreadsheetDiv.childNodes.length;  nodeIndex++ ) {
     if(spreadsheet.spreadsheetDiv.childNodes[nodeIndex].id == "SocialCalc-statusline") continue;
     spreadsheet.nonviewheight += spreadsheet.spreadsheetDiv.childNodes[nodeIndex].offsetHeight;
-  }  
+  }
 }

@@ -227,6 +227,16 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
           SocialCalc.ProcessEditorMouseUp,
           element,
           event);
+
+   // Update style button state according to selected row style
+   cell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
+   if (!cell.style.length) $('.style-btn').removeClass('active');
+   for(var property in cell.style) {
+      $('.style-btn[data-command="style.'+ property +'"]').each(function() {
+         $(this).toggleClass('active', $(this).data('value-active') == cell.style[property]);
+      })
+   }
+
    return false;
 
    }

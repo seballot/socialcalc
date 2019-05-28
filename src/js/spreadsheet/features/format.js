@@ -49,3 +49,26 @@ SocialCalc.SettingsControlSave = function(target) {
       s.editor.EditorScheduleSheetCommands(cmdstr, true, false);
       }
    }
+
+
+SocialCalc.HandleStyleButtonClicked = function(button) {
+   var range, cmdstr;
+   var editor = SocialCalc.GetSpreadsheetControlObject().editor;
+
+   // change state of clicked button and of siblings (in case of radio button liek text-align)
+   $(button).toggleClass('active');
+   $(button).siblings('[data-command="'+$(button).data('command')+'"]').removeClass('active');
+
+   if (editor.range.hasrange) {
+      range = SocialCalc.crToCoord(editor.range.left, editor.range.top) + ":"
+      range += SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
+   } else {
+      range = editor.ecell.coord
+   }
+
+   // apply command reading button data attributes
+   cmdValue = $(button).hasClass('active') ? $(button).data('value-active') : $(button).data('value-default');
+   cmdstr = "set " + range + " " + $(button).data('command') + " " + cmdValue;
+   console.log("on button click", cmdstr);
+   if (cmdstr) editor.EditorScheduleSheetCommands(cmdstr, true, false);
+}

@@ -313,4 +313,4 @@ SocialCalc.SpreadsheetControlExecuteCommand = function(obj, combostr, sstr) {
 
    eobj.EditorScheduleSheetCommands(combostr, true, false);
 
-   }
+}

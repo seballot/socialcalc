@@ -79,6 +79,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
       }
 
    cmd1 = cmd.NextToken();
+   console.log("execute sheet command", cmd1, cmd);
    switch (cmd1) {
 
       case "set":
@@ -316,10 +317,6 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   else if (attrib=="layout" || attrib=="cellformat") {
                      cell[attrib] = sheet.GetStyleNum(attrib, rest);
                      }
-                  else if (attrib=="font") { // set coord font style weight size family
-                     if (rest=="* * *") rest = "";
-                     cell[attrib] = sheet.GetStyleNum("font", rest);
-                     }
                   else if (attrib=="textvalueformat" || attrib=="nontextvalueformat") {
                      cell[attrib] = sheet.GetStyleNum("valueformat", rest);
                      delete cell.displaystring;
@@ -341,6 +338,9 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      }
                   else if (attrib=="readonly") {
                      cell.readonly = rest.toLowerCase()=="yes";
+                     }
+                  else if (attrib.split('.')[0] == 'style') { // exple: style.font-weight
+                     cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
                      }
                   else {
                      errortext = scc.s_escUnknownSetCoordCmd+cmdstr;

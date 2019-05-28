@@ -155,7 +155,7 @@ SocialCalc.SettingsControls.PopupChangeCallback = function(attribs, id, value) {
    if (str2 != "??-???-??&nbsp;??:??:??") { // not bad date from negative number
       str1 += "<br>"+str2;
       }
-      
+
    ele.childNodes[1].innerHTML = str1;
 
    }
@@ -240,8 +240,8 @@ SocialCalc.SettingsControls.PopupListInitialize = function(panelobj, ctrlname) {
       }
 
    SocialCalc.Popup.Create("List", panelobj[ctrlname].id, {});
-   SocialCalc.Popup.Initialize(panelobj[ctrlname].id, 
-      {options: options, 
+   SocialCalc.Popup.Initialize(panelobj[ctrlname].id,
+      {options: options,
        attribs:{changedcallback: SocialCalc.SettingsControls.PopupChangeCallback, panelobj: panelobj}});
 
    }

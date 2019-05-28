@@ -33,7 +33,7 @@ SocialCalc.Css = {
    defaultAssumedRowHeight: 15, // used when guessing row heights - number
    defaultColWidth: "80", // text
    defaultMinimumColWidth: 10, // numeric
-   
+
    // For each of the following default sheet display values at least one of class and/or style are needed
 
    defaultHighlightTypeCursorClass: "",
@@ -41,13 +41,13 @@ SocialCalc.Css = {
    defaultHighlightTypeRangeClass: "",
    defaultHighlightTypeRangeStyle: "color:#000;backgroundColor:#E5E5E5;",
 
-   defaultColnameClass: "", // regular column heading letters, needs a cursor property 
+   defaultColnameClass: "", // regular column heading letters, needs a cursor property
    defaultColnameStyle: "overflow:visible;font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;",
-   defaultSelectedColnameClass: "", // column with selected cell, needs a cursor property 
+   defaultSelectedColnameClass: "", // column with selected cell, needs a cursor property
    defaultSelectedColnameStyle: "overflow:visible;font-size:small;text-align:center;color:#FFFFFF;background-color:#404040;",
    defaultRownameClass: "", // regular row heading numbers
    defaultRownameStyle: "position:relative;overflow:visible;font-size:small;text-align:right;color:#FFFFFF;background-color:#808080;",
-   defaultSelectedRownameClass: "", // column with selected cell, needs a cursor property 
+   defaultSelectedRownameClass: "", // column with selected cell, needs a cursor property
    defaultSelectedRownameStyle: "position:relative;overflow:visible;font-size:small;text-align:right;color:#FFFFFF;background-color:#404040;",
    defaultUpperLeftClass: "", // Corner cell in upper left
    defaultUpperLeftStyle: "font-size:small;",
@@ -126,7 +126,7 @@ SocialCalc.Css = {
    TCTDFSleftOffsetv: -80,
    TCTDFStopOffseth: -30,
    TCTDFSleftOffseth: 0,
-   
+
 
    //*** SocialCalc.TooltipInfo
 
@@ -162,18 +162,10 @@ SocialCalc.Css = {
    SCStatuslineheight: 20, // in pixels
    SCStatuslineCSS: "font-size:10px;padding:3px 0px;",
 
-   //*** SocialCalc.InitializeSpreadsheetControl
-
-   ISCButtonNormalBackground: "transparent",
-   ISCButtonBorderNormal: "none",
-   ISCButtonBorderHover: "none",
-   ISCButtonBorderDown: "none",
-   ISCButtonDownBackground: "#888",
-   
    //
    // SocialCalc Spreadsheet Viewer module, socialcalcviewer.js:
    //
-   
+
    //*** SocialCalc.SpreadsheetViewer
 
    SVStatuslineheight: 20, // in pixels
