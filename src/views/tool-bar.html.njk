@@ -1,0 +1,67 @@
+<div id="{{ idPrefix }}edittools">
+   {% set actionButtons = [
+      { command: 'undo' },
+      { command: 'redo' },
+      { },
+      { command: 'copy' },
+      { command: 'cut' },
+      { command: 'paste' },
+      { command: 'delete', title: "Delete Cell Contents" },
+      { command: 'pasteformats', img: 'formatpaintbrush.png', title: "Paste Formats" },
+      { },
+      { command: 'lock', title: "Lock Cell" },
+      { command: 'unlock', title: "Unlock Cell" },
+      { },
+      { command: 'filldown', title: "Fill Down" },
+      { command: 'fillright', title: "Fill Right" },
+      { },
+      { command: 'movefrom', img: 'movefromoff.gif', title: "Set/Clear Move From" },
+      { command: 'movepaste', img: 'movepasteoff.gif', title: "Move Paste" },
+      { command: 'moveinsert', img: 'moveinsertoff.gif', title: "Move Insert" },
+      { },
+      { command: 'borderon', img: 'borderson.png', title: "Borders On"},
+      { command: 'borderoff', img: 'bordersoff.png', title: "Borders Off" },
+      { command: 'swapcolors', title: "Swap Colors" },
+      { },
+      { command: 'merge', img: 'mergecells.png', title: "Merge/Unmerge Cells" },
+      { },
+      { command: 'insertrow', img: 'insertrows.png', title: "Insert Row Before" },
+      { command: 'insertcol', img: 'insertcolumns.png', title: "Insert Column Before" },
+      { command: 'deleterow', img: 'deleterows.png', title: "Delete Row" },
+      { command: 'deletecol', img: 'deletecolumns.png', title: "Delete Column" },
+      { command: 'hiderow', title: "Hide Row" },
+      { command: 'hidecol', title: "Hide Column" },
+      { command: 'recalc', title: "Recalculate"},
+      { }
+   ]
+   %}
+
+   {% for button in actionButtons %}
+      {% set command = button.command %}
+      {% set img = button.img|default(button.command ~ '.png') %}
+      {% set title = button.title|default(button.command) %}
+      {% if command %}
+         <img class="action-btn" src="{{ imagePrefix ~ img }}" id="{{ idPrefix }}button_{{ command }}"
+              title="%loc!{{ title }}!" data-command="{{ command }}">
+      {% else %}
+         <img src="{{ imagePrefix }}divider1.png">
+      {% endif %}
+   {% endfor %}
+
+   {# Style Buttons #}
+   <img class="style-btn" src="{{ imagePrefix }}alignleft.png"
+        data-command="style.text-align" data-value-active="left" data-value-default="left">
+
+   <img class="style-btn" src="{{ imagePrefix }}aligncenter.png"
+        data-command="style.text-align" data-value-active="center" data-value-default="left">
+
+   <img class="style-btn" src="{{ imagePrefix }}alignright.png"
+        data-command="style.text-align" data-value-active="right" data-value-default="left">
+
+   <button class="style-btn" data-command="style.font-weight" data-value-active="bold" data-value-default="normal">bold</button>
+   <button class="style-btn" data-command="style.font-style" data-value-active="italic" data-value-default="normal">italic</button>
+   <button class="style-btn" data-command="style.text-decoration" data-value-active="underline" data-value-default="none">underline</button>
+   <button class="style-btn" data-command="style.text-transform" data-value-active="uppercase" data-value-default="none">uppercase</button>
+</div>
+
+<style>.style-btn.active { background-color: grey; }</style>

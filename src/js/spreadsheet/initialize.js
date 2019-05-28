@@ -84,41 +84,10 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    // Initialize SocialCalc buttons
 
-   spreadsheet.Buttons = {
-      button_undo: {tooltip: "Undo", command: "undo"},
-      button_redo: {tooltip: "Redo", command: "redo"},
-      button_copy: {tooltip: "Copy", command: "copy"},
-      button_cut: {tooltip: "Cut", command: "cut"},
-      button_paste: {tooltip: "Paste", command: "paste"},
-      button_pasteformats: {tooltip: "Paste Formats", command: "pasteformats"},
-      button_lock: {tooltip: "Lock Cell", command: "lock"},
-      button_unlock: {tooltip: "Unlock Cell", command: "unlock"},
-      button_delete: {tooltip: "Delete Cell Contents", command: "delete"},
-      button_filldown: {tooltip: "Fill Down", command: "filldown"},
-      button_fillright: {tooltip: "Fill Right", command: "fillright"},
-      button_movefrom: {tooltip: "Set/Clear Move From", command: "movefrom"},
-      button_movepaste: {tooltip: "Move Paste", command: "movepaste"},
-      button_moveinsert: {tooltip: "Move Insert", command: "moveinsert"},
-      button_merge: {tooltip: "Merge/Unmerge Cells", command: "merge"},
-      button_insertrow: {tooltip: "Insert Row Before", command: "insertrow"},
-      button_insertcol: {tooltip: "Insert Column Before", command: "insertcol"},
-      button_deleterow: {tooltip: "Delete Row", command: "deleterow"},
-      button_deletecol: {tooltip: "Delete Column", command: "deletecol"},
-      button_hiderow: {tooltip: "Hide Row", command: "hiderow"},
-      button_hidecol: {tooltip: "Hide Column", command: "hidecol"},
-      button_recalc: {tooltip: "Recalculate", command: "recalc"},
-      button_borderon: {tooltip: "Borders On", command: "borderon"},
-      button_borderoff: {tooltip: "Borders Off", command: "borderoff"},
-      button_swapcolors: {tooltip: "Swap Colors", command: "swapcolors"},
-   }
-
-   for (button in spreadsheet.Buttons) {
-      buttonElement = document.getElementById(spreadsheet.idPrefix+button);
-      buttonElement.title = SCLoc(spreadsheet.Buttons[button].tooltip);
-      $(buttonElement).click(function() {
-         SocialCalc.DoCmd(spreadsheet.Buttons[button].command);
-      });
-   }
+   // action btn
+   $('#' + spreadsheet.idPrefix + 'edittools .action-btn').click(function() {
+      SocialCalc.DoCmd(this, $(this).data('command'));
+   });
 
    // buttons for styling
    $('#' + spreadsheet.idPrefix + 'edittools .style-btn').click(function() {
@@ -274,6 +243,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       }
 
    // done - refresh screen needed
+   spreadsheet.editor.EditorScheduleSheetCommands('recalc', true, false);
 
    return;
 }

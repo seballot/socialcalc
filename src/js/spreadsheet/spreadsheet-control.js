@@ -104,8 +104,8 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    this.ExportCallback = null; // a function called for Clipboard Export button: this.ExportCallback(spreadsheet_control_object)
 
    // Initialization Code:
-   if(typeof SocialCalc.debug_log === 'undefined') SocialCalc.debug_log = [];   
-   
+   if(typeof SocialCalc.debug_log === 'undefined') SocialCalc.debug_log = [];
+
    this.sheet = new SocialCalc.Sheet();
    this.context = new SocialCalc.RenderContext(this.sheet);
    this.context.showGrid=true;
@@ -113,9 +113,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    this.editor = new SocialCalc.TableEditor(this.context);
    this.editor.StatusCallback.statusline =
       {func: SocialCalc.SpreadsheetControlStatuslineCallback,
-       params: {statuslineid: this.idPrefix+"statusline",
-                recalcid1: this.idPrefix+"divider_recalc",
-                recalcid2: this.idPrefix+"button_recalc"}};
+       params: {statuslineid: this.idPrefix+"statusline", button_recalc: this.idPrefix+"button_recalc"}};
 
    SocialCalc.CurrentSpreadsheetControlObject = this; // remember this for rendezvousing on events
 
@@ -145,12 +143,12 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
       sum: {image: "autosum.png", tooltip: "Auto Sum",
                          command: SocialCalc.SpreadsheetControlDoSum}
       }
-   
+
    // find buttons
    this.findbuttons = {
        last: {image: 'upsearch.png', tooltip: 'Find Previous',
               command: SocialCalc.SpreadsheetControlSearchUp},
-       next: {image: 'downsearch.png', tooltip: 'Find Next', 
+       next: {image: 'downsearch.png', tooltip: 'Find Next',
               command: SocialCalc.SpreadsheetControlSearchDown}
    }
 
@@ -159,7 +157,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    // Edit
 
    this.tabnums.edit = this.tabs.length;
-   this.tabs.push({name: "edit", text: "Edit", 
+   this.tabs.push({name: "edit", text: "Edit",
       html: this.nunjucks.render('tabs/edit.html.njk', { idPrefix: this.idPrefix, imagePrefix: this.imagePrefix }),
       oncreate: null, onclick: null
    });
@@ -167,7 +165,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    // Settings (Format)
 
    this.tabnums.settings = this.tabs.length;
-   this.tabs.push({name: "settings", text: "Format", 
+   this.tabs.push({name: "settings", text: "Format",
       html: this.nunjucks.render('tabs/settings.html.njk', { idPrefix: this.idPrefix }),
       view: "settings",
       onclickFocus: true,
@@ -190,9 +188,9 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
             }
          else
             range = s.editor.ecell.coord;
-          
+
          document.getElementById(s.idPrefix+"settings-savecell").value = SocialCalc.LocalizeString("Save to")+": "+range;
-      }      
+      }
    });
 
    this.views["settings"] = {name: "settings", values: {},
@@ -273,13 +271,13 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
          SocialCalc.SettingsControlInitializePanel(viewobj.values.sheetspanel);
          SocialCalc.SettingsControlInitializePanel(viewobj.values.cellspanel);
-      } 
+      }
    };
 
    // Sort
 
    this.tabnums.sort = this.tabs.length;
-   this.tabs.push({name: "sort", text: "Sort", 
+   this.tabs.push({name: "sort", text: "Sort",
       html: this.nunjucks.render('tabs/sort.html.njk', { idPrefix: this.idPrefix }),
       onclick: SocialCalc.SpreadsheetControlSortOnclick});
    this.editor.SettingsCallbacks.sort = {save: SocialCalc.SpreadsheetControlSortSave, load: SocialCalc.SpreadsheetControlSortLoad};
@@ -291,7 +289,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
       '<div id="%id.audittools" style="display:none;">'+
       ' <div style="%tbt.">&nbsp;</div>'+
       '</div>',
-      view: "audit", 
+      view: "audit",
       onclickFocus: true,
       onclick: function(s, t) {
          var SCLoc = SocialCalc.LocalizeString;
@@ -326,13 +324,13 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
         if (na) return "{"+str.slice(0,-1)+"}";
         else return "["+str.slice(0,-1)+"]";
       }
-      
+
        if(typeof SocialCalc.debug_log != 'undefined') {
-        for(var index in SocialCalc.debug_log) { 
+        for(var index in SocialCalc.debug_log) {
           str += ObjToSource(SocialCalc.debug_log[index]) + "<br>";
         }
       }
-       
+
          s.views.audit.element.innerHTML = str+"</td></tr></table>";
          SocialCalc.CmdGotFocus(true);
       },
@@ -404,17 +402,17 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
 SocialCalc.SpreadsheetControl.prototype.DoOnResize = function() {return SocialCalc.DoOnResize(this);};
 SocialCalc.SpreadsheetControl.prototype.SizeSSDiv = function() {return SocialCalc.SizeSSDiv(this);};
-SocialCalc.SpreadsheetControl.prototype.ExecuteCommand = 
+SocialCalc.SpreadsheetControl.prototype.ExecuteCommand =
    function(combostr, sstr) {return SocialCalc.SpreadsheetControlExecuteCommand(this, combostr, sstr);};
-SocialCalc.SpreadsheetControl.prototype.CreateSheetHTML = 
+SocialCalc.SpreadsheetControl.prototype.CreateSheetHTML =
    function() {return SocialCalc.SpreadsheetControlCreateSheetHTML(this);};
-SocialCalc.SpreadsheetControl.prototype.CreateSpreadsheetSave = 
+SocialCalc.SpreadsheetControl.prototype.CreateSpreadsheetSave =
    function(otherparts) {return SocialCalc.SpreadsheetControlCreateSpreadsheetSave(this, otherparts);};
-SocialCalc.SpreadsheetControl.prototype.DecodeSpreadsheetSave = 
+SocialCalc.SpreadsheetControl.prototype.DecodeSpreadsheetSave =
    function(str) {return SocialCalc.SpreadsheetControlDecodeSpreadsheetSave(this, str);};
-SocialCalc.SpreadsheetControl.prototype.CreateCellHTML = 
+SocialCalc.SpreadsheetControl.prototype.CreateCellHTML =
    function(coord) {return SocialCalc.SpreadsheetControlCreateCellHTML(this, coord);};
-SocialCalc.SpreadsheetControl.prototype.CreateCellHTMLSave = 
+SocialCalc.SpreadsheetControl.prototype.CreateCellHTMLSave =
    function(range) {return SocialCalc.SpreadsheetControlCreateCellHTMLSave(this, range);};
 SocialCalc.SpreadsheetControl.prototype.InitializeSpreadsheetControl =
    function(node, height, width, spacebelow) {return SocialCalc.InitializeSpreadsheetControl(this, node, height, width, spacebelow);};
@@ -434,8 +432,8 @@ SocialCalc.SpreadsheetControl.prototype.CreateSheetSave = function() {return thi
 
 SocialCalc.GetSpreadsheetControlObject = function() {
 
-  // if in viewer mode return CurrentSpreadsheetViewerObject because CurrentSpreadsheetControlObject is null (bug fix) 
-   var csco = (SocialCalc.CurrentSpreadsheetControlObject != null) 
+  // if in viewer mode return CurrentSpreadsheetViewerObject because CurrentSpreadsheetControlObject is null (bug fix)
+   var csco = (SocialCalc.CurrentSpreadsheetControlObject != null)
    ? SocialCalc.CurrentSpreadsheetControlObject : SocialCalc.CurrentSpreadsheetViewerObject;
    if (csco) return csco;
 
@@ -475,19 +473,12 @@ SocialCalc.SpreadsheetControlStatuslineCallback = function(editor, status, arg, 
       case "cmdendnorender":
       case "calcfinished":
       case "doneposcalc":
-         rele1 = document.getElementById(params.recalcid1);
-         rele2 = document.getElementById(params.recalcid2);
-         if (!rele1 || !rele2) break;
-         if (editor.context.sheetobj.attribs.needsrecalc=="yes") {
-            rele1.style.display = "inline";
-            rele2.style.display = "inline";
-            }
-         else {
-            rele1.style.display = "none";
-            rele2.style.display = "none";
-            }
+         recalcButton = document.getElementById(params.button_recalc);
+         if (editor.context.sheetobj.attribs.needsrecalc=="yes")
+            recalcButton.style.display = "inline";
+         else
+            recalcButton.style.display = "none";
          break;
-
       default:
          break;
       }
