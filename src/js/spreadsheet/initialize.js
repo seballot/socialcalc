@@ -182,9 +182,9 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
         if (e.keyCode == 13) {
            // search down when enter is pressed
            if (e.shiftKey) {
-               SocialCalc.SpreadsheetControl.SearchUp();
+               SocialCalc.SpreadsheetControlSearchUp();
            } else {
-               SocialCalc.SpreadsheetControl.SearchDown();
+               SocialCalc.SpreadsheetControlSearchDown();
            }
         }
    });
@@ -280,5 +280,10 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    return;
 }
 
-SocialCalc.SpreadsheetControl.prototype.InitializeSpreadsheetControl =
-   function(node, height, width, spacebelow) {return SocialCalc.InitializeSpreadsheetControl(this, node, height, width, spacebelow);};
+SocialCalc.CalculateSheetNonViewHeight = function(spreadsheet) {
+  spreadsheet.nonviewheight = spreadsheet.statuslineheight;
+  for(var nodeIndex = 0;  nodeIndex < spreadsheet.spreadsheetDiv.childNodes.length;  nodeIndex++ ) {
+    if(spreadsheet.spreadsheetDiv.childNodes[nodeIndex].id == "SocialCalc-statusline") continue;
+    spreadsheet.nonviewheight += spreadsheet.spreadsheetDiv.childNodes[nodeIndex].offsetHeight;
+  }  
+}

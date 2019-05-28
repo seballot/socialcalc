@@ -18,17 +18,19 @@ var js_top_file = js_folder + 'umd/module-wrapper-top.js';
 var js_bottom_file = js_folder + 'umd/module-wrapper-bottom.js';
 
 // Order is important
-var js_files = [    
+var js_files = [
     js_folder + 'constants/translations.js',
     js_folder + 'constants/style.js',
     js_folder + 'constants/settings.js',
-    js_folder + 'socialcalc.js',
-    js_folder + 'table-editor.js',
+    js_folder + 'calc/socialcalc.js',
+    js_folder + 'calc/**/!(socialcalc)*.js',
+    js_folder + 'table-editor/table-editor.js',
+    js_folder + 'table-editor/**/!(table-editor)*.js',
     js_folder + 'formatter.js',
     js_folder + 'formula.js',
-    js_folder + 'popup.js',    
-    js_folder + 'spreadsheet-control.js',
-    js_folder + 'spreadsheet-control-initialize.js',
+    js_folder + 'popup.js',
+    js_folder + 'spreadsheet/spreadsheet-control.js',
+    js_folder + 'spreadsheet/**/!(spreadsheet-control)*.js',
     js_folder + 'viewer.js'
 ];
 
@@ -48,8 +50,8 @@ gulp.task('js', function () {
 
 gulp.task('css', function () {
   return gulp.src([css_folder + '**/*.scss'])
-    .pipe(sass().on('error', sass.logError)) 
-    .pipe(concat('SocialCalc.css')) 
+    .pipe(sass().on('error', sass.logError))
+    .pipe(concat('SocialCalc.css'))
     .pipe(gulp.dest(assets_folder));
 });
 
@@ -60,7 +62,7 @@ gulp.task('templates', function() {
     .pipe(gulp.dest(assets_folder))
 });
 
-gulp.task('watch', function() 
+gulp.task('watch', function()
 {
   gulp.watch(['src/css/**/*'], ['css']);
   gulp.watch(['src/js/**/*'], ['js']);
