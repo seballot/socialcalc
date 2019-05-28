@@ -72,19 +72,25 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
       stylestr+=scc.defaultCellLayout;
       }
 
-   num=cell.font || sheetattribs.defaultfont;
-   if (num && typeof(context.fonts[num]) !== "undefined") { // get expanded font strings in context
-      t = context.fonts[num]; // do each - plain "font:" style sets all sorts of other values, too (Safari font-stretch problem on cssText)
-      stylestr+="font-style:"+t.style+";font-weight:"+t.weight+";font-size:"+t.size+";font-family:"+t.family+";";
-      }
-   else {
-      if (scc.defaultCellFontSize) {
-         stylestr+="font-size:"+scc.defaultCellFontSize+";";
-         }
-      if (scc.defaultCellFontFamily) {
-         stylestr+="font-family:"+scc.defaultCellFontFamily+";";
-         }
-      }
+   // num=cell.font || sheetattribs.defaultfont;
+   // if (num && typeof(context.fonts[num]) !== "undefined") { // get expanded font strings in context
+   //    t = context.fonts[num]; // do each - plain "font:" style sets all sorts of other values, too (Safari font-stretch problem on cssText)
+   //    stylestr+="font-style:"+t.style+";font-weight:"+t.weight+";font-size:"+t.size+";font-family:"+t.family+";";
+   //    }
+   // else {
+   //    if (scc.defaultCellFontSize) {
+   //       stylestr+="font-size:"+scc.defaultCellFontSize+";";
+   //       }
+   //    if (scc.defaultCellFontFamily) {
+   //       stylestr+="font-family:"+scc.defaultCellFontFamily+";";
+   //       }
+   //    }
+   // console.log("render cell", cell);
+   num=cell.fontweight || "normal"; // || sheetattribs.defaultcolor;
+   if (num) stylestr+="font-weight:"+num+";";
+
+   num=cell.fontstyle || "normal"; // || sheetattribs.defaultcolor;
+   if (num) stylestr+="font-style:"+num+";";
 
    num=cell.color || sheetattribs.defaultcolor;
    if (num && typeof(sheetobj.colors[num]) !== "undefined") stylestr+="color:"+sheetobj.colors[num]+";";

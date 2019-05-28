@@ -79,6 +79,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
       }
 
    cmd1 = cmd.NextToken();
+   console.log("execute sheet command", cmd1, cmd);
    switch (cmd1) {
 
       case "set":
@@ -319,6 +320,12 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   else if (attrib=="font") { // set coord font style weight size family
                      if (rest=="* * *") rest = "";
                      cell[attrib] = sheet.GetStyleNum("font", rest);
+                     }
+                  else if (attrib=="fontweight") {
+                     cell[attrib] = rest;
+                     }
+                  else if (attrib=="fontstyle") {
+                     cell[attrib] = rest;
                      }
                   else if (attrib=="textvalueformat" || attrib=="nontextvalueformat") {
                      cell[attrib] = sheet.GetStyleNum("valueformat", rest);

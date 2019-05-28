@@ -227,6 +227,15 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
           SocialCalc.ProcessEditorMouseUp,
           element,
           event);
+
+   // Update format button state
+   // var cellattribs = editor.context.sheetobj.EncodeCellAttributes(editor.ecell.coord);
+   cell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
+   $('#button_bold').toggleClass('active', cell.fontweight == "bold");
+   $('#button_italic').toggleClass('active', cell.fontstyle == "italic");
+   // if (cellattribs.fontstyle) $('#button_italic').toggleClass('active', cellattribs.fontstyle.val == "italic");
+
+
    return false;
 
    }

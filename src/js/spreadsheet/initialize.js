@@ -123,9 +123,13 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       SocialCalc.ButtonRegister(spreadsheet.editor, bele,
          {normalstyle: "border:1px solid "+scc.ISCButtonBorderNormal+";background-color:"+scc.ISCButtonNormalBackground+";",
           hoverstyle: "border:1px solid "+scc.ISCButtonBorderHover+";background-color:"+scc.ISCButtonHoverBackground+";",
-          downstyle: "border:1px solid "+scc.ISCButtonBorderDown+";background-color:"+scc.ISCButtonDownBackground+";"}, 
+          downstyle: "border:1px solid "+scc.ISCButtonBorderDown+";background-color:"+scc.ISCButtonDownBackground+";"},
          {MouseDown: SocialCalc.DoButtonCmd, command: spreadsheet.Buttons[button].command});
    }
+
+   $('.format-btn').click(function() {
+      SocialCalc.UpdateCurrentCellStyle(this);
+   });
 
    // create formula bar
 
@@ -134,7 +138,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    spreadsheet.formulabarDiv.innerHTML = '<input type="text" size="60" value="">&nbsp;'; //'<textarea rows="4" cols="60" style="z-index:5;background-color:white;position:relative;"></textarea>&nbsp;';
    spreadsheet.spreadsheetDiv.appendChild(spreadsheet.formulabarDiv);
    var inputbox = new SocialCalc.InputBox(spreadsheet.formulabarDiv.firstChild, spreadsheet.editor);
-   
+
    for (button in spreadsheet.formulabuttons) {
       bele = document.createElement("img");
       bele.id = spreadsheet.idPrefix+button;
@@ -146,7 +150,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       SocialCalc.ButtonRegister(spreadsheet.editor, bele,
          {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
           hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
+          downstyle: "border:1px solid #000;backgroundColor:#FFF;"},
          {MouseDown: spreadsheet.formulabuttons[button].command, Disabled: function() {return spreadsheet.editor.ECellReadonly();}});
       spreadsheet.formulabarDiv.appendChild(bele);
    }
@@ -167,10 +171,10 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       SocialCalc.ButtonRegister(spreadsheet.editor, bele,
          {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
           hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"}, 
+          downstyle: "border:1px solid #000;backgroundColor:#FFF;"},
          {MouseDown: spreadsheet.findbuttons[button].command, Disabled: function() {return false;}});
       searchBar[0].appendChild(bele);
-   } 
+   }
    input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
    input.on('focus', function() {
         SocialCalc.Keyboard.passThru = true;
@@ -189,7 +193,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
         }
    });
    spreadsheet.formulabarDiv.appendChild(searchBar[0]);
-   
+
    // initialize tabs that need it
 
    for (i=0; i<tabs.length; i++) { // execute any tab-specific initialization code
@@ -207,22 +211,22 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    var appViewDiv = document.createElement("div");
    appViewDiv.id = "te_appView";
-   
+
    appViewDiv.appendChild(spreadsheet.editorDiv)
    spreadsheet.editorDiv = appViewDiv;
 
    var formDataDiv = document.createElement("div");
    formDataDiv.id = "te_formData";
    formDataDiv.style.display = "none";
-   
-   spreadsheet.editorDiv.appendChild(formDataDiv);      
+
+   spreadsheet.editorDiv.appendChild(formDataDiv);
    spreadsheet.spreadsheetDiv.appendChild(spreadsheet.editorDiv);
 
    // form data sheet - all input formulas set values in this sheet as well as the loaded sheet
    spreadsheet.formDataViewer = new SocialCalc.SpreadsheetViewer("te_FormData-"); // should end with -
    spreadsheet.formDataViewer.InitializeSpreadsheetViewer(formDataDiv.id, 180, 0, 200);
    spreadsheet.formDataViewer.editor.ignoreRender = true; // formDataViewer is used for ExecuteSheetCommand only - no need to render
-   
+
    for (vname in views) {
       html = views[vname].html;
       for (style in views[vname].replacements) {
@@ -285,5 +289,5 @@ SocialCalc.CalculateSheetNonViewHeight = function(spreadsheet) {
   for(var nodeIndex = 0;  nodeIndex < spreadsheet.spreadsheetDiv.childNodes.length;  nodeIndex++ ) {
     if(spreadsheet.spreadsheetDiv.childNodes[nodeIndex].id == "SocialCalc-statusline") continue;
     spreadsheet.nonviewheight += spreadsheet.spreadsheetDiv.childNodes[nodeIndex].offsetHeight;
-  }  
+  }
 }

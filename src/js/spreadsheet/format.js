@@ -49,3 +49,22 @@ SocialCalc.SettingsControlSave = function(target) {
       s.editor.EditorScheduleSheetCommands(cmdstr, true, false);
       }
    }
+
+SocialCalc.UpdateCurrentCellStyle = function(button) {
+   var range, cmdstr;
+   var s = SocialCalc.GetSpreadsheetControlObject();
+
+   $(button).toggleClass('active');
+
+   if (s.editor.range.hasrange) {
+      range = SocialCalc.crToCoord(s.editor.range.left, s.editor.range.top) + ":"
+      range += SocialCalc.crToCoord(s.editor.range.right, s.editor.range.bottom);
+   }
+
+   var cell = range || s.editor.ecell.coord;
+
+   cmdstr = "set " + cell + " " + $(button).data('attr') + " ";
+   cmdstr += $(button).hasClass('active') ? $(button).data('value-active') : $(button).data('value-default');
+   console.log("on button click", cmdstr);
+   if (cmdstr) s.editor.EditorScheduleSheetCommands(cmdstr, true, false);
+}

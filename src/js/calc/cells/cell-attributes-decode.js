@@ -12,7 +12,7 @@
 //
 
 SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
-
+   console.log("decodeAttributes", coord, newattribs, range);
    var value, b, bb;
 
    var cell = sheet.GetAssuredCell(coord);
@@ -126,7 +126,7 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
       }
 
    // if any changes return command(s)
-
+   console.log(cmdstr);
    if (changed) {
        return cmdstr;
       }

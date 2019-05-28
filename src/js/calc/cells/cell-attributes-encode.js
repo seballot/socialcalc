@@ -33,7 +33,7 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
       }
 
    var cell = sheet.GetAssuredCell(coord);
-
+   console.log("EncoreCeelAttributes", cell);
    // cellformat: alignhoriz
 
    InitAttrib("alignhoriz");

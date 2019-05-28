@@ -43,6 +43,32 @@ SocialCalc.EditorScheduleSheetCommands = function(editor, cmdstr, saveundo, igno
    }
 
 //
+// SocialCalc.ScheduleSheetCommands
+//
+// statuscallback is called at the beginning (cmdstart) and end (cmdend).
+//
+
+SocialCalc.ScheduleSheetCommands = function(sheet, cmdstr, saveundo) {
+
+   var sci = sheet.sci;
+
+   var parseobj = new SocialCalc.Parse(cmdstr);
+
+   if (sci.sheetobj.statuscallback) { // notify others if requested
+      sheet.statuscallback(sci, "cmdstart", "", sci.sheetobj.statuscallbackparams);
+      }
+
+   if (saveundo) {
+      sci.sheetobj.changes.PushChange(""); // add a step to undo stack
+      }
+
+   sci.timerobj = window.setTimeout(function() {
+      SocialCalc.SheetCommandsTimerRoutine(sci, parseobj, saveundo);
+   }, sci.firsttimerdelay);
+
+   }
+
+//
 // SocialCalc.EditorApplySetCommandsToRange(editor, cmd)
 //
 // Takes ecell or range and does a "set" command with cmd.
