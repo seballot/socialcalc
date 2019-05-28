@@ -89,7 +89,7 @@ SocialCalc.DoCmd = function(obj, which) {
          else {
             var val = lele.options[lele.selectedIndex].value;
             if (val == 'all') {
-                var cells = spreadsheet.sheet.cells; 
+                var cells = spreadsheet.sheet.cells;
                 var min_col = -1, max_col = -1, min_row = -1, max_row = -1;
                 for (var cell_id in cells) {
                     var cr = SocialCalc.coordToCr(cell_id);
@@ -105,10 +105,10 @@ SocialCalc.DoCmd = function(obj, which) {
                     if (max_col == -1 || cr.col > max_col) {
                         max_col = cr.col;
                     }
-                } 
-                spreadsheet.sortrange = SocialCalc.crToCoord(min_col, min_row) + ":" + SocialCalc.crToCoord(max_col, max_row); 
+                }
+                spreadsheet.sortrange = SocialCalc.crToCoord(min_col, min_row) + ":" + SocialCalc.crToCoord(max_col, max_row);
                 lele.options[lele.selectedIndex].text += " (" + spreadsheet.sortrange + ")";
-            } else { 
+            } else {
                 spreadsheet.sortrange = lele.options[lele.selectedIndex].value;
             }
          }
@@ -117,7 +117,7 @@ SocialCalc.DoCmd = function(obj, which) {
          ele.style.visibility = "visible";
          SocialCalc.LoadColumnChoosers(spreadsheet);
          if (obj && obj.blur) obj.blur();
-         SocialCalc.KeyboardFocus();   
+         SocialCalc.KeyboardFocus();
          return;
 
       case "dosort":
@@ -228,7 +228,7 @@ SocialCalc.DoCmd = function(obj, which) {
       }
 
    if (obj && obj.blur) obj.blur();
-   SocialCalc.KeyboardFocus();   
+   SocialCalc.KeyboardFocus();
 
    }
 
@@ -267,7 +267,7 @@ SocialCalc.SpreadsheetCmdSLookup = {
  'borderoff': ''
  }
 
- 
+
 //
 // SocialCalc.SpreadsheetControlExecuteCommand(obj, combostr, sstr)
 //
