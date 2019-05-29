@@ -158,7 +158,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    this.tabnums.edit = this.tabs.length;
    this.tabs.push({name: "edit", text: "Edit",
-      html: this.nunjucks.render('tabs/edit.html.njk', { idPrefix: this.idPrefix, imagePrefix: this.imagePrefix }),
+      html: this.nunjucks.render('tool-bar.html.njk', { idPrefix: this.idPrefix, imagePrefix: this.imagePrefix }),
       oncreate: null, onclick: null
    });
 

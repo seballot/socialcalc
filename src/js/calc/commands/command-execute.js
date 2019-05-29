@@ -340,7 +340,8 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      cell.readonly = rest.toLowerCase()=="yes";
                      }
                   else if (attrib.split('.')[0] == 'style') { // exple: style.font-weight
-                     cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
+                     if (rest) cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
+                     else delete cell.style[attrib.split('.')[1]]
                      }
                   else {
                      errortext = scc.s_escUnknownSetCoordCmd+cmdstr;

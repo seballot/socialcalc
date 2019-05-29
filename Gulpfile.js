@@ -22,6 +22,7 @@ var js_files = [
     js_folder + 'constants/translations.js',
     js_folder + 'constants/style.js',
     js_folder + 'constants/settings.js',
+
     js_folder + 'calc/socialcalc.js',
     js_folder + 'calc/**/!(socialcalc)*.js',
     js_folder + 'table-editor/table-editor.js',
@@ -77,8 +78,8 @@ gulp.task('default', ['build'], function () {});
 // Generate production files into dist folder
 gulp.task('move_assets', function() {
    gulp.src([assets_folder + 'images/*']).pipe(gulp.dest(dist_folder + 'images/'));
-   gulp.src([assets_folder + '*.css']).pipe(gulp.dest(dist_folder));
-   gulp.src([assets_folder + '*.js', 'node_modules/nunjucks/browser/nunjucks-slim.js']).pipe(concat('SocialCalc.js')).pipe(gulp.dest(dist_folder));
+   gulp.src([assets_folder + '**/*.css']).pipe(concat('SocialCalc.css')).pipe(gulp.dest(dist_folder));
+   gulp.src([assets_folder + '**/*.js', 'node_modules/nunjucks/browser/nunjucks-slim.js']).pipe(concat('SocialCalc.js')).pipe(gulp.dest(dist_folder));
 });
 
 gulp.task('minify_js', function() {

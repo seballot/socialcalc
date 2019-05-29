@@ -77,12 +77,6 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
       stylestr += property + ":" + cell.style[property] + ";";
    }
 
-   num=cell.color || sheetattribs.defaultcolor;
-   if (num && typeof(sheetobj.colors[num]) !== "undefined") stylestr+="color:"+sheetobj.colors[num]+";";
-
-   num=cell.bgcolor || sheetattribs.defaultbgcolor;
-   if (num && typeof(sheetobj.colors[num]) !== "undefined") stylestr+="background-color:"+sheetobj.colors[num]+";";
-
    // get the end cell for border styling
    if (cell.colspan > 1 || cell.rowspan > 1) {
       endcell = sheetobj.cells[SocialCalc.crToCoord(colnum+(cell.colspan || 1)-1, rownum+(cell.rowspan || 1)-1)];

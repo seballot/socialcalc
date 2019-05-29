@@ -52,12 +52,18 @@ SocialCalc.SettingsControlSave = function(target) {
 
 
 SocialCalc.HandleStyleButtonClicked = function(button) {
-   var range, cmdstr;
+   var range, cmdstr, cmdValue;
    var editor = SocialCalc.GetSpreadsheetControlObject().editor;
 
-   // change state of clicked button and of siblings (in case of radio button liek text-align)
-   $(button).toggleClass('active');
-   $(button).siblings('[data-command="'+$(button).data('command')+'"]').removeClass('active');
+   if ($(button).is(".style-btn")) {
+      // change state of clicked button and of siblings (in case of radio button liek text-align)
+      $(button).toggleClass('active');
+      $(button).siblings('[data-command="'+$(button).data('command')+'"]').removeClass('active');
+
+      cmdValue = $(button).hasClass('active') ? $(button).data('value') : null;
+   } else {
+      cmdValue = $(button).val();
+   }
 
    if (editor.range.hasrange) {
       range = SocialCalc.crToCoord(editor.range.left, editor.range.top) + ":"
@@ -67,7 +73,6 @@ SocialCalc.HandleStyleButtonClicked = function(button) {
    }
 
    // apply command reading button data attributes
-   cmdValue = $(button).hasClass('active') ? $(button).data('value-active') : $(button).data('value-default');
    cmdstr = "set " + range + " " + $(button).data('command') + " " + cmdValue;
    console.log("on button click", cmdstr);
    if (cmdstr) editor.EditorScheduleSheetCommands(cmdstr, true, false);

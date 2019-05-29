@@ -50,18 +50,21 @@
 
    {# Style Buttons #}
    <img class="style-btn" src="{{ imagePrefix }}alignleft.png"
-        data-command="style.text-align" data-value-active="left" data-value-default="left">
+        data-command="style.text-align" data-value="left">
 
    <img class="style-btn" src="{{ imagePrefix }}aligncenter.png"
-        data-command="style.text-align" data-value-active="center" data-value-default="left">
+        data-command="style.text-align" data-value="center">
 
    <img class="style-btn" src="{{ imagePrefix }}alignright.png"
-        data-command="style.text-align" data-value-active="right" data-value-default="left">
+        data-command="style.text-align" data-value="right">
 
-   <button class="style-btn" data-command="style.font-weight" data-value-active="bold" data-value-default="normal">bold</button>
-   <button class="style-btn" data-command="style.font-style" data-value-active="italic" data-value-default="normal">italic</button>
-   <button class="style-btn" data-command="style.text-decoration" data-value-active="underline" data-value-default="none">underline</button>
-   <button class="style-btn" data-command="style.text-transform" data-value-active="uppercase" data-value-default="none">uppercase</button>
+   <button class="style-btn" data-command="style.font-weight" data-value="bold">bold</button>
+   <button class="style-btn" data-command="style.font-style" data-value="italic">italic</button>
+   <button class="style-btn" data-command="style.text-decoration" data-value="underline">underline</button>
+   <button class="style-btn" data-command="style.text-transform" data-value="uppercase">uppercase</button>
+
+   <input type="color" class="style-input" data-command="style.color"/>
+   <input type="color" class="style-input" data-command="style.background-color"/>
 </div>
 
 <style>.style-btn.active { background-color: grey; }</style>

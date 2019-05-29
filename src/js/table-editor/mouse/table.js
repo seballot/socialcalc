@@ -230,11 +230,15 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
 
    // Update style button state according to selected row style
    cell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
-   if (!cell.style.length) $('.style-btn').removeClass('active');
+   // reset
+   $('.style-btn').removeClass('active');
+   $('input[type=color]').spectrum("set", 'black');
+   // apply cell style
    for(var property in cell.style) {
       $('.style-btn[data-command="style.'+ property +'"]').each(function() {
-         $(this).toggleClass('active', $(this).data('value-active') == cell.style[property]);
+         $(this).toggleClass('active', $(this).data('value') == cell.style[property]);
       })
+      $('input[type=color][data-command="style.'+ property +'"]').spectrum("set", cell.style[property]);
    }
 
    return false;
