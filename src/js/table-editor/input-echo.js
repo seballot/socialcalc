@@ -14,46 +14,19 @@ SocialCalc.InputEcho = function(editor) {
    this.editor = editor; // the TableEditor this belongs to
    this.text = ""; // current value of what is displayed
    this.interval = null; // timer handle
-
-   this.container = null; // element containing main echo as well as prompt line
-   this.main = null; // main echo area
-   this.prompt = null;
-   this.hint = null; // focus cell hint area
-
    this.functionbox = null; // function chooser dialog
 
+   // element containing main echo as well as prompt line
    this.container = document.createElement("div");
-   SocialCalc.setStyles(this.container, "display:none;position:absolute;zIndex:10;");
-
+   this.container.id = "input-echo";
    this.main = document.createElement("div");
-   if (scc.defaultInputEchoClass) this.main.className = scc.defaultInputEchoClass;
-   if (scc.defaultInputEchoStyle) SocialCalc.setStyles(this.main, scc.defaultInputEchoStyle);
-   this.main.innerHTML = "&nbsp;";
-
-   this.hint = document.createElement("div");
-   if (scc.defaultInputEchoHintClass) this.hint.className = scc.defaultInputEchoHintClass;
-   if (scc.defaultInputEchoHintStyle) SocialCalc.setStyles(this.hint, scc.defaultInputEchoHintStyle);
-   this.hint.innerHTML = "";
-
-   this.container.appendChild(this.hint);
+   this.main.className = "input-echo-text";
    this.container.appendChild(this.main);
-
    this.prompt = document.createElement("div");
-   if (scc.defaultInputEchoPromptClass) this.prompt.className = scc.defaultInputEchoPromptClass;
-   if (scc.defaultInputEchoPromptStyle) SocialCalc.setStyles(this.prompt, scc.defaultInputEchoPromptStyle);
-   this.prompt.innerHTML = "";
-
+   this.prompt.className = "input-echo-prompt";
    this.container.appendChild(this.prompt);
 
-   SocialCalc.DragRegister(this.main, true, true,
-                 {MouseDown: SocialCalc.DragFunctionStart,
-                  MouseMove: SocialCalc.DragFunctionPosition,
-                  MouseUp: SocialCalc.DragFunctionPosition,
-                  Disabled: null, positionobj: this.container},
-                  this.editor.toplevel);
-
-   editor.toplevel.appendChild(this.container);
-
+   $(editor.toplevel).find('#te_griddiv').append(this.container);
    }
 
 // Methods:
@@ -73,12 +46,10 @@ SocialCalc.ShowInputEcho = function(inputecho, show) {
    if (show) {
       editor.cellhandles.ShowCellHandles(false);
       cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
-      if (cell) {
-         position = SocialCalc.GetElementPosition(cell.element);
-         inputecho.container.style.left = (position.left-1)+"px";
-         inputecho.container.style.top = (position.top-1)+"px";
-         }
-      inputecho.hint.innerHTML = editor.ecell.coord;
+      inputecho.container.style.left = $(cell.element).position().left + "px";
+      inputecho.container.style.top = $(cell.element).position().top + "px";
+      inputecho.container.style['min-width'] = $(cell.element).width() + "px";
+      inputecho.container.style['min-height'] = $(cell.element).height() + "px";
       inputecho.container.style.display = "block";
       if (inputecho.interval) window.clearInterval(inputecho.interval); // just in case
       inputecho.interval = window.setInterval(SocialCalc.InputEchoHeartbeat, 50);
@@ -134,17 +105,10 @@ SocialCalc.InputEchoHeartbeat = function() {
    }
 
 SocialCalc.InputEchoMouseDown = function(e) {
-      var event = e || window.event;
+   var event = e || window.event;
 
-      var editor = SocialCalc.Keyboard.focusTable; // get TableEditor doing keyboard stuff
-      if (!editor) return true; // we're not handling it -- let browser do default
+   var editor = SocialCalc.Keyboard.focusTable; // get TableEditor doing keyboard stuff
+   if (!editor) return true; // we're not handling it -- let browser do default
 
-//      if (event.stopPropagation) event.stopPropagation(); // DOM Level 2
-//      else event.cancelBubble = true; // IE 5+
-//      if (event.preventDefault) event.preventDefault(); // DOM Level 2
-//      else event.returnValue = false; // IE 5+
-
-      editor.inputBox.element.focus();
-
-//      return false;
-      };
+   editor.inputBox.element.focus();
+   };

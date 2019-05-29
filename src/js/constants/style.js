@@ -5,12 +5,12 @@ SocialCalc.Css = {
    defaultCellLayout: "padding:2px 2px 1px 2px;vertical-align:top;",
    defaultCellFontStyle: "normal normal",
    defaultCellFontSize: "small",
-   defaultCellFontFamily: "Verdana,Arial,Helvetica,sans-serif",
+   defaultCellFontFamily: "Arial,Helvetica,sans-serif",
 
    defaultPaneDividerWidth: "3", // a string
    defaultPaneDividerHeight: "3", // a string
 
-   defaultGridCSS: "1px solid #C0C0C0;", // used as style to set each border when grid enabled (was #ECECEC)
+   defaultGridCSS: "1px solid #e2e3e3;", // used as style to set each border when grid enabled (was #ECECEC)
 
    defaultCommentClass: "", // class added to cells with non-null comments when grid enabled
    defaultCommentStyle: "background-repeat:no-repeat;background-position:top right;background-image:url(images/sc-commentbg.gif);", // style added to cells with non-null comments when grid enabled
@@ -35,11 +35,6 @@ SocialCalc.Css = {
    defaultMinimumColWidth: 10, // numeric
 
    // For each of the following default sheet display values at least one of class and/or style are needed
-
-   defaultHighlightTypeCursorClass: "",
-   defaultHighlightTypeCursorStyle: "color:#FFF;backgroundColor:#A6A6A6;",
-   defaultHighlightTypeRangeClass: "",
-   defaultHighlightTypeRangeStyle: "color:#000;backgroundColor:#E5E5E5;",
 
    defaultColnameClass: "", // regular column heading letters, needs a cursor property
    defaultColnameStyle: "overflow:visible;font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;",
