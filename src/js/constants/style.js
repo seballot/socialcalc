@@ -4,7 +4,7 @@ SocialCalc.Css = {
 
    defaultCellLayout: "padding:2px 2px 1px 2px;vertical-align:top;",
    defaultCellFontStyle: "normal normal",
-   defaultCellFontSize: "small",
+   defaultCellFontSize: "13px",
    defaultCellFontFamily: "Arial,Helvetica,sans-serif",
 
    defaultPaneDividerWidth: "3", // a string
@@ -29,9 +29,9 @@ SocialCalc.Css = {
 
    //*** SocialCalc.RenderContext
 
-   defaultRowNameWidth: "30", // used to set minimum width of the row header column - a string in pixels
-   defaultAssumedRowHeight: 15, // used when guessing row heights - number
-   defaultColWidth: "80", // text
+   defaultRowNameWidth: "25", // used to set minimum width of the row header column - a string in pixels
+   defaultAssumedRowHeight: 10, // used when guessing row heights - number
+   defaultColWidth: "120", // text
    defaultMinimumColWidth: 10, // numeric
 
    // For each of the following default sheet display values at least one of class and/or style are needed
@@ -152,17 +152,5 @@ SocialCalc.Css = {
    SCTabselectedCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#404040;cursor:default;border-right:1px solid #CCC;",
    SCTabplainCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#808080;cursor:default;border-right:1px solid #CCC;",
 
-   SCFormulabarheight: 30, // in pixels, will contain a text input box
 
-   SCStatuslineheight: 20, // in pixels
-   SCStatuslineCSS: "font-size:10px;padding:3px 0px;",
-
-   //
-   // SocialCalc Spreadsheet Viewer module, socialcalcviewer.js:
-   //
-
-   //*** SocialCalc.SpreadsheetViewer
-
-   SVStatuslineheight: 20, // in pixels
-   SVStatuslineCSS: "font-size:10px;padding:3px 0px;",
 }

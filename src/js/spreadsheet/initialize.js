@@ -22,6 +22,8 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    var tabs = spreadsheet.tabs;
    var views = spreadsheet.views;
 
+   this.nunjucks = nunjucks.configure('../src/views', { autoescape: true });
+
    spreadsheet.requestedHeight = height;
    spreadsheet.requestedWidth = width;
    spreadsheet.requestedSpaceBelow = spacebelow;
@@ -79,6 +81,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    html = SCLocSS(html); // localize with %loc!string! and %scc!constant!
 
    spreadsheet.spreadsheetDiv.innerHTML = html;
+   spreadsheet.spreadsheetDiv.className = "socialcalc-main-container"
 
    node.appendChild(spreadsheet.spreadsheetDiv);
 
@@ -121,67 +124,28 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    });
 
    // create formula bar
-
    spreadsheet.formulabarDiv = document.createElement("div");
-   //spreadsheet.formulabarDiv.style.height = spreadsheet.formulabarheight + "px"; // Allow line wrapping
-   spreadsheet.formulabarDiv.innerHTML = '<input type="text" size="60" value="">&nbsp;'; //'<textarea rows="4" cols="60" style="z-index:5;background-color:white;position:relative;"></textarea>&nbsp;';
+   spreadsheet.formulabarDiv.innerHTML = this.nunjucks.render('formula-bar.html.njk');
    spreadsheet.spreadsheetDiv.appendChild(spreadsheet.formulabarDiv);
-   var inputbox = new SocialCalc.InputBox(spreadsheet.formulabarDiv.firstChild, spreadsheet.editor);
 
-   for (button in spreadsheet.formulabuttons) {
-      bele = document.createElement("img");
-      bele.id = spreadsheet.idPrefix+button;
-      bele.src = (spreadsheet.formulabuttons[button].skipImagePrefix ? "" : spreadsheet.imagePrefix)+spreadsheet.formulabuttons[button].image;
-      bele.style.verticalAlign = "middle";
-      bele.style.border = "1px solid #FFF";
-      bele.style.marginLeft = "4px";
-      bele.title = SCLoc(spreadsheet.formulabuttons[button].tooltip);
-      SocialCalc.ButtonRegister(spreadsheet.editor, bele,
-         {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
-          hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"},
-         {MouseDown: spreadsheet.formulabuttons[button].command, Disabled: function() {return spreadsheet.editor.ECellReadonly();}});
-      spreadsheet.formulabarDiv.appendChild(bele);
-   }
-
-   var input = $("<input id='searchbarinput' value='' placeholder='Search sheet…'>");
-   var searchBar = $("<span id='searchbar'></span>");
-   searchBar.append("<div id='searchstatus'></div>");
-   searchBar.append(input);
-
-   // find buttons (right of formula bar)
-   for (button in spreadsheet.findbuttons) {
-      bele = document.createElement("img");
-      bele.id = spreadsheet.idPrefix+button;
-      bele.src = (spreadsheet.imagePrefix)+spreadsheet.findbuttons[button].image;
-      bele.style.verticalAlign = "middle";
-      bele.style.border = "1px solid #FFF";
-      bele.title = SCLoc(spreadsheet.findbuttons[button].tooltip);
-      SocialCalc.ButtonRegister(spreadsheet.editor, bele,
-         {normalstyle: "border:1px solid #FFF;backgroundColor:#FFF;",
-          hoverstyle: "border:1px solid #CCC;backgroundColor:#FFF;",
-          downstyle: "border:1px solid #000;backgroundColor:#FFF;"},
-         {MouseDown: spreadsheet.findbuttons[button].command, Disabled: function() {return false;}});
-      searchBar[0].appendChild(bele);
-   }
-   input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
-   input.on('focus', function() {
-        SocialCalc.Keyboard.passThru = true;
-   });
-   input.on('blur', function() {
-        SocialCalc.Keyboard.passThru = false;
-   });
-   input.keyup(function (e) {
-        if (e.keyCode == 13) {
-           // search down when enter is pressed
-           if (e.shiftKey) {
-               SocialCalc.SpreadsheetControlSearchUp();
-           } else {
-               SocialCalc.SpreadsheetControlSearchDown();
-           }
-        }
-   });
-   spreadsheet.formulabarDiv.appendChild(searchBar[0]);
+   new SocialCalc.InputBox(document.getElementById("SC-formula-input"), spreadsheet.editor);
+   // input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
+   // input.on('focus', function() {
+   //      SocialCalc.Keyboard.passThru = true;
+   // });
+   // input.on('blur', function() {
+   //      SocialCalc.Keyboard.passThru = false;
+   // });
+   // input.keyup(function (e) {
+   //      if (e.keyCode == 13) {
+   //         // search down when enter is pressed
+   //         if (e.shiftKey) {
+   //             SocialCalc.SpreadsheetControlSearchUp();
+   //         } else {
+   //             SocialCalc.SpreadsheetControlSearchDown();
+   //         }
+   //      }
+   // });
 
    // initialize tabs that need it
 
@@ -247,12 +211,8 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    // create statusline
 
    spreadsheet.statuslineDiv = document.createElement("div");
-   spreadsheet.statuslineDiv.style.cssText = spreadsheet.statuslineCSS;
-   spreadsheet.statuslineDiv.style.height = spreadsheet.statuslineheight -
-      (spreadsheet.statuslineDiv.style.paddingTop.slice(0,-2)-0) -
-      (spreadsheet.statuslineDiv.style.paddingBottom.slice(0,-2)-0) + "px";
    spreadsheet.statuslineDiv.id = spreadsheet.idPrefix+"statusline";
-   spreadsheet.spreadsheetDiv.appendChild(spreadsheet.statuslineDiv);
+   spreadsheet.editorDiv.appendChild(spreadsheet.statuslineDiv);
 
    // set current control object based on mouseover
 
@@ -275,9 +235,8 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 }
 
 SocialCalc.CalculateSheetNonViewHeight = function(spreadsheet) {
-  spreadsheet.nonviewheight = spreadsheet.statuslineheight;
+  spreadsheet.nonviewheight = 0;
   for(var nodeIndex = 0;  nodeIndex < spreadsheet.spreadsheetDiv.childNodes.length;  nodeIndex++ ) {
-    if(spreadsheet.spreadsheetDiv.childNodes[nodeIndex].id == "SocialCalc-statusline") continue;
     spreadsheet.nonviewheight += spreadsheet.spreadsheetDiv.childNodes[nodeIndex].offsetHeight;
   }
 }

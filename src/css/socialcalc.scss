@@ -17,6 +17,30 @@
 // Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
 */
 
+.socialcalc-main-container {
+  color: #5f6368;
+  font-weight: normal;
+  font-size: 13px;
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  height: 100%;
+  width: 100%;
+}
+
+#te_appView {
+  position: relative;
+
+  #SocialCalc-statusline {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 7px;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px 0 0 0;
+    background-color: white;
+    box-shadow: -2px 0px 5px 1px rgba(60,64,67,.15);
+  }
+}
+
 .defaultComment {background-repeat:no-repeat;background-position:top right;background-image:url(images/sc-commentbg.gif);}
 .defaultCommentNoGridStyle {}
 .defaultColname {font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;cursor:e-resize;}
@@ -42,7 +66,5 @@
 .TDpopupElement {border:1px solid black;padding:1px 2px 2px 2px;text-align:center;background-color:#FFF;
  font-size:7pt;font-family:Verdana,Arial,Helvetica,sans-serif;
  position:absolute;width:auto;z-index:110;}
-#searchbar {
-  float:right;
-}
+
 

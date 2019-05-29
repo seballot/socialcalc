@@ -80,11 +80,11 @@ SocialCalc.RenderContext = function(sheetobj) {
 
    this.classnames = // any combination of classnames and explicitStyles can be used
       {
-         colname: scc.defaultColnameClass,
-         rowname: scc.defaultRownameClass,
-         selectedcolname: scc.defaultSelectedColnameClass,
-         selectedrowname: scc.defaultSelectedRownameClass,
-         upperleft: scc.defaultUpperLeftClass,
+         colname: "column-cell",
+         rowname: "row-cell",
+         selectedcolname: "selected column-cell",
+         selectedrowname: "selected row-cell",
+         upperleft: "upper-left-cell column-cell",
          skippedcell: scc.defaultSkippedCellClass,
          panedivider: scc.defaultPaneDividerClass,
          unhideleft: scc.defaultUnhideLeftClass,
@@ -97,11 +97,11 @@ SocialCalc.RenderContext = function(sheetobj) {
 
    this.explicitStyles = // these may be used so you won't need a stylesheet with the classnames
       {
-         colname: scc.defaultColnameStyle,
-         rowname: scc.defaultRownameStyle,
-         selectedcolname: scc.defaultSelectedColnameStyle,
-         selectedrowname: scc.defaultSelectedRownameStyle,
-         upperleft: scc.defaultUpperLeftStyle,
+         colname: "",
+         rowname: "",
+         selectedcolname: "",
+         selectedrowname: "",
+         upperleft: "",
          skippedcell: scc.defaultSkippedCellStyle,
          panedivider: scc.defaultPaneDividerStyle,
          unhideleft: scc.defaultUnhideLeftStyle,

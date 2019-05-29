@@ -1,0 +1,33 @@
+<div class="SC-formula-bar">
+
+  <div class="formula-group">
+
+    <img id="SC-formulafunctions" src="assets/images/sc_insertformula.png" title="Functions"
+         onclick="SocialCalc.SpreadsheetControlDoFunctionList()"/>
+
+    <input id="SC-formula-input" type="text">
+
+    <img id="SC-multilineinput" src="assets/images/sc_listbox.png" title="Multi-line Input Box"
+         onclick="SocialCalc.SpreadsheetControlDoMultiline()"/>
+
+    <img id="SC-link" src="assets/images/sc_inserthyperlink.png" title="Link Input Box"
+         onclick="SocialCalc.SpreadsheetControlDoLink()"/>
+
+    <img id="SC-sum" src="assets/images/sc_autosum.png" title="Auto Sum"
+         onclick="SocialCalc.SpreadsheetControlDoSum()"/>
+
+  </div>
+
+  <span class="divider"></span>
+
+  <div class="search-group">
+    <!-- <div id="searchstatus"></div> -->
+    <input id="searchbarinput" value="" placeholder="Search sheet...">
+
+    <img id="SC-last" src="assets/images/sc_upsearch.png" title="Find Previous"
+         onclick="SocialCalc.SpreadsheetControlSearchUp()"/>
+
+    <img id="SC-next" src="assets/images/sc_downsearch.png" title="Find Next"
+         onclick="SocialCalc.SpreadsheetControlSearchDown()"/>
+  </div>
+</div>

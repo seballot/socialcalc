@@ -34,8 +34,8 @@ SocialCalc.DoOnResize = function(spreadsheet) {
 SocialCalc.SizeSSDiv = function(spreadsheet) {
 
    var sizes, pos, resized, nodestyle, newval;
-   var fudgefactorX = 10; // for IE
-   var fudgefactorY = 10;
+   var fudgefactorX = 0; // for IE
+   var fudgefactorY = 0;
 
    resized = false;
 

@@ -94,11 +94,6 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    this.tabselectedCSS = scc.SCTabselectedCSS;
    this.tabplainCSS = scc.SCTabplainCSS;
 
-   this.formulabarheight = scc.SCFormulabarheight; // in pixels, will contain a text input box
-
-   this.statuslineheight = scc.SCStatuslineheight; // in pixels
-   this.statuslineCSS = scc.SCStatuslineCSS;
-
    // Callbacks:
 
    this.ExportCallback = null; // a function called for Clipboard Export button: this.ExportCallback(spreadsheet_control_object)
@@ -130,28 +125,6 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
             }
          }
       };
-
-   // formula bar buttons
-
-   this.formulabuttons = {
-      formulafunctions: {image: "insertformula.png", tooltip: "Functions", // tooltips are localized when set below
-                         command: SocialCalc.SpreadsheetControlDoFunctionList},
-      multilineinput: {image: "listbox.png", tooltip: "Multi-line Input Box",
-                         command: SocialCalc.SpreadsheetControlDoMultiline},
-      link: {image: "inserthyperlink.png", tooltip: "Link Input Box",
-                         command: SocialCalc.SpreadsheetControlDoLink},
-      sum: {image: "autosum.png", tooltip: "Auto Sum",
-                         command: SocialCalc.SpreadsheetControlDoSum}
-      }
-
-   // find buttons
-   this.findbuttons = {
-       last: {image: 'upsearch.png', tooltip: 'Find Previous',
-              command: SocialCalc.SpreadsheetControlSearchUp},
-       next: {image: 'downsearch.png', tooltip: 'Find Next',
-              command: SocialCalc.SpreadsheetControlSearchDown}
-   }
-
    // Default tabs:
 
    // Edit
@@ -164,115 +137,115 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    // Settings (Format)
 
-   this.tabnums.settings = this.tabs.length;
-   this.tabs.push({name: "settings", text: "Format",
-      html: this.nunjucks.render('tabs/settings.html.njk', { idPrefix: this.idPrefix }),
-      view: "settings",
-      onclickFocus: true,
-      onclick: function(s, t) {
-         SocialCalc.SettingsControls.idPrefix = s.idPrefix; // used to get color chooser div
-         SocialCalc.SettingControlReset();
-         var sheetattribs = s.sheet.EncodeSheetAttributes();
-         var cellattribs = s.sheet.EncodeCellAttributes(s.editor.ecell.coord);
-         SocialCalc.SettingsControlLoadPanel(s.views.settings.values.sheetspanel, sheetattribs);
-         SocialCalc.SettingsControlLoadPanel(s.views.settings.values.cellspanel, cellattribs);
-         document.getElementById(s.idPrefix+"settingsecell").innerHTML = s.editor.ecell.coord;
-         SocialCalc.SpreadsheetControlSettingsSwitch("cell");
-         s.views.settings.element.style.height = s.viewheight+"px";
-         s.views.settings.element.firstChild.style.height = s.viewheight+"px";
+   // this.tabnums.settings = this.tabs.length;
+   // this.tabs.push({name: "settings", text: "Format",
+   //    html: this.nunjucks.render('tabs/settings.html.njk', { idPrefix: this.idPrefix }),
+   //    view: "settings",
+   //    onclickFocus: true,
+   //    onclick: function(s, t) {
+   //       SocialCalc.SettingsControls.idPrefix = s.idPrefix; // used to get color chooser div
+   //       SocialCalc.SettingControlReset();
+   //       var sheetattribs = s.sheet.EncodeSheetAttributes();
+   //       var cellattribs = s.sheet.EncodeCellAttributes(s.editor.ecell.coord);
+   //       SocialCalc.SettingsControlLoadPanel(s.views.settings.values.sheetspanel, sheetattribs);
+   //       SocialCalc.SettingsControlLoadPanel(s.views.settings.values.cellspanel, cellattribs);
+   //       document.getElementById(s.idPrefix+"settingsecell").innerHTML = s.editor.ecell.coord;
+   //       SocialCalc.SpreadsheetControlSettingsSwitch("cell");
+   //       s.views.settings.element.style.height = s.viewheight+"px";
+   //       s.views.settings.element.firstChild.style.height = s.viewheight+"px";
 
-         var range;  // set save message
-         if (s.editor.range.hasrange) {
-            range = SocialCalc.crToCoord(s.editor.range.left, s.editor.range.top) + ":" +
-               SocialCalc.crToCoord(s.editor.range.right, s.editor.range.bottom);
-            }
-         else
-            range = s.editor.ecell.coord;
+   //       var range;  // set save message
+   //       if (s.editor.range.hasrange) {
+   //          range = SocialCalc.crToCoord(s.editor.range.left, s.editor.range.top) + ":" +
+   //             SocialCalc.crToCoord(s.editor.range.right, s.editor.range.bottom);
+   //          }
+   //       else
+   //          range = s.editor.ecell.coord;
 
-         document.getElementById(s.idPrefix+"settings-savecell").value = SocialCalc.LocalizeString("Save to")+": "+range;
-      }
-   });
+   //       document.getElementById(s.idPrefix+"settings-savecell").value = SocialCalc.LocalizeString("Save to")+": "+range;
+   //    }
+   // });
 
-   this.views["settings"] = {name: "settings", values: {},
-      html: this.nunjucks.render('views/settings.html.njk', { idPrefix: this.idPrefix }),
-      oncreate: function(s, viewobj) {
-         var scc = SocialCalc.Constants;
+   // this.views["settings"] = {name: "settings", values: {},
+   //    html: this.nunjucks.render('views/settings.html.njk', { idPrefix: this.idPrefix }),
+   //    oncreate: function(s, viewobj) {
+   //       var scc = SocialCalc.Constants;
 
-         viewobj.values.sheetspanel = {
-            colorchooser: {id: s.idPrefix+"scolorchooser"},
-            formatnumber: {setting: "numberformat", type: "PopupList", id: s.idPrefix+"formatnumber",
-               initialdata: scc.SCFormatNumberFormats},
-            formattext: {setting: "textformat", type: "PopupList", id: s.idPrefix+"formattext",
-               initialdata: scc.SCFormatTextFormats},
-            fontfamily: {setting: "fontfamily", type: "PopupList", id: s.idPrefix+"fontfamily",
-               initialdata: scc.SCFormatFontfamilies},
-            fontlook: {setting: "fontlook", type: "PopupList", id: s.idPrefix+"fontlook",
-               initialdata: scc.SCFormatFontlook},
-            fontsize: {setting: "fontsize", type: "PopupList", id: s.idPrefix+"fontsize",
-               initialdata: scc.SCFormatFontsizes},
-            textalignhoriz: {setting: "textalignhoriz", type: "PopupList", id: s.idPrefix+"textalignhoriz",
-               initialdata: scc.SCFormatTextAlignhoriz},
-            numberalignhoriz: {setting: "numberalignhoriz", type: "PopupList", id: s.idPrefix+"numberalignhoriz",
-               initialdata: scc.SCFormatNumberAlignhoriz},
-            alignvert: {setting: "alignvert", type: "PopupList", id: s.idPrefix+"alignvert",
-               initialdata: scc.SCFormatAlignVertical},
-            textcolor: {setting: "textcolor", type: "ColorChooser", id: s.idPrefix+"textcolor"},
-            bgcolor: {setting: "bgcolor", type: "ColorChooser", id: s.idPrefix+"bgcolor"},
-            padtop: {setting: "padtop", type: "PopupList", id: s.idPrefix+"padtop",
-               initialdata: scc.SCFormatPadsizes},
-            padright: {setting: "padright", type: "PopupList", id: s.idPrefix+"padright",
-               initialdata: scc.SCFormatPadsizes},
-            padbottom: {setting: "padbottom", type: "PopupList", id: s.idPrefix+"padbottom",
-               initialdata: scc.SCFormatPadsizes},
-            padleft: {setting: "padleft", type: "PopupList", id: s.idPrefix+"padleft",
-               initialdata: scc.SCFormatPadsizes},
-            colwidth: {setting: "colwidth", type: "PopupList", id: s.idPrefix+"colwidth",
-               initialdata: scc.SCFormatColwidth},
-            recalc: {setting: "recalc", type: "PopupList", id: s.idPrefix+"recalc",
-               initialdata: scc.SCFormatRecalc},
-            usermaxcol: {setting: "usermaxcol", type: "PopupList", id: s.idPrefix+"usermaxcol",
-               initialdata: scc.SCFormatUserMaxCol},
-            usermaxrow: {setting: "usermaxrow", type: "PopupList", id: s.idPrefix+"usermaxrow",
-               initialdata: scc.SCFormatUserMaxRow}
+   //       viewobj.values.sheetspanel = {
+   //          colorchooser: {id: s.idPrefix+"scolorchooser"},
+   //          formatnumber: {setting: "numberformat", type: "PopupList", id: s.idPrefix+"formatnumber",
+   //             initialdata: scc.SCFormatNumberFormats},
+   //          formattext: {setting: "textformat", type: "PopupList", id: s.idPrefix+"formattext",
+   //             initialdata: scc.SCFormatTextFormats},
+   //          fontfamily: {setting: "fontfamily", type: "PopupList", id: s.idPrefix+"fontfamily",
+   //             initialdata: scc.SCFormatFontfamilies},
+   //          fontlook: {setting: "fontlook", type: "PopupList", id: s.idPrefix+"fontlook",
+   //             initialdata: scc.SCFormatFontlook},
+   //          fontsize: {setting: "fontsize", type: "PopupList", id: s.idPrefix+"fontsize",
+   //             initialdata: scc.SCFormatFontsizes},
+   //          textalignhoriz: {setting: "textalignhoriz", type: "PopupList", id: s.idPrefix+"textalignhoriz",
+   //             initialdata: scc.SCFormatTextAlignhoriz},
+   //          numberalignhoriz: {setting: "numberalignhoriz", type: "PopupList", id: s.idPrefix+"numberalignhoriz",
+   //             initialdata: scc.SCFormatNumberAlignhoriz},
+   //          alignvert: {setting: "alignvert", type: "PopupList", id: s.idPrefix+"alignvert",
+   //             initialdata: scc.SCFormatAlignVertical},
+   //          textcolor: {setting: "textcolor", type: "ColorChooser", id: s.idPrefix+"textcolor"},
+   //          bgcolor: {setting: "bgcolor", type: "ColorChooser", id: s.idPrefix+"bgcolor"},
+   //          padtop: {setting: "padtop", type: "PopupList", id: s.idPrefix+"padtop",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          padright: {setting: "padright", type: "PopupList", id: s.idPrefix+"padright",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          padbottom: {setting: "padbottom", type: "PopupList", id: s.idPrefix+"padbottom",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          padleft: {setting: "padleft", type: "PopupList", id: s.idPrefix+"padleft",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          colwidth: {setting: "colwidth", type: "PopupList", id: s.idPrefix+"colwidth",
+   //             initialdata: scc.SCFormatColwidth},
+   //          recalc: {setting: "recalc", type: "PopupList", id: s.idPrefix+"recalc",
+   //             initialdata: scc.SCFormatRecalc},
+   //          usermaxcol: {setting: "usermaxcol", type: "PopupList", id: s.idPrefix+"usermaxcol",
+   //             initialdata: scc.SCFormatUserMaxCol},
+   //          usermaxrow: {setting: "usermaxrow", type: "PopupList", id: s.idPrefix+"usermaxrow",
+   //             initialdata: scc.SCFormatUserMaxRow}
 
-         };
-         viewobj.values.cellspanel = {
-            name: "cell",
-            colorchooser: {id: s.idPrefix+"scolorchooser"},
-            cformatnumber: {setting: "numberformat", type: "PopupList", id: s.idPrefix+"cformatnumber",
-               initialdata: scc.SCFormatNumberFormats},
-            cformattext: {setting: "textformat", type: "PopupList", id: s.idPrefix+"cformattext",
-               initialdata: scc.SCFormatTextFormats},
-            cfontfamily: {setting: "fontfamily", type: "PopupList", id: s.idPrefix+"cfontfamily",
-               initialdata: scc.SCFormatFontfamilies},
-            cfontlook: {setting: "fontlook", type: "PopupList", id: s.idPrefix+"cfontlook",
-               initialdata: scc.SCFormatFontlook},
-            cfontsize: {setting: "fontsize", type: "PopupList", id: s.idPrefix+"cfontsize",
-               initialdata: scc.SCFormatFontsizes},
-            calignhoriz: {setting: "alignhoriz", type: "PopupList", id: s.idPrefix+"calignhoriz",
-               initialdata: scc.SCFormatTextAlignhoriz},
-            calignvert: {setting: "alignvert", type: "PopupList", id: s.idPrefix+"calignvert",
-               initialdata: scc.SCFormatAlignVertical},
-            ctextcolor: {setting: "textcolor", type: "ColorChooser", id: s.idPrefix+"ctextcolor"},
-            cbgcolor: {setting: "bgcolor", type: "ColorChooser", id: s.idPrefix+"cbgcolor"},
-            cbt: {setting: "bt", type: "BorderSide", id: s.idPrefix+"cbt"},
-            cbr: {setting: "br", type: "BorderSide", id: s.idPrefix+"cbr"},
-            cbb: {setting: "bb", type: "BorderSide", id: s.idPrefix+"cbb"},
-            cbl: {setting: "bl", type: "BorderSide", id: s.idPrefix+"cbl"},
-            cpadtop: {setting: "padtop", type: "PopupList", id: s.idPrefix+"cpadtop",
-               initialdata: scc.SCFormatPadsizes},
-            cpadright: {setting: "padright", type: "PopupList", id: s.idPrefix+"cpadright",
-               initialdata: scc.SCFormatPadsizes},
-            cpadbottom: {setting: "padbottom", type: "PopupList", id: s.idPrefix+"cpadbottom",
-               initialdata: scc.SCFormatPadsizes},
-            cpadleft: {setting: "padleft", type: "PopupList", id: s.idPrefix+"cpadleft",
-               initialdata: scc.SCFormatPadsizes}
-            };
+   //       };
+   //       viewobj.values.cellspanel = {
+   //          name: "cell",
+   //          colorchooser: {id: s.idPrefix+"scolorchooser"},
+   //          cformatnumber: {setting: "numberformat", type: "PopupList", id: s.idPrefix+"cformatnumber",
+   //             initialdata: scc.SCFormatNumberFormats},
+   //          cformattext: {setting: "textformat", type: "PopupList", id: s.idPrefix+"cformattext",
+   //             initialdata: scc.SCFormatTextFormats},
+   //          cfontfamily: {setting: "fontfamily", type: "PopupList", id: s.idPrefix+"cfontfamily",
+   //             initialdata: scc.SCFormatFontfamilies},
+   //          cfontlook: {setting: "fontlook", type: "PopupList", id: s.idPrefix+"cfontlook",
+   //             initialdata: scc.SCFormatFontlook},
+   //          cfontsize: {setting: "fontsize", type: "PopupList", id: s.idPrefix+"cfontsize",
+   //             initialdata: scc.SCFormatFontsizes},
+   //          calignhoriz: {setting: "alignhoriz", type: "PopupList", id: s.idPrefix+"calignhoriz",
+   //             initialdata: scc.SCFormatTextAlignhoriz},
+   //          calignvert: {setting: "alignvert", type: "PopupList", id: s.idPrefix+"calignvert",
+   //             initialdata: scc.SCFormatAlignVertical},
+   //          ctextcolor: {setting: "textcolor", type: "ColorChooser", id: s.idPrefix+"ctextcolor"},
+   //          cbgcolor: {setting: "bgcolor", type: "ColorChooser", id: s.idPrefix+"cbgcolor"},
+   //          cbt: {setting: "bt", type: "BorderSide", id: s.idPrefix+"cbt"},
+   //          cbr: {setting: "br", type: "BorderSide", id: s.idPrefix+"cbr"},
+   //          cbb: {setting: "bb", type: "BorderSide", id: s.idPrefix+"cbb"},
+   //          cbl: {setting: "bl", type: "BorderSide", id: s.idPrefix+"cbl"},
+   //          cpadtop: {setting: "padtop", type: "PopupList", id: s.idPrefix+"cpadtop",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          cpadright: {setting: "padright", type: "PopupList", id: s.idPrefix+"cpadright",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          cpadbottom: {setting: "padbottom", type: "PopupList", id: s.idPrefix+"cpadbottom",
+   //             initialdata: scc.SCFormatPadsizes},
+   //          cpadleft: {setting: "padleft", type: "PopupList", id: s.idPrefix+"cpadleft",
+   //             initialdata: scc.SCFormatPadsizes}
+   //          };
 
-         SocialCalc.SettingsControlInitializePanel(viewobj.values.sheetspanel);
-         SocialCalc.SettingsControlInitializePanel(viewobj.values.cellspanel);
-      }
-   };
+   //       SocialCalc.SettingsControlInitializePanel(viewobj.values.sheetspanel);
+   //       SocialCalc.SettingsControlInitializePanel(viewobj.values.cellspanel);
+   //    }
+   // };
 
    // Sort
 
@@ -282,61 +255,7 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
       onclick: SocialCalc.SpreadsheetControlSortOnclick});
    this.editor.SettingsCallbacks.sort = {save: SocialCalc.SpreadsheetControlSortSave, load: SocialCalc.SpreadsheetControlSortLoad};
 
-   // Audit
 
-   this.tabnums.audit = this.tabs.length;
-   this.tabs.push({name: "audit", text: "Audit", html:
-      '<div id="%id.audittools" style="display:none;">'+
-      ' <div style="%tbt.">&nbsp;</div>'+
-      '</div>',
-      view: "audit",
-      onclickFocus: true,
-      onclick: function(s, t) {
-         var SCLoc = SocialCalc.LocalizeString;
-         var i, j;
-         var str = '<table cellspacing="0" cellpadding="0" style="margin-bottom:10px;"><tr><td style="font-size:small;padding:6px;"><b>'+SCLoc("Audit Trail This Session")+':</b><br><br>';
-         var stack = s.sheet.changes.stack;
-         var tos = s.sheet.changes.tos;
-         for (i=0; i<stack.length; i++) {
-            if (i==tos+1) str += '<br></td></tr><tr><td style="font-size:small;background-color:#EEE;padding:6px;">'+SCLoc("UNDONE STEPS")+':<br>';
-            for (j=0; j<stack[i].command.length; j++) {
-               str += SocialCalc.special_chars(stack[i].command[j]) + "<br>";
-            }
-         }
-      var ObjToSource = function(o){
-        if (typeof(o) == "string") return o;
-        if (!o) return 'null';
-        if (typeof(o) == "object") {
-          if (!ObjToSource.check) ObjToSource.check = new Array();
-          for (var i=0, k=ObjToSource.check.length ; i<k ; ++i) {
-            if (ObjToSource.check[i] == o) {return '{}';}
-          }
-          ObjToSource.check.push(o);
-        }
-        var k="",na=typeof(o.length)=="undefined"?1:0,str="";
-        for(var p in o){
-          if (na) k = "'"+p+ "':";
-          if (typeof o[p] == "string") str += k + "'" + o[p]+"',";
-          else if (typeof o[p] == "object") str += k + ObjToSource(o[p])+",";
-          else str += k + o[p] + ",";
-        }
-        if (typeof(o) == "object") ObjToSource.check.pop();
-        if (na) return "{"+str.slice(0,-1)+"}";
-        else return "["+str.slice(0,-1)+"]";
-      }
-
-       if(typeof SocialCalc.debug_log != 'undefined') {
-        for(var index in SocialCalc.debug_log) {
-          str += ObjToSource(SocialCalc.debug_log[index]) + "<br>";
-        }
-      }
-
-         s.views.audit.element.innerHTML = str+"</td></tr></table>";
-         SocialCalc.CmdGotFocus(true);
-      },
-   });
-
-   this.views["audit"] = {name: "audit", html: 'Audit Trail' };
 
    // Comment
 
@@ -394,6 +313,62 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
       ' <br>'+
       ' <textarea id="%id.clipboardtext" style="font-size:small;height:350px;width:800px;overflow:auto;" onfocus="%s.CmdGotFocus(this);"></textarea>'
       };
+
+    // Audit
+
+   this.tabnums.audit = this.tabs.length;
+   this.tabs.push({name: "audit", text: "Audit", html:
+      '<div id="%id.audittools" style="display:none;">'+
+      ' <div style="%tbt.">&nbsp;</div>'+
+      '</div>',
+      view: "audit",
+      onclickFocus: true,
+      onclick: function(s, t) {
+         var SCLoc = SocialCalc.LocalizeString;
+         var i, j;
+         var str = '<table cellspacing="0" cellpadding="0" style="margin-bottom:10px;"><tr><td style="font-size:small;padding:6px;"><b>'+SCLoc("Audit Trail This Session")+':</b><br><br>';
+         var stack = s.sheet.changes.stack;
+         var tos = s.sheet.changes.tos;
+         for (i=0; i<stack.length; i++) {
+            if (i==tos+1) str += '<br></td></tr><tr><td style="font-size:small;background-color:#EEE;padding:6px;">'+SCLoc("UNDONE STEPS")+':<br>';
+            for (j=0; j<stack[i].command.length; j++) {
+               str += SocialCalc.special_chars(stack[i].command[j]) + "<br>";
+            }
+         }
+      var ObjToSource = function(o){
+        if (typeof(o) == "string") return o;
+        if (!o) return 'null';
+        if (typeof(o) == "object") {
+          if (!ObjToSource.check) ObjToSource.check = new Array();
+          for (var i=0, k=ObjToSource.check.length ; i<k ; ++i) {
+            if (ObjToSource.check[i] == o) {return '{}';}
+          }
+          ObjToSource.check.push(o);
+        }
+        var k="",na=typeof(o.length)=="undefined"?1:0,str="";
+        for(var p in o){
+          if (na) k = "'"+p+ "':";
+          if (typeof o[p] == "string") str += k + "'" + o[p]+"',";
+          else if (typeof o[p] == "object") str += k + ObjToSource(o[p])+",";
+          else str += k + o[p] + ",";
+        }
+        if (typeof(o) == "object") ObjToSource.check.pop();
+        if (na) return "{"+str.slice(0,-1)+"}";
+        else return "["+str.slice(0,-1)+"]";
+      }
+
+       if(typeof SocialCalc.debug_log != 'undefined') {
+        for(var index in SocialCalc.debug_log) {
+          str += ObjToSource(SocialCalc.debug_log[index]) + "<br>";
+        }
+      }
+
+         s.views.audit.element.innerHTML = str+"</td></tr></table>";
+         SocialCalc.CmdGotFocus(true);
+      },
+   });
+
+   this.views["audit"] = {name: "audit", html: 'Audit Trail' };
 
    return;
 }

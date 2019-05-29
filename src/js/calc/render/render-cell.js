@@ -63,14 +63,15 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
       }
 
    result.innerHTML = cell.displaystring;
+   result.className += "cell"
 
-   num=cell.layout || sheetattribs.defaultlayout;
-   if (num && typeof(context.layouts[num]) !== "undefined") {
-      stylestr+=context.layouts[num]; // use precomputed layout with "*"'s filled in
-      }
-   else {
-      stylestr+=scc.defaultCellLayout;
-      }
+   // num=cell.layout || sheetattribs.defaultlayout;
+   // if (num && typeof(context.layouts[num]) !== "undefined") {
+   //    stylestr+=context.layouts[num]; // use precomputed layout with "*"'s filled in
+   //    }
+   // else {
+   //    stylestr+=scc.defaultCellLayout;
+   //    }
 
    // All style properties (font-weight, color etc...)
    for(var property in cell.style) {
