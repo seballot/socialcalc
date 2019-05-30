@@ -1,0 +1,59 @@
+.SC-tool-bar {
+  .action-btn, .style-btn, .sp-replacer {
+    height: 28px;
+    padding: 3px 7px;
+    margin-right: -2px;
+
+    &:hover { cursor: pointer; }
+    &:hover, &.active { background-color: #ebf5fe; border-radius: 3px; }
+    &.active { color: $primary-color !important; }
+
+    &.fas {
+      font-size: 20px;
+      color: $icon-color;
+      &:before { float: left; margin-top: 2px;}
+    }
+    &.fa-underline:before { margin-top: 3px; }
+  }
+
+  img {
+    margin-top: 3px;
+  }
+
+  .divider {
+    margin: 0px 7px 0 4px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      border-left: 1px solid #cfd8dc;
+      height: 20px;
+      margin-top: 8px;
+    }
+  }
+
+  // spectrum color-picker
+  .sp-replacer {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    vertical-align: top;
+    padding: 5px;
+    margin-top: 2px;
+
+    .fas {
+      display: block;
+      height: 20px;
+      margin-right: 1px;
+      font-size: 16px;
+      text-align: center;
+      color: $icon-color;
+    }
+    .sp-preview { margin: 0; border: none; height: 5px; }
+    .sp-dd { display: none; }
+  }
+}
+
+.sp-container {
+  margin-top: 8px;
+}

@@ -232,7 +232,8 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
    cell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
    // reset
    $('.style-btn').removeClass('active');
-   $('input[type=color]').spectrum("set", 'black');
+   $('input[data-command="style.color"]').spectrum("set", '#3c4042');
+   $('input[data-command="style.background-color"]').spectrum("set", 'white');
    // apply cell style
    for(var property in cell.style) {
       $('.style-btn[data-command="style.'+ property +'"]').each(function() {

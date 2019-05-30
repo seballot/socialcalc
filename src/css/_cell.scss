@@ -1,0 +1,51 @@
+.cell {
+  padding: 2px;
+  color: #3c4042;
+  position: relative;
+
+  &.selected-range:after {
+    position: relative;
+    content: "";
+    position: absolute;
+    background-color: $cell-selected-range-bg;
+    top: 0; right: 0; left: 0; bottom: 0;
+  }
+
+  &.selected-cell:after {
+    position: absolute;
+    content: "";
+    border: 2px solid $primary-color;
+    top: -1px; right: -1px; left: -1px; bottom: -1px;
+  }
+}
+
+
+#input-echo {
+  display: none;
+  position: absolute;
+  background-color: white;
+  z-index: 20;
+  border: 2px solid #1a73e8;
+  box-shadow: 0 2px 6px 2px rgba(60,64,67,.15);
+
+  .input-echo-text {
+  }
+
+  .input-echo-prompt {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    padding: 10px 10px;
+    box-shadow: 0 0 5px 2px #0000004f;
+  }
+}
+
+.column-cell, .row-cell {
+  border: 1px solid silver;
+  background-color: #f8f9fa;
+  text-align: center;
+  padding: 5px;
+  font-size: 10px;
+  &.selected { background-color: #e8eaed; }
+}

@@ -1,0 +1,56 @@
+.SC-formula-bar {
+  border-top: 1px solid #dadce0;
+  height: 25px;
+  display: flex;
+
+  input {
+    border: none;
+    height: 26px;
+    padding: 0 8px;
+    &:focus { border:none !important; }
+  }
+
+  img {
+    // vertical-align: middle;
+    padding: 4px;
+  }
+
+  #SC-formulafunctions {
+    // background-color: $primary-color;
+    height: 26px;
+    // padding: 5px;
+  }
+
+  .divider {
+    border-left: 1px solid #dadce0;
+    margin-left: 7px;
+    height: 26px;
+  }
+
+  .formula-group {
+    flex: 1 auto;
+    display: flex;
+
+    #SC-formula-input {
+      flex: 1 auto;
+    }
+  }
+
+  .search-group {
+    #searchbarinput { float: left; width: 200px; }
+
+    .search-btn {
+      color: $icon-color;
+      font-size: 15px;
+    }
+
+    .search-icon {
+      float: left;
+      margin-top: 5px;
+      font-size: 15px;
+      margin-left: 8px;
+      color: $icon-color;
+      opacity: .8;
+    }
+  }
+}

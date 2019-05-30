@@ -39,14 +39,14 @@
 
 SocialCalc.Constants = {
 
-   cellDataType: { 
+   cellDataType: {
       v:"value",
       n:"value",
       t:"text",
       f:"formula",
-      c:"constant"   
+      c:"constant"
    },
-   
+
    //*** Common Constants
 
    textdatadefaulttype: "t", // This sets the default type for text on reading source file
@@ -73,7 +73,7 @@ SocialCalc.Constants = {
 
    //*** SocialCalc.TableEditor
 
-   defaultImagePrefix: "assets/images/sc_", // URL prefix for images (e.g., "/images/sc")
+   defaultImagePrefix: "assets/images/", // URL prefix for images (e.g., "/images/sc")
    defaultTableEditorIDPrefix: "te_", // if present, many TableEditor elements are assigned IDs with this prefix
    defaultPageUpDnAmount: 15, // number of rows to move cursor on PgUp/PgDn keys (numeric)
 
@@ -88,7 +88,7 @@ SocialCalc.Constants = {
 
    CH_radius1: 29.0, // extent of inner circle within 90px image
    CH_radius2: 41.0, // extent of outer circle within 90px image
-   
+
 
    //*** SocialCalc.TableControl
 
@@ -103,7 +103,7 @@ SocialCalc.Constants = {
    // These should be carefully checked for localization. Make sure you understand what they do and how they work!
    // The first part of "first:second|first:second|..." is what is displayed and the second is the value to be used.
    // The value is normally not translated -- only the displayed part. The [cancel], [break], etc., are not translated --
-   // they are commands to SocialCalc.SettingsControls.PopupListInitialize 
+   // they are commands to SocialCalc.SettingsControls.PopupListInitialize
 
    SCFormatNumberFormats: "[cancel]:|[break]:|%loc!Default!:|[custom]:|%loc!Automatic!:general|%loc!Auto w/ commas!:[,]General|[break]:|"+
             "00:00|000:000|0000:0000|00000:00000|[break]:|%loc!Formula!:formula|%loc!Hidden!:hidden|[newcol]:"+
@@ -143,7 +143,7 @@ SocialCalc.Constants = {
                   "Unlimited:0|10:10|20:20|30:30|40:40|50:50|60:60|80:80|100:100|",
    SCFormatUserMaxRow: "[cancel]:|[break]:|%loc!Default!:|[custom]:|[newcol]:|"+
                   "Unlimited:0|10:10|20:20|30:30|40:40|50:50|60:60|80:80|100:100|",
- 
+
 
    //
    // SocialCalc Format Number module, formatnumber2.js:
@@ -178,7 +178,7 @@ SocialCalc.ConstantsDefaultClasses = {
    defaultColname: "",
    defaultSelectedColname: "",
    defaultRowname: "",
-   defaultSelectedRowname: "", 
+   defaultSelectedRowname: "",
    defaultUpperLeft: "",
    defaultSkippedCell: "",
    defaultPaneDivider: "",

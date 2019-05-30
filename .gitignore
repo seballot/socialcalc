@@ -2,4 +2,5 @@
 /package-lock.json
 /web/assets/*.js
 /web/assets/*.css
+!/web/assets/fontawesome.css
 TODO

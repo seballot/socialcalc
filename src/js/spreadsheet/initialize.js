@@ -98,7 +98,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    });
 
    var palette = [
-     ["#000000","#444444","#5b5b5b","#999999","#bcbcbc","#eeeeee","#f3f6f4","#ffffff"],
+     ["#000000","#3c4042","#5b5b5b","#999999","#bcbcbc","#eeeeee","#f3f6f4","#ffffff"],
      ["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
      ["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
      ["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
@@ -118,6 +118,11 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       showPaletteOnly: true,
       palette: palette
    });
+
+   $('[data-command="style.color"] + .sp-replacer').prepend($('<span class="fas fa-font"></span>'));
+   $('[data-command="style.background-color"] + .sp-replacer').prepend($('<span class="fas fa-fill-drip"></span>'));
+   $('input[data-command="style.color"]').spectrum("set", '#3c4042');
+   $('input[data-command="style.background-color"]').spectrum("set", 'white');
 
    $('#' + spreadsheet.idPrefix + 'edittools .style-input').change(function() {
       SocialCalc.HandleStyleButtonClicked(this);

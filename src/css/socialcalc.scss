@@ -17,6 +17,12 @@
 // Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
 */
 
+@import 'variables';
+@import 'normalize';
+@import 'tool-bar';
+@import 'formula-bar';
+@import 'cell';
+
 .socialcalc-main-container {
   color: #5f6368;
   font-weight: normal;
