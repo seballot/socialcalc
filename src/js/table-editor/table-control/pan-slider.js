@@ -18,7 +18,8 @@ SocialCalc.TCPSDragFunctionStart = function(event, draginfo, dobj) {
       (editor.tableheight-(editor.headposition.top-editor.gridposition.top))+"px";
    draginfo.trackingline.style.width = dobj.vertical ?
       (editor.tablewidth-(editor.headposition.left-editor.gridposition.left))+"px" : scc.TCPStrackinglineThickness;
-   draginfo.trackingline.style.backgroundImage="url("+editor.imageprefix+"trackingline-"+(dobj.vertical?"v":"h")+".gif)";;
+   // draginfo.trackingline.style.backgroundImage="url("+editor.imageprefix+"trackingline-"+(dobj.vertical?"v":"h")+".gif)";;
+   draginfo.trackingline.style.backgroundColor = "grey";
    if (scc.TCPStrackinglineClass) draginfo.trackingline.className = scc.TCPStrackinglineClass;
    SocialCalc.setStyles(draginfo.trackingline, scc.TCPStrackinglineStyle);
 

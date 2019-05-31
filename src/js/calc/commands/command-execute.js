@@ -79,7 +79,6 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
       }
 
    cmd1 = cmd.NextToken();
-   console.log("execute sheet command", cmd1, cmd);
    switch (cmd1) {
 
       case "set":

@@ -145,6 +145,7 @@ SocialCalc.DragMouseMove = function(event) {
 
    draginfo.clientX = e.clientX - draginfo.relativeOffset.left;
    draginfo.clientY = e.clientY - draginfo.relativeOffset.top;
+   // console.log("mouse move", draginfo.clientY);
    SocialCalc.StopPropagation(e);
    if (dobj && dobj.functionobj && dobj.functionobj.MouseMove) dobj.functionobj.MouseMove(e, draginfo, dobj);
    return false;
@@ -163,7 +164,6 @@ SocialCalc.DragMouseUp = function(event) {
 
    draginfo.clientX = e.clientX - draginfo.relativeOffset.left;
    draginfo.clientY = e.clientY - draginfo.relativeOffset.top;
-
    dobj.element.style.zIndex = draginfo.startZ;
 
    if (dobj && dobj.functionobj && dobj.functionobj.MouseUp) dobj.functionobj.MouseUp(e, draginfo, dobj);
@@ -184,7 +184,6 @@ SocialCalc.DragFunctionStart = function(event, draginfo, dobj) {
 
    draginfo.offsetY = parseInt(element.style.top) - draginfo.clientY;
    draginfo.offsetX = parseInt(element.style.left) - draginfo.clientX;
-
    }
 
 //
@@ -196,6 +195,7 @@ SocialCalc.DragFunctionPosition = function(event, draginfo, dobj) {
    var element = dobj.functionobj.positionobj || dobj.element;
 
    if (dobj.vertical) element.style.top = (draginfo.clientY + draginfo.offsetY)+"px";
+   // console.log("DragFunctionPosition", draginfo.clientY, "offset", draginfo.offsetY);
    if (dobj.horizontal) element.style.left = (draginfo.clientX + draginfo.offsetX)+"px";
 
    }

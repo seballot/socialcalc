@@ -8,15 +8,14 @@ SocialCalc.CreateTableEditor = function(editor, width, height) {
    AssignID(editor, editor.toplevel, "toplevel");
    editor.width = width;
    editor.height = height;
-
+   defaultTableControlThickness = 20;
    editor.griddiv = document.createElement("div");
-   editor.tablewidth = Math.max(0, width - scc.defaultTableControlThickness);
-   editor.tableheight = Math.max(0, height - scc.defaultTableControlThickness);
+   editor.tablewidth = Math.max(0, width - defaultTableControlThickness);
+   editor.tableheight = Math.max(0, height - defaultTableControlThickness);
    editor.griddiv.style.width = editor.tablewidth+"px";
    editor.griddiv.style.height = editor.tableheight+"px";
    editor.griddiv.style.overflow = "hidden";
    editor.griddiv.style.cursor = "default";
-   if (scc.cteGriddivClass) editor.griddiv.className = scc.cteGriddivClass;
    AssignID(editor, editor.griddiv, "griddiv");
 
    editor.FitToEditTable();
@@ -136,9 +135,9 @@ SocialCalc.ResizeTableEditor = function(editor, width, height) {
    if (SocialCalc._app) {
      editor.tablewidth = Math.max(0, width ); // no v scroll bar with app
    } else {
-     editor.tablewidth = Math.max(0, width - scc.defaultTableControlThickness);
+     editor.tablewidth = Math.max(0, width - defaultTableControlThickness);
    }
-   editor.tableheight = Math.max(0, height - scc.defaultTableControlThickness);
+   editor.tableheight = Math.max(0, height - defaultTableControlThickness);
    editor.griddiv.style.width=editor.tablewidth+"px";
    editor.griddiv.style.height=editor.tableheight+"px";
 

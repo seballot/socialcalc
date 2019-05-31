@@ -79,22 +79,11 @@ SocialCalc.Constants = {
 
    AllowCtrlS: true, // turns on Ctrl-S trapdoor for setting custom numeric formats and commands if true
 
-   //*** SocialCalc.CreateTableEditor
-
-   defaultTableControlThickness: 20, // the short size for the scrollbars, etc. (numeric in pixels)
-   cteGriddivClass: "", // if present, the class for the TableEditor griddiv element
-
    //** SocialCalc.CellHandles
 
    CH_radius1: 29.0, // extent of inner circle within 90px image
    CH_radius2: 41.0, // extent of outer circle within 90px image
 
-
-   //*** SocialCalc.TableControl
-
-   defaultTCSliderThickness: 9, // length of pane slider (numeric in pixels)
-   defaultTCButtonThickness: 20, // length of scroll +/- buttons (numeric in pixels)
-   defaultTCThumbThickness: 15, // length of thumb (numeric in pixels)
 
    // Constants for default Format tab (settings)
    //
@@ -184,13 +173,6 @@ SocialCalc.ConstantsDefaultClasses = {
    defaultPaneDivider: "",
    cteGriddiv: "", // this one has no Style version with it
    defaultInputEcho: {classname: "", style: "filter:alpha(opacity=90);opacity:.9;"}, // so FireFox won't show warning
-   TCmain: "",
-   TCendcap: "",
-   TCpaneslider: "",
-   TClessbutton: "",
-   TCmorebutton: "",
-   TCscrollarea: "",
-   TCthumb: "",
    TCPStrackingline: "",
    TCTDFSthumbstatus: "",
    TDpopupElement: ""

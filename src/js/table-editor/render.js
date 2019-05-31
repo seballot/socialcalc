@@ -55,6 +55,7 @@ SocialCalc.DoPositionCalculations = function(editor) {
    editor.timeout = null;
 
    editor.CalculateEditorPositions();
+   editor.ComputeTableSize();
    editor.verticaltablecontrol.PositionTableControlElements();
    editor.horizontaltablecontrol.PositionTableControlElements();
 

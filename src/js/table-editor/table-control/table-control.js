@@ -61,10 +61,10 @@ SocialCalc.TableControl = function(editor, vertical, size) {
 
    // constants:
 
-   this.controlthickness = scc.defaultTableControlThickness; // other dimension of complete control in pixels
-   this.sliderthickness = scc.defaultTCSliderThickness;
-   this.buttonthickness = scc.defaultTCButtonThickness;
-   this.thumbthickness = scc.defaultTCThumbThickness;
+   this.controlthickness = 12; // other dimension of complete control in pixels
+   this.sliderthickness = 8;
+   this.buttonthickness = 12;
+   this.thumbthickness = 0; // auto calculated
    this.minscrollingpanesize = this.buttonthickness+this.buttonthickness+this.thumbthickness+20; // the 20 is to leave a little space
 
    }
@@ -89,31 +89,28 @@ SocialCalc.CreateTableControl = function(control) {
    var SCLoc = SocialCalc.LocalizeString;
 
    control.main = document.createElement("div");
+   control.main.className = "tc-main";
    s = control.main.style;
    s.height = (control.vertical ? control.size : control.controlthickness)+"px";
    s.width = (control.vertical ? control.controlthickness : control.size)+"px";
    s.zIndex = 0;
-   setStyles(control.main, scc.TCmainStyle);
-   s.backgroundImage="url("+imageprefix+"main-"+vh+".gif)";
-   if (scc.TCmainClass) control.main.className = scc.TCmainClass;
 
    control.main.style.display="none"; // wait for layout
 
    control.endcap = document.createElement("div");
+   control.endcap.className = "tc-endcap";
    s = control.endcap.style;
    s.height = control.controlthickness+"px";
    s.width = control.controlthickness+"px";
    s.zIndex = 1;
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
    s.position = "absolute";
-   setStyles(control.endcap, scc.TCendcapStyle);
-   s.backgroundImage="url("+imageprefix+"endcap-"+vh+".gif)";
-   if (scc.TCendcapClass) control.endcap.className = scc.TCendcapClass;
    AssignID(control.editor, control.endcap, "endcap"+vh);
 
    control.main.appendChild(control.endcap);
 
    control.paneslider = document.createElement("div");
+   control.paneslider.className = "tc-panes-slider";
    s = control.paneslider.style;
    s.height = (control.vertical ? control.sliderthickness : control.controlthickness)+"px";
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
@@ -121,8 +118,6 @@ SocialCalc.CreateTableControl = function(control) {
    s.position = "absolute";
    s[control.vertical?"top":"left"] = "4px";
    s.zIndex = 3;
-   s.backgroundImage="url("+imageprefix+"paneslider-"+vh+".gif)";
-   if (scc.TCpanesliderClass) control.paneslider.className = scc.TCpanesliderClass;
    AssignID(control.editor, control.paneslider, "paneslider"+vh);
    control.paneslider.title = SCLoc(control.vertical ? "Drag to lock pane horizontally" : "Drag to lock pane vertically");
 
@@ -139,21 +134,16 @@ SocialCalc.CreateTableControl = function(control) {
    control.main.appendChild(control.paneslider);
 
    control.lessbutton = document.createElement("div");
+   control.lessbutton.className = "tc-less-button";
    s = control.lessbutton.style;
    s.height = (control.vertical ? control.buttonthickness : control.controlthickness)+"px";
    s.width = (control.vertical ? control.controlthickness : control.buttonthickness)+"px";
    s.zIndex = 2;
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
    s.position = "absolute";
-   setStyles(control.lessbutton, scc.TClessbuttonStyle);
-   s.backgroundImage="url("+imageprefix+"less-"+vh+"n.gif)"
-   if (scc.TClessbuttonClass) control.lessbutton.className = scc.TClessbuttonClass;
    AssignID(control.editor, control.lessbutton, "lessbutton"+vh);
 
-   params = {repeatwait:scc.TClessbuttonRepeatWait, repeatinterval:scc.TClessbuttonRepeatInterval,
-             normalstyle: "backgroundImage:url("+imageprefix+"less-"+vh+"n.gif);",
-             downstyle: "backgroundImage:url("+imageprefix+"less-"+vh+"d.gif);",
-             hoverstyle: "backgroundImage:url("+imageprefix+"less-"+vh+"h.gif);"};
+   params = {repeatwait:scc.TClessbuttonRepeatWait, repeatinterval:scc.TClessbuttonRepeatInterval};
    functions = {MouseDown:function(){if(!control.editor.busy) control.editor.ScrollRelative(control.vertical, -1);},
                 Repeat:function(){if(!control.editor.busy) control.editor.ScrollRelative(control.vertical, -1);},
                 Disabled: function() {return control.editor.busy;}};
@@ -163,21 +153,16 @@ SocialCalc.CreateTableControl = function(control) {
    control.main.appendChild(control.lessbutton);
 
    control.morebutton = document.createElement("div");
+   control.morebutton.className = "tc-more-button";
    s = control.morebutton.style;
    s.height = (control.vertical ? control.buttonthickness : control.controlthickness)+"px";
    s.width = (control.vertical ? control.controlthickness : control.buttonthickness)+"px";
    s.zIndex = 2;
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
    s.position = "absolute";
-   setStyles(control.morebutton, scc.TCmorebuttonStyle);
-   s.backgroundImage="url("+imageprefix+"more-"+vh+"n.gif)"
-   if (scc.TCmorebuttonClass) control.morebutton.className = scc.TCmorebuttonClass;
    AssignID(control.editor, control.morebutton, "morebutton"+vh);
 
-   params = {repeatwait:scc.TCmorebuttonRepeatWait, repeatinterval:scc.TCmorebuttonRepeatInterval,
-             normalstyle: "backgroundImage:url("+imageprefix+"more-"+vh+"n.gif);",
-             downstyle: "backgroundImage:url("+imageprefix+"more-"+vh+"d.gif);",
-             hoverstyle: "backgroundImage:url("+imageprefix+"more-"+vh+"h.gif);"};
+   params = {repeatwait:scc.TCmorebuttonRepeatWait, repeatinterval:scc.TCmorebuttonRepeatInterval };
    functions = {MouseDown:function(){if(!control.editor.busy) control.editor.ScrollRelative(control.vertical, +1);},
                 Repeat:function(){if(!control.editor.busy) control.editor.ScrollRelative(control.vertical, +1);},
                 Disabled: function() {return control.editor.busy;}};
@@ -187,15 +172,13 @@ SocialCalc.CreateTableControl = function(control) {
    control.main.appendChild(control.morebutton);
 
    control.scrollarea = document.createElement("div");
+   control.scrollarea.className = "tc-scroll-area";
    s = control.scrollarea.style;
    s.height = control.controlthickness+"px";
    s.width = control.controlthickness+"px";
    s.zIndex = 1;
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
    s.position = "absolute";
-   setStyles(control.scrollarea, scc.TCscrollareaStyle);
-   s.backgroundImage="url("+imageprefix+"scrollarea-"+vh+".gif)";
-   if (scc.TCscrollareaClass) control.scrollarea.className = scc.TCscrollareaClass;
    AssignID(control.editor, control.scrollarea, "scrollarea"+vh);
 
    params = {repeatwait:scc.TCscrollareaRepeatWait, repeatinterval:scc.TCscrollareaRepeatWait};
@@ -208,15 +191,13 @@ SocialCalc.CreateTableControl = function(control) {
    control.main.appendChild(control.scrollarea);
 
    control.thumb = document.createElement("div");
+   control.thumb.className = "tc-thumb";
    s = control.thumb.style;
    s.height =  (control.vertical ? control.thumbthickness : control.controlthickness)+"px";
    s.width = (control.vertical ? control.controlthickness : control.thumbthickness)+"px";
    s.zIndex = 2;
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
    s.position = "absolute";
-   setStyles(control.thumb, scc.TCthumbStyle);
-   control.thumb.style.backgroundImage="url("+imageprefix+"thumb-"+vh+"n.gif)";
-   if (scc.TCthumbClass) control.thumb.className = scc.TCthumbClass;
    AssignID(control.editor, control.thumb, "thumb"+vh);
 
    functions = {MouseDown:SocialCalc.TCTDragFunctionStart,
@@ -228,10 +209,7 @@ SocialCalc.CreateTableControl = function(control) {
    // Drag pane slider - every thing but app view
    if (SocialCalc._app != true) SocialCalc.DragRegister(control.thumb, control.vertical, !control.vertical, functions, control.editor.toplevel);
 
-   params = {normalstyle: "backgroundImage:url("+imageprefix+"thumb-"+vh+"n.gif)", name:"Thumb",
-             downstyle:  "backgroundImage:url("+imageprefix+"thumb-"+vh+"d.gif)",
-             hoverstyle:  "backgroundImage:url("+imageprefix+"thumb-"+vh+"h.gif)"};
-   SocialCalc.ButtonRegister(control.editor, control.thumb, params, null); // give it button-like visual behavior
+   SocialCalc.ButtonRegister(control.editor, control.thumb, {name:"Thumb"}, null); // give it button-like visual behavior
 
    control.main.appendChild(control.thumb);
 
@@ -264,9 +242,8 @@ SocialCalc.ScrollAreaClick = function(e, buttoninfo, bobj) {
 SocialCalc.PositionTableControlElements = function(control) {
 
    var border, realend, thumbpos;
-
+   if (control.preventRenderScrollBar) return;
    var editor = control.editor;
-
    if (control.vertical) {
       border = control.controlborder+"px";
       control.endcap.style.top = control.endcapstart+"px";
@@ -280,12 +257,19 @@ SocialCalc.PositionTableControlElements = function(control) {
       control.scrollarea.style.top = control.scrollareastart+"px";
       control.scrollarea.style.left = border;
       control.scrollarea.style.height = control.scrollareasize+"px";
-      realend = Math.max(editor.context.sheetobj.attribs.lastrow, editor.firstscrollingrow+1);
-      thumbpos = ((editor.firstscrollingrow-(editor.lastnonscrollingrow+1))*(control.scrollareasize-3*control.thumbthickness))/
-         (realend-(editor.lastnonscrollingrow+1))+control.scrollareastart-1;
-      thumbpos = Math.floor(thumbpos);
-      control.thumb.style.top = thumbpos+"px";
+
+
+      // Calculate scrollbar Thumb position depending on first visible row
+      // This calculation must be the same than in thumb.js TCTDragFunctionMove
+      var tableVisibleScrollableHeight = editor.tableheight - editor.firstscrollingrowtop;
+      var pourcentHeight = editor.firstVisibleRowHeightToTopScrollableContainer / (editor.tableFullScrollableHeight - tableVisibleScrollableHeight);
+      control.thumbthickness = control.scrollareasize * tableVisibleScrollableHeight / editor.tableFullScrollableHeight;
+      var maxHeightPx = control.scrollareasize - control.thumbthickness;
+      thumbpos = pourcentHeight * maxHeightPx + control.scrollareastart;
+
+      control.thumb.style.top = Math.floor(thumbpos)+"px";
       control.thumb.style.left = border;
+      control.thumb.style.height = control.thumbthickness + "px";
       }
    else {
       border = control.controlborder+"px";
@@ -300,13 +284,20 @@ SocialCalc.PositionTableControlElements = function(control) {
       control.scrollarea.style.left = control.scrollareastart+"px";
       control.scrollarea.style.top = border;
       control.scrollarea.style.width = control.scrollareasize+"px";
-      realend = Math.max(editor.context.sheetobj.attribs.lastcol, editor.firstscrollingcol+1);
-      thumbpos = ((editor.firstscrollingcol-(editor.lastnonscrollingcol+1))*(control.scrollareasize-control.thumbthickness))/
-         (realend-editor.lastnonscrollingcol)+control.scrollareastart-1;
-      thumbpos = Math.floor(thumbpos);
-      control.thumb.style.left = thumbpos+"px";
+
+      // Calculate scrollbar Thumb position depending on first visible col
+      // This calculation must be the same than in thumb.js TCTDragFunctionMove
+      var tableVisibleScrollableWidth = editor.tablewidth - editor.firstscrollingcolleft;
+      var pourcentWidth = editor.firstVisibleColWidthToTopScrollableContainer / (editor.tableFullScrollableWidth - tableVisibleScrollableWidth);
+      control.thumbthickness = control.scrollareasize * tableVisibleScrollableWidth / editor.tableFullScrollableWidth;
+      var maxWidthPx = control.scrollareasize - control.thumbthickness;
+      thumbpos = pourcentWidth * maxWidthPx + control.scrollareastart;
+
+      control.thumb.style.left = Math.floor(thumbpos)+"px";
       control.thumb.style.top = border;
+      control.thumb.style.width = control.thumbthickness + "px";
       }
+
    control.thumbpos = thumbpos;
    control.main.style.display="block";
 

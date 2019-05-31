@@ -32,13 +32,13 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
          params.command = false;
          break;
       case "schedrender":
-         progress = scc.s_statusline_displaying;
+         progress = ""; // scc.s_statusline_displaying;
          break;
       case "renderdone":
          progress = " ";
          break;
       case "schedposcalc":
-         progress = scc.s_statusline_displaying;
+         progress = ""; //scc.s_statusline_displaying;
          break;
       case "cmdendnorender":
       case "doneposcalc":

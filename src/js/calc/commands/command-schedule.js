@@ -3,7 +3,6 @@
 //
 
 SocialCalc.EditorScheduleSheetCommands = function(editor, cmdstr, saveundo, ignorebusy) {
-   console.log("schedule command", cmdstr);
    if (editor.state!="start" && !ignorebusy) { // ignore commands if editing a cell
       return;
       }

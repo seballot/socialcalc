@@ -55,8 +55,8 @@ SocialCalc.ResetSheet = function(sheet, reload) {
    sheet.cells = {}; // at least one for each non-blank cell: coord: cell-object
    sheet.attribs = // sheet attributes
       {
-         lastcol: 1,
-         lastrow: 1,
+         lastcol: 21,
+         lastrow: 100,
          defaultlayout: 0,
          usermaxcol: 0,
          usermaxrow: 0

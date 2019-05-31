@@ -392,6 +392,14 @@ SocialCalc.TableEditor = function(context) {
 
    this.range2 = {hasrange: false};
 
+   // computed table size
+
+   this.tableFullScrollableHeight = 0;
+   this.firstVisibleRowHeightToTopScrollableContainer = 0;
+
+   this.tableFullScrollableWidth = 0;
+   this.firstVisibleColWidthToTopScrollableContainer = 0;
+
    }
 
 // Methods:
@@ -473,3 +481,36 @@ SocialCalc.TableEditor.prototype.SetMouseMoveUp = function() {
 SocialCalc.TableEditor.prototype.RemoveMouseMoveUp = function() {
     return SocialCalc.RemoveMouseMoveUp(this);
 };
+
+SocialCalc.TableEditor.prototype.ComputeTableSize = function(control) {
+   // filling the rowheight array is some row are missing
+   if (this.rowheight.length < this.context.sheetobj.attribs.lastrow) {
+      for(var i = this.rowheight.length; i < this.context.sheetobj.attribs.lastrow + 1; i++)
+         this.rowheight[i] = this.context.pixelsPerRow;
+   }
+
+   this.tableFullScrollableHeight = 0;
+   for(var i = this.lastnonscrollingrow + 1; i < this.rowheight.length + 1; i++) {
+      if (this.rowheight[i]) this.tableFullScrollableHeight += this.rowheight[i];
+   }
+   this.firstVisibleRowHeightToTopScrollableContainer = 0;
+   for(var i = this.lastnonscrollingrow + 1; i < this.firstscrollingrow; i++) {
+      if (this.rowheight[i]) this.firstVisibleRowHeightToTopScrollableContainer += this.rowheight[i];
+   }
+
+
+   // filling the colwidth array is some col are missing
+   if (this.colwidth.length < this.context.sheetobj.attribs.lastcol) {
+      for(var i = this.colwidth.length; i < this.context.sheetobj.attribs.lastcol + 1; i++)
+         this.colwidth[i] = this.context.rownamewidth;
+   }
+
+   this.tableFullScrollableWidth = 0;
+   for(var i = this.lastnonscrollingcol + 1; i < this.colwidth.length + 1; i++) {
+      if (this.colwidth[i]) this.tableFullScrollableWidth += this.colwidth[i];
+   }
+   this.firstVisibleColWidthToTopScrollableContainer = 0;
+   for(var i = this.lastnonscrollingcol + 1; i < this.firstscrollingcol; i++) {
+      if (this.colwidth[i]) this.firstVisibleColWidthToTopScrollableContainer += this.colwidth[i];
+   }
+}

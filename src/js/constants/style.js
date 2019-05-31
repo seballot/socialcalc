@@ -29,8 +29,8 @@ SocialCalc.Css = {
 
    //*** SocialCalc.RenderContext
 
-   defaultRowNameWidth: "25", // used to set minimum width of the row header column - a string in pixels
-   defaultAssumedRowHeight: 10, // used when guessing row heights - number
+   defaultRowNameWidth: 25, // used to set minimum width of the row header column - a string in pixels
+   defaultAssumedRowHeight: 22, // used when guessing row heights - number
    defaultColWidth: "120", // text
    defaultMinimumColWidth: 10, // numeric
 
@@ -77,25 +77,12 @@ SocialCalc.Css = {
 
    //*** SocialCalc.CreateTableControl
 
-   TCmainStyle: "backgroundColor:#EEE;", // if present, pseudo style (text-align is textAlign) for main div of a table control
-   TCmainClass: "", // if present, the CSS class of the main div for a table control
-   TCendcapStyle: "backgroundColor:#FFF;", // backgroundColor may be used while waiting for image that may not come
-   TCendcapClass: "",
-   TCpanesliderClass: "tc-paneslider",
-   TClessbuttonStyle: "backgroundColor:#AAA;",
-   TClessbuttonClass: "",
    TClessbuttonRepeatWait: 300, // in milliseconds
    TClessbuttonRepeatInterval: 20,//100, // in milliseconds
-   TCmorebuttonStyle: "backgroundColor:#AAA;",
-   TCmorebuttonClass: "",
    TCmorebuttonRepeatWait: 300, // in milliseconds
    TCmorebuttonRepeatInterval: 20,//100, // in milliseconds
-   TCscrollareaStyle: "backgroundColor:#DDD;",
-   TCscrollareaClass: "",
    TCscrollareaRepeatWait: 500, // in milliseconds
    TCscrollareaRepeatInterval: 100, // in milliseconds
-   TCthumbClass: "",
-   TCthumbStyle: "backgroundColor:#CCC;",
 
    //*** SocialCalc.TCPSDragFunctionStart
 

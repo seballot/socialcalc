@@ -60,10 +60,8 @@ SocialCalc.ProcessMouseWheel = function(e) {
       }
    if (!wobj) return; // not one of our elements
 
-   if (event.wheelDelta) {
-      delta = event.wheelDelta/120;
-      }
-   else delta = -event.detail/3;
+   if (event.wheelDelta) delta = event.wheelDelta/40;
+   else delta = -event.detail;
    if (!delta) delta = 0;
 
    if (wobj.functionobj && wobj.functionobj.WheelMove) wobj.functionobj.WheelMove(event, delta, mousewheelinfo, wobj);
