@@ -1,4 +1,5 @@
 SocialCalc.ProcessEditorMouseDown = function(e) {
+
    var editor, result, coord, textarea, wval, range;
 
    var event = e || window.event;
@@ -7,7 +8,6 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
    var ele = event.target || event.srcElement; // source object is often within what we want
    var target = ele;
    if (target.nodeType == 3) target = target.parentNode; // defeat Safari bug
-
    var mobj;
 
    if (mouseinfo.ignore) return; // ignore this
@@ -32,57 +32,56 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
    if (!result) return; // not on a cell or col header
    mouseinfo.editor = editor; // remember for later
 
-    if (result.rowheader) {
-  if (result.rowselect)  {
-      SocialCalc.ProcessEditorRowselectMouseDown(e, ele, result);
-  } else {
-      SocialCalc.ProcessEditorRowsizeMouseDown(e, ele, result);
-  }
-  return;
-    }
+   if (result.rowheader) {
+     if (result.rowselect)  {
+         SocialCalc.ProcessEditorRowselectMouseDown(e, ele, result);
+     } else {
+         SocialCalc.ProcessEditorRowsizeMouseDown(e, ele, result);
+     }
+     return;
+   }
 
-    if (result.colheader) {
-  if (result.colselect)  {
-      SocialCalc.ProcessEditorColselectMouseDown(e, ele, result);
-  } else {
-      SocialCalc.ProcessEditorColsizeMouseDown(e, ele, result);
-  }
-  return;
-    }
+   if (result.colheader) {
+     if (result.colselect)  {
+         SocialCalc.ProcessEditorColselectMouseDown(e, ele, result);
+     } else {
+         SocialCalc.ProcessEditorColsizeMouseDown(e, ele, result);
+     }
+     return;
+   }
 
    if (!result.coord) return; // not us
 
    if (!range.hasrange) {
       if (e.shiftKey)
-         editor.RangeAnchor();
+        editor.RangeAnchor();
       }
    coord = editor.MoveECell(result.coord);
-   // eddy ProcessEditorMouseDown {
+
    if(SocialCalc._app == true) { // "app" wigets need to keep focus - needed because "coord" always equals A1
-     SocialCalc.CmdGotFocus(true); // cell widgets need to keep focus
-     return;
+      SocialCalc.CmdGotFocus(true); // cell widgets need to keep focus
+      return;
    }
 
    var clickedCell = editor.context.sheetobj.cells[coord];
    if(clickedCell) {
-     if(clickedCell.valuetype.charAt(1) == 'i') { // IF cell contains ioWidget
-       var formula_name= clickedCell.valuetype.substring(2);
-       var widget_id = formula_name+'_'+coord;
-       if(target && widget_id == target.id) { // if widget was clicked (rather than cell containing widget)
-         var cell_widget=document.getElementById(widget_id);
-         SocialCalc.CmdGotFocus(cell_widget); // cell widgets need to keep focus
-       }
-    return; // let ioWidget keep the focus
-    }
+    if(clickedCell.valuetype.charAt(1) == 'i') { // IF cell contains ioWidget
+      var formula_name= clickedCell.valuetype.substring(2);
+      var widget_id = formula_name+'_'+coord;
+      if(target && widget_id == target.id) { // if widget was clicked (rather than cell containing widget)
+        var cell_widget=document.getElementById(widget_id);
+        SocialCalc.CmdGotFocus(cell_widget); // cell widgets need to keep focus
+      }
+   return; // let ioWidget keep the focus
    }
-   // }
+   }
 
    if (range.hasrange) {
-      if (e.shiftKey)
-         editor.RangeExtend();
-      else
-         editor.RangeRemove();
-      }
+     if (e.shiftKey)
+        editor.RangeExtend();
+     else
+        editor.RangeRemove();
+     }
 
    mouseinfo.mousedowncoord = coord; // remember if starting drag range select
    mouseinfo.mouselastcoord = coord;
@@ -91,13 +90,13 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
 
    SocialCalc.KeyboardSetFocus(editor);
    if (editor.state!="start" && editor.inputBox) editor.inputBox.element.focus();
-    SocialCalc.SetMouseMoveUp(SocialCalc.ProcessEditorMouseMove,
-            SocialCalc.ProcessEditorMouseUp,
-            ele,
-            event);
+   SocialCalc.SetMouseMoveUp(SocialCalc.ProcessEditorMouseMove,
+           SocialCalc.ProcessEditorMouseUp,
+           ele,
+           event);
    return;
 
-   }
+ }
 
 SocialCalc.EditorMouseRange = function(editor, coord) {
 

@@ -33,7 +33,6 @@ SocialCalc.RenderSheet = function(context, oldtable, linkstyle) {
    // make the table element and fill it in
 
    tableobj=document.createElement("table");
-   context.InitializeTable(tableobj);
 
    colgroupobj=context.RenderColGroup();
    tableobj.appendChild(colgroupobj);

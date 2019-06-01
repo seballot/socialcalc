@@ -229,10 +229,7 @@ SocialCalc.InitializeSpreadsheetViewer = function(spreadsheet, node, height, wid
    spreadsheet.requestedSpaceBelow = spacebelow;
 
    if (typeof node == "string") node = document.getElementById(node);
-
-   if (node == null) {
-      alert("SocialCalc.SpreadsheetControl not given parent node.");
-      }
+   if (node == null) alert("SocialCalc.InitializeSpreadsheetViewer not given parent node.");
 
    spreadsheet.parentNode = node;
 

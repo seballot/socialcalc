@@ -113,6 +113,7 @@ SocialCalc.TableEditor = function(context) {
 
    this.context = context; // editing context
    this.toplevel = null; // top level HTML element for this table editor
+   this.toplevel = null; // top level HTML element for this table editor
    this.fullgrid = null; // rendered editing context
 
    this.noEdit = false; // if true, disable all edit UI and make read-only
@@ -404,7 +405,7 @@ SocialCalc.TableEditor = function(context) {
 
 // Methods:
 
-SocialCalc.TableEditor.prototype.CreateTableEditor = function(width, height) {return SocialCalc.CreateTableEditor(this, width, height);};
+SocialCalc.TableEditor.prototype.CreateTableEditor = function(width, height) {return SocialCalc.CreateTableEditor(this);};
 SocialCalc.TableEditor.prototype.ResizeTableEditor = function(width, height) {return SocialCalc.ResizeTableEditor(this, width, height);};
 
 SocialCalc.TableEditor.prototype.SaveEditorSettings = function() {return SocialCalc.SaveEditorSettings(this);};

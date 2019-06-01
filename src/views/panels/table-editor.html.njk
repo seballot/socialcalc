@@ -1,0 +1,55 @@
+<div id="te_appView" name="sheet" class="panel active">
+   <div id="te_toplevel">
+
+      <div class="vertical-content">
+         {# Table #}
+         <div id="te_griddiv"></div>
+
+         {# Vertical Scroll Bar #}
+         <div class="tc-main vertical" id="te_tablecontrolv">
+            <div class="tc-fixed-pane"></div>
+
+            <div class="tc-panes-slider" id="te_panesliderv" title="Drag to lock pane vertically"></div>
+
+            <div class="tc-less-button" id="te_lessbuttonv"></div>
+
+            <div class="tc-scroll-area" id="te_scrollareav">
+               <div class="tc-thumb" id="te_thumbv"></div>
+            </div>
+
+            <div class="tc-more-button" id="te_morebuttonv"></div>
+         </div>
+      </div>
+
+      {# Horizontal Scroll Bar #}
+      <div class="tc-main horizontal" id="te_tablecontrolh">
+         <div class="tc-fixed-pane"></div>
+
+         <div class="tc-panes-slider" id="te_panesliderh" title="Drag to lock pane horizontally"></div>
+
+         <div class="tc-less-button" id="te_lessbuttonh"></div>
+
+         <div class="tc-scroll-area" id="te_scrollareah">
+            <div class="tc-thumb" id="te_thumbh"></div>
+         </div>
+
+         <div class="tc-more-button" id="te_morebuttonh"></div>
+      </div>
+
+      {# Bottom Right Corner #}
+      <div></div>
+
+      {# Helpers #}
+      <div id="te_draghandle" style="display: none; position: absolute; z-index: 8; border: 1px solid white; width: 4px; height: 4px; font-size: 1px; background-color: rgb(14, 147, 216); cursor: default; left: 263px; top: 178px;">&nbsp;</div>
+      <div id="te_dragpalette" style="display: none; position: absolute; z-index: 8; width: 90px; height: 90px; font-size: 1px; text-align: center; cursor: default; background-image: url(&quot;assets/images/drag-handles.png&quot;);">&nbsp;</div>
+      <div id="te_dragtooltip" style="display: none; position: absolute; z-index: 9; border: 1px solid black; width: 100px; height: auto; font-size: 10px; background-color: rgb(255, 255, 255);">&nbsp;</div>
+      <div id="te_fillinghandle" style="display: none; position: absolute; z-index: 9; border: 1px solid black; width: auto; height: 14px; font-size: 10px; background-color: rgb(255, 255, 255);">&nbsp;</div>
+      <textarea id="te_pastetextarea" style="display: none; position: absolute; height: 1px; width: 1px; opacity: 0;"></textarea>
+   </div>
+
+   {# FormData, Still don't know what this table contained in this div is for #}
+   <div id="te_formData" style="display: none;"></div>
+
+   {# Status Bar #}
+   <div id="SocialCalc-statusline"></div>
+</div>

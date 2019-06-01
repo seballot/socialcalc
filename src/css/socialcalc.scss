@@ -24,6 +24,8 @@
 @import 'cell';
 @import 'scroll-bar';
 
+@import 'panels/table-editor';
+
 .socialcalc-main-container {
   color: #5f6368;
   font-weight: normal;
@@ -31,22 +33,18 @@
   font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
   height: 100%;
   width: 100%;
-}
 
-#te_appView {
-  position: relative;
+  display:flex;
+  flex-flow: column;
+  overflow: hidden;
 
-  #SocialCalc-statusline {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    padding: 7px;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px 0 0 0;
-    background-color: white;
-    box-shadow: -2px 0px 5px 1px rgba(60,64,67,.15);
+  .panels-container {
+    flex: auto;
+    overflow: hidden;
   }
 }
+
+
 
 .defaultComment {background-repeat:no-repeat;background-position:top right;background-image:url(images/sc-commentbg.gif);}
 .defaultCommentNoGridStyle {}

@@ -24,17 +24,14 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
 
    // keep the thumb inside scroll area
    if (dobj.vertical) {
-      if (draginfo.clientY > control.scrollareaend - draginfo.offsetY - control.thumbthickness + 2)
-         draginfo.clientY = control.scrollareaend - draginfo.offsetY - control.thumbthickness + 2;
-      if (draginfo.clientY < control.scrollareastart - draginfo.offsetY - 1)
-         draginfo.clientY = control.scrollareastart - draginfo.offsetY - 1;
+      draginfo.clientY = Math.max(draginfo.clientY, - draginfo.offsetY)
+      draginfo.clientY = Math.min(draginfo.clientY, control.scrollareasize - draginfo.offsetY - control.thumbthickness)
       }
    else {
-      if (draginfo.clientX > control.scrollareaend - draginfo.offsetX - control.thumbthickness + 2)
-         draginfo.clientX = control.scrollareaend - draginfo.offsetX - control.thumbthickness + 2;
-      if (draginfo.clientX < control.scrollareastart - draginfo.offsetX - 1)
-         draginfo.clientX = control.scrollareastart - draginfo.offsetX - 1;
+      draginfo.clientX = Math.max(draginfo.clientX, - draginfo.offsetX)
+      draginfo.clientX = Math.min(draginfo.clientX, control.scrollareasize - draginfo.offsetX - control.thumbthickness)
       }
+
 
    // make the thumb follow the mouse
    SocialCalc.DragFunctionPosition(event, draginfo, dobj);
@@ -49,7 +46,8 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
 
       var thumbpos = draginfo.clientY+draginfo.offsetY;
       var maxHeightPx = control.scrollareasize - control.thumbthickness;
-      var pourcentHeight = (thumbpos - control.scrollareastart) / maxHeightPx;
+      var pourcentHeight = thumbpos / maxHeightPx;
+      pourcentHeight = Math.max(Math.min(pourcentHeight, 1),0)
       var tableVisibleScrollableHeight = editor.tableheight - editor.firstscrollingrowtop;
       var firstVisibleRowHeightToTopScrollableContainer = pourcentHeight * (editor.tableFullScrollableHeight - tableVisibleScrollableHeight);
 
@@ -67,7 +65,7 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
    else {
       var thumbpos = draginfo.clientX+draginfo.offsetX;
       var maxWidthPx = control.scrollareasize - control.thumbthickness;
-      var pourcentWidth = (thumbpos - control.scrollareastart) / maxWidthPx;
+      var pourcentWidth = thumbpos / maxWidthPx;
 
       var tableVisibleScrollableWidth = editor.tablewidth - editor.firstscrollingcolleft;
       var firstVisibleColWidthLeftScrollableContainer = pourcentWidth * (editor.tableFullScrollableWidth - tableVisibleScrollableWidth);

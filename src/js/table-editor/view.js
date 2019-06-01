@@ -10,6 +10,7 @@ SocialCalc.EditorRenderSheet = function(editor) {
    editor.EditorMouseUnregister();
 
    var sheetobj = editor.context.sheetobj;
+
    // App widgets need to keep focus -  only render widgets if needed
    if(sheetobj.reRenderCellList != null && SocialCalc._app && sheetobj.widgetsClean === true) {
      // re-render each individual cells - but not widget with focus

@@ -74,6 +74,5 @@ SocialCalc.HandleStyleButtonClicked = function(button) {
 
    // apply command reading button data attributes
    cmdstr = "set " + range + " " + $(button).data('command') + " " + cmdValue;
-   console.log("on button click", cmdstr);
    if (cmdstr) editor.EditorScheduleSheetCommands(cmdstr, true, false);
 }

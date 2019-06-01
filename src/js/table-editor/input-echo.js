@@ -49,8 +49,8 @@ SocialCalc.ShowInputEcho = function(inputecho, show) {
       cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
       inputecho.container.style.left = $(cell.element).position().left + "px";
       inputecho.container.style.top = $(cell.element).position().top + "px";
-      inputecho.container.style['min-width'] = $(cell.element).width() + 6 + "px";
-      inputecho.container.style['min-height'] = $(cell.element).height() - 2 + "px";
+      inputecho.container.style['min-width'] = $(cell.element).outerWidth(true) + 1 + "px";
+      inputecho.container.style['min-height'] = $(cell.element).outerHeight(true) + 1 + "px";
       inputecho.container.style.display = "block";
       if (inputecho.interval) window.clearInterval(inputecho.interval); // just in case
       inputecho.interval = window.setInterval(SocialCalc.InputEchoHeartbeat, 50);

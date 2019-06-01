@@ -61,7 +61,7 @@ SocialCalc.FitToEditTable = function(editor) {
 
    needed = editor.tableheight - totalrows * context.pixelsPerRow; // estimate amount needed
 
-   context.rowpanes[rowpane].last = context.sheetobj.attribs.usermaxrow || context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow) + 1;
+   context.rowpanes[rowpane].last = context.sheetobj.attribs.usermaxrow || context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow);
 
    }
 
@@ -81,10 +81,8 @@ SocialCalc.CalculateEditorPositions = function(editor) {
 
    editor.gridposition = SocialCalc.GetElementPosition(editor.griddiv);
 
-   var element = editor.griddiv.firstChild.lastChild.childNodes[1].childNodes[0]; // 2nd tr 1st td
-   editor.headposition = SocialCalc.GetElementPosition(element);
-   editor.headposition.left += element.offsetWidth;
-   editor.headposition.top += element.offsetHeight;
+   var tabletopLeftCorner = $(editor.griddiv).find('tbody').children()[1].childNodes[0]; // 2nd tr 1st td
+   editor.headposition = {left: tabletopLeftCorner.offsetWidth, top: tabletopLeftCorner.offsetHeight};
 
    editor.rowpositions = [];
    for (rowpane=0; rowpane<editor.context.rowpanes.length; rowpane++) {
@@ -94,7 +92,6 @@ SocialCalc.CalculateEditorPositions = function(editor) {
       if (editor.rowpositions[i]>editor.gridposition.top+editor.tableheight) break;
       }
    editor.lastvisiblerow = i-1;
-
    editor.colpositions = [];
    for (colpane=0; colpane<editor.context.colpanes.length; colpane++) {
       editor.CalculateColPositions(colpane, editor.colpositions, editor.colwidth);

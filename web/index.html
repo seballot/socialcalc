@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="assets/fontawesome.css">
 
     <style>
-      body { margin: 0; }
+      html, body, #calc { margin: 0; height: 100%; width: 100%; }
     </style>
 
     <!-- Test with dist files -->
@@ -29,7 +29,8 @@
     <div id="calc"></div>
     <script>
       var socialCalcControl = new SocialCalc.SpreadsheetControl()
-      socialCalcControl.InitializeSpreadsheetControl(document.getElementById("calc"))
+      // SocialCalc._app = true;
+      socialCalcControl.InitializeSpreadsheetControl("calc")
     </script>
   </body>
 </html>

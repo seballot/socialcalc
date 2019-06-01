@@ -1,4 +1,23 @@
-.SC-tool-bar {
+.tools-tabs-links {
+  ul { margin: 0; }
+  li {
+    display: inline-block;
+    &.active { background-color: grey; }
+    &:hover { cursor: pointer; }
+  }
+}
+
+.tools-tabs-container {
+  .tool-tab-content { display: none; }
+  .tool-tab-content.active { display: block; }
+}
+
+.panels-container {
+  .panel { display: none; }
+  .panel.active { display: block; }
+}
+
+.tool-tab-content[name="table"] {
   .action-btn, .style-btn, .sp-replacer {
     height: 28px;
     padding: 3px 7px;

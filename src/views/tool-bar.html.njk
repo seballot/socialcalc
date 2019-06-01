@@ -1,97 +1,47 @@
-{% macro button(command, fa='', img='', title='') %}
-   {% if not img %}{% set img = command ~ '.svg' %}{% endif %}
-   {% if not title %}{% set title = command %}{% endif %}
-   {% set fontawesome = 'fas fa-' ~ fa if fa else "" %}
+{# Tools Tabs links #}
+<div class="tools-tabs-links">
+   <ul>
+      <li name="table" class="active"
+          data-view="sheet">
+          %loc!Edit!</li>
 
-   {% if fontawesome %}<span
-   {% else %}<img
-   {% endif %}
-     class="action-btn {{ fontawesome }}"
-     src="{{ imagePrefix ~ img }}"
-     id="{{ idPrefix }}button_{{ command }}"
-     title="%loc!{{ title }}!" data-command="{{ command }}"/>
-   {% if fontawesome %}</span>{% endif %}
-{% endmacro %}
+      <li name="sort"
+          data-view="sheet"
+          data-onclick="SocialCalc.SpreadsheetControlSortOnclick">
+          %loc!Sort!</li>
 
-{% macro divider() %}
-   <span class="divider"></span>
-{% endmacro %}
+      <li name="comment"
+          data-view="sheet"
+          data-onclick="SocialCalc.SpreadsheetControlCommentOnclick",
+          data-onunclick="SocialCalc.SpreadsheetControlCommentOnunclick">
+          %loc!Comment!</li>
 
-<div id="{{ idPrefix }}edittools" class="SC-tool-bar">
+      <li name="names"
+          data-view="sheet"
+          data-onclick="SocialCalc.SpreadsheetControlNamesOnclick",
+          data-onunclick="SocialCalc.SpreadsheetControlNamesOnunclick">
+          %loc!Names!</li>
 
-   {# Remove those commands for now
-      { command: 'swapcolors', title: "Swap Colors", fa: 'exchange-alt' },
-      { command: 'deleterow', img: 'deleterows.png', title: "Delete Row" },
-      { command: 'deletecol', img: 'deletecolumns.png', title: "Delete Column" },
-      { command: 'hiderow', title: "Hide Row" },
-      { command: 'hidecol', title: "Hide Column" },
-      { command: 'movefrom', img: 'movefromoff.gif', title: "Set/Clear Move From" },
-      { command: 'movepaste', img: 'movepasteoff.gif', title: "Move Paste" },
-      { command: 'moveinsert', img: 'moveinsertoff.gif', title: "Move Insert" },
-      { },
-   #}
+      <li name="clipboard"
+          data-view="clipboard"
+          data-onclick="SocialCalc.SpreadsheetControlClipboardOnclick",
+          data-onclickFocus="clipboardtext">
+          %loc!Clipboard!</li>
 
-   {{ button('undo', fa='undo') }}
-   {{ button('redo', fa='redo') }}
-
-   {{ divider() }}
-
-   {{ button('copy') }}
-   {{ button('cut') }}
-   {{ button('paste') }}
-   {{ button('delete', title="Delete Cell Contents", img='eraser.svg') }}
-   {{ button('pasteformats', img='formatpaintbrush.png', title="Paste Formats", fa="paint-roller") }}
-
-   {{ divider() }}
-
-   <span class="style-btn fas fa-bold" data-command="style.font-weight" data-value="bold" title="%loc!Bold!"></span>
-   <span class="style-btn fas fa-underline" data-command="style.text-decoration" data-value="underline" title="%loc!underline!"></span>
-   <span class="style-btn fas fa-italic" data-command="style.font-style" data-value="italic" title="%loc!Italic!"></span>
-
-   <input type="color" class="style-input" data-command="style.color"/>
-
-   {{ divider() }}
-
-   <input type="color" class="style-input" data-command="style.background-color"/>
-   <img class="action-btn" src="assets/images/border-all.svg" title="Borders On" data-command="borderon">
-   <img class="action-btn " src="assets/images/border-none.svg" title="Borders Off" data-command="borderoff">
-
-   {{ divider() }}
-
-   <span class="style-btn fas fa-align-left"
-         data-command="style.text-align" data-value="left"></span>
-
-   <span class="style-btn fas fa-align-center"
-         data-command="style.text-align" data-value="center"></span>
-
-   <span class="style-btn fas fa-align-right"
-         data-command="style.text-align" data-value="right"></span>
-
-   {{ divider() }}
-
-   {{ button('merge', title="Merge/Unmerge Cells") }}
-   {{ button('insertrow', img='row-insert.svg', title="Insert Row Before") }}
-   {{ button('insertcol', img='col-insert.svg', title="Insert Column Before") }}
-
-   {{ divider() }}
-
-   <span id="SC-link" class="action-btn fas fa-link" title="%loc!Link Input Box!"
-         onclick="SocialCalc.SpreadsheetControlDoLink()"/></span>
-
-   <img id="SC-sum" class="action-btn" src="assets/images/sigma.svg" title="%loc!Auto Sum!"
-         onclick="SocialCalc.SpreadsheetControlDoSum()"/>
-
-   {{ divider() }}
-
-   {{ button('lock', title="Lock Cell", fa="lock") }}
-   {{ button('unlock', title="Unlock Cell", fa="unlock") }}
-
-   {{ divider() }}
-
-   {{ button('filldown', title="Fill Down") }}
-   {{ button('fillright', title="Fill Right") }}
-
-   {{ button('recalc', title="Recalculate") }}
-
+      <li name="audit"
+          data-view="audit"
+          data-onclick="SocialCalc.SpreadsheetControlAuditOnclick",
+          data-onclickFocus=true>
+          %loc!Audit!</li>
+   </ul>
 </div>
 
+{# Tools Tabs content #}
+<div class="tools-tabs-container">
+   {% include 'tools/table.html.njk' %}
+   {% include 'tools/sort.html.njk' %}
+   {% include 'tools/comment.html.njk' %}
+   {% include 'tools/names.html.njk' %}
+   {% include 'tools/clipboard.html.njk' %}
+   {% include 'tools/audit.html.njk' %}
+</div>

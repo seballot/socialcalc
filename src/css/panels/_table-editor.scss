@@ -1,0 +1,40 @@
+#te_appView {
+  height: 100%;
+
+  // LAYOUT
+  #te_toplevel {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+
+    .vertical-content {
+      flex: auto;
+      display: flex;
+
+      #te_griddiv { flex: auto; }
+    }
+  }
+
+  // TABLE ITSELF
+  #te_griddiv {
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+  }
+
+
+
+  #SocialCalc-statusline {
+    position: absolute;
+    right: $scrollbar-thickness;
+    bottom: $scrollbar-thickness;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    padding: 7px;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px 3px 0 3px;
+    background-color: #ffffff;
+    box-shadow: -1px -1px 6px 0px rgba(60, 64, 67, 0.15);
+  }
+}

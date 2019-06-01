@@ -1,0 +1,22 @@
+<div id="SocialCalc-clipboardview" name="clipboard" class="panel">
+   <div style="font-size:x-small;padding:5px 0px 10px 0px;">
+      <b>%loc!Display Clipboard in!:</b>
+
+      <input type="radio" id="SocialCalc-clipboardformat-tab" name="SocialCalc-clipboardformat" checked="" onclick="SocialCalc.SpreadsheetControlClipboardFormat('tab');"/>
+
+      %loc!Tab-delimited format!
+
+      <input type="radio" id="SocialCalc-clipboardformat-csv" name="SocialCalc-clipboardformat" onclick="SocialCalc.SpreadsheetControlClipboardFormat('csv');"/>
+
+      %loc!CSV format!
+
+      <input type="radio" id="SocialCalc-clipboardformat-scsave" name="SocialCalc-clipboardformat" onclick="SocialCalc.SpreadsheetControlClipboardFormat('scsave');"/>
+
+      %loc!SocialCalc-save format!
+   </div>
+
+   <input type="button" value="%loc!Load SocialCalc Clipboard With This!" onclick="SocialCalc.SpreadsheetControlClipboardLoad();"/>
+   <input type="button" value="%loc!Clear SocialCalc Clipboard!" onclick="SocialCalc.SpreadsheetControlClipboardClear();"/>
+
+   <textarea id="SocialCalc-clipboardtext" style="font-size:small;height:350px;width:800px;overflow:auto;" onfocus="SocialCalc.CmdGotFocus(this);"></textarea>
+</div>

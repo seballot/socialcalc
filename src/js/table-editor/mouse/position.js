@@ -30,7 +30,8 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
    result.col = col;
 
    if (editor.headposition && SocialCalc._app != true)  {
-      if (clientX < editor.headposition.left && clientX >= editor.gridposition.left) {
+
+      if (clientX < editor.headposition.left) {
          result.rowheader = true;
          result.distance = editor.headposition.left - clientX;
          result.rowtoresize = false;
@@ -75,11 +76,11 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
          delete result.rowtoresize;
          return result;
          }
-      else if (clientY < editor.headposition.top && clientY > editor.gridposition.top) { // > because of sizing row
+      else if (clientY < editor.headposition.top /*&& clientY > editor.gridposition.top*/) { // > because of sizing row
          result.colheader = true;
          result.distance = editor.headposition.top - clientY;
          result.coltoresize = false;
-   result.colselect = false;
+         result.colselect = false;
 
          // resize bar
          for (coltoresize=1; coltoresize<editor.colpositions.length; coltoresize++) {
@@ -117,26 +118,26 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
          delete result.coltoresize;
          return result;
          }
-      else if (clientX >= editor.verticaltablecontrol.controlborder) {
-         result.rowfooter = true;
-         result.distance = clientX - editor.verticaltablecontrol.controlborder;
-         return result;
-         }
-      else if (clientY >= editor.horizontaltablecontrol.controlborder) {
-         result.colfooter = true;
-         result.distance = clientY - editor.horizontaltablecontrol.controlborder;
-         return result;
-         }
-      else if (clientX < editor.gridposition.left) {
-         result.rowheader = true;
-         result.distance = editor.headposition.left - clientX;
-         return result;
-         }
-      else if (clientY <= editor.gridposition.top) {
-         result.colheader = true;
-         result.distance = editor.headposition.top - clientY;
-         return result;
-         }
+      // else if (clientX >= editor.verticaltablecontrol.controlborder) {
+      //    result.rowfooter = true;
+      //    result.distance = clientX - editor.verticaltablecontrol.controlborder;
+      //    return result;
+      //    }
+      // else if (clientY >= editor.horizontaltablecontrol.controlborder) {
+      //    result.colfooter = true;
+      //    result.distance = clientY - editor.horizontaltablecontrol.controlborder;
+      //    return result;
+      //    }
+      // else if (clientX < editor.gridposition.left) {
+      //    result.rowheader = true;
+      //    result.distance = editor.headposition.left - clientX;
+      //    return result;
+      //    }
+      // else if (clientY <= editor.gridposition.top) {
+      //    result.colheader = true;
+      //    result.distance = editor.headposition.top - clientY;
+      //    return result;
+      //    }
       else {
          result.coord = SocialCalc.crToCoord(result.col, result.row);
          if (editor.context.cellskip[result.coord]) { // handle skipped cells

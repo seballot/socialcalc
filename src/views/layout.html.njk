@@ -1,0 +1,15 @@
+<div class="socialcalc-main-container" style="height: 100%; width: 100%; position: relative;">
+
+   {# Tool Bar #}
+   {% include 'tool-bar.html.njk' %}
+
+   {# Formula Bar #}
+   {% include 'formula-bar.html.njk' %}
+
+   {# Main view/panel is the table editor. Some tab link trigger display others panels #}
+   <div class="panels-container">
+      {% include 'panels/table-editor.html.njk' %}
+      {% include 'panels/clipboard.html.njk' %}
+      {% include 'panels/audit.html.njk' %}
+   </div>
+</div>

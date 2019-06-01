@@ -29,50 +29,15 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    spreadsheet.requestedSpaceBelow = spacebelow;
 
    if (typeof node == "string") node = document.getElementById(node);
-
-   if (node == null) {
-      alert("SocialCalc.SpreadsheetControl not given parent node.");
-      }
-
+   if (node == null) alert("SocialCalc.InitializeSpreadsheetControl not given parent node.");
    spreadsheet.parentNode = node;
+   $(node).empty();
 
-   // create node to hold spreadsheet control
+   // Render HTML
 
-   spreadsheet.spreadsheetDiv = document.createElement("div");
+   nunjucks = nunjucks.configure('../src/views', { autoescape: true });
+   html = nunjucks.render('layout.html.njk', { idPrefix: spreadsheet.idPrefix, imagePrefix: spreadsheet.imagePrefix })
 
-   spreadsheet.SizeSSDiv(); // calculate and fill in the size values
-
-   for (child=node.firstChild; child!=null; child=node.firstChild) {
-      node.removeChild(child);
-      }
-
-   // create the tabbed UI at the top
-
-   html = '<div>'
-   html += '<div style="'+spreadsheet.tabbackground+'">'+
-      '<table cellpadding="0" cellspacing="0"><tr>';
-
-   for (i=0; i<tabs.length; i++) {
-      html += '  <td id="%id.' + tabs[i].name + 'tab" style="' +
-         (i==0 ? spreadsheet.tabselectedCSS : spreadsheet.tabplainCSS) +
-         '" onclick="%s.SetTab(this);">' + SCLoc(tabs[i].text) + '</td>';
-      }
-
-   html += ' </tr></table></div>'
-   html += '<div style="'+spreadsheet.toolbarbackground+'padding:12px 10px 10px 4px;">';
-
-   for (i=0; i<tabs.length; i++) {
-      html += tabs[i].html;
-      }
-
-   html += '</div>'
-   html += '</div>';
-
-   spreadsheet.currentTab = 0; // this is where we started
-
-   for (style in spreadsheet.tabreplacements) {
-      html = html.replace(spreadsheet.tabreplacements[style].regex, spreadsheet.tabreplacements[style].replacement);
-      }
    html = html.replace(/\%s\./g, "SocialCalc.");
    html = html.replace(/\%id\./g, spreadsheet.idPrefix);
    html = html.replace(/\%tbt\./g, spreadsheet.toolbartext);
@@ -80,58 +45,16 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    html = SCLocSS(html); // localize with %loc!string! and %scc!constant!
 
-   spreadsheet.spreadsheetDiv.innerHTML = html;
-   spreadsheet.spreadsheetDiv.className = "socialcalc-main-container"
+   node.innerHTML = html;
 
-   node.appendChild(spreadsheet.spreadsheetDiv);
+   spreadsheet.spreadsheetDiv = document.querySelector('.socialcalc-main-container');
+   spreadsheet.$container = $(spreadsheet.spreadsheetDiv);
 
-   // Initialize SocialCalc buttons
+   spreadsheet.InitializeToolBar();
 
-   // action btn
-   $('#' + spreadsheet.idPrefix + 'edittools .action-btn').click(function() {
-      SocialCalc.DoCmd(this, $(this).data('command'));
-   });
+   // Initialize formula bar
 
-   // buttons for styling
-   $('#' + spreadsheet.idPrefix + 'edittools .style-btn').click(function() {
-      SocialCalc.HandleStyleButtonClicked(this);
-   });
-
-   var palette = [
-     ["#000000","#3c4042","#5b5b5b","#999999","#bcbcbc","#eeeeee","#f3f6f4","#ffffff"],
-     ["#f4cccc","#fce5cd","#fff2cc","#d9ead3","#d0e0e3","#cfe2f3","#d9d2e9","#ead1dc"],
-     ["#ea9999","#f9cb9c","#ffe599","#b6d7a8","#a2c4c9","#9fc5e8","#b4a7d6","#d5a6bd"],
-     ["#e06666","#f6b26b","#ffd966","#93c47d","#76a5af","#6fa8dc","#8e7cc3","#c27ba0"],
-     ["#cc0000","#e69138","#f1c232","#6aa84f","#45818e","#3d85c6","#674ea7","#a64d79"],
-     ["#990000","#b45f06","#bf9000","#38761d","#134f5c","#0b5394","#351c75","#741b47"],
-     ["#660000","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
-
-   ];
-
-   $('#' + spreadsheet.idPrefix + 'edittools input[type=color]').spectrum({
-      showPalette: true,
-      showAlpha: true,
-      showInitial: true,
-      preferredFormat: "hex",
-      showInput: false,
-      hideAfterPaletteSelect:true,
-      showPaletteOnly: true,
-      palette: palette
-   });
-
-   $('[data-command="style.color"] + .sp-replacer').prepend($('<span class="fas fa-font"></span>'));
-   $('[data-command="style.background-color"] + .sp-replacer').prepend($('<span class="fas fa-fill-drip"></span>'));
-   $('input[data-command="style.color"]').spectrum("set", '#3c4042');
-   $('input[data-command="style.background-color"]').spectrum("set", 'white');
-
-   $('#' + spreadsheet.idPrefix + 'edittools .style-input').change(function() {
-      SocialCalc.HandleStyleButtonClicked(this);
-   });
-
-   // create formula bar
-   spreadsheet.formulabarDiv = document.createElement("div");
-   spreadsheet.formulabarDiv.innerHTML = this.nunjucks.render('formula-bar.html.njk');
-   spreadsheet.spreadsheetDiv.appendChild(spreadsheet.formulabarDiv);
+   spreadsheet.formulabarDiv = document.querySelector(".SC-formula-bar");
 
    new SocialCalc.InputBox(document.getElementById("SC-formula-input"), spreadsheet.editor);
    // input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
@@ -152,72 +75,17 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    //      }
    // });
 
-   // initialize tabs that need it
 
-   for (i=0; i<tabs.length; i++) { // execute any tab-specific initialization code
-      if (tabs[i].oncreate) {
-         tabs[i].oncreate(spreadsheet, tabs[i].name);
-         }
-      }
-
-   // create sheet view and others
-
-   SocialCalc.CalculateSheetNonViewHeight(spreadsheet);
-
-   spreadsheet.viewheight = spreadsheet.height-spreadsheet.nonviewheight;
-   spreadsheet.editorDiv=spreadsheet.editor.CreateTableEditor(spreadsheet.width, spreadsheet.viewheight);
-
-   var appViewDiv = document.createElement("div");
-   appViewDiv.id = "te_appView";
-
-   appViewDiv.appendChild(spreadsheet.editorDiv)
-   spreadsheet.editorDiv = appViewDiv;
-
-   var formDataDiv = document.createElement("div");
-   formDataDiv.id = "te_formData";
-   formDataDiv.style.display = "none";
-
-   spreadsheet.editorDiv.appendChild(formDataDiv);
-   spreadsheet.spreadsheetDiv.appendChild(spreadsheet.editorDiv);
-
+   // TODO make this work again
    // form data sheet - all input formulas set values in this sheet as well as the loaded sheet
-   spreadsheet.formDataViewer = new SocialCalc.SpreadsheetViewer("te_FormData-"); // should end with -
-   spreadsheet.formDataViewer.InitializeSpreadsheetViewer(formDataDiv.id, 180, 0, 200);
-   spreadsheet.formDataViewer.editor.ignoreRender = true; // formDataViewer is used for ExecuteSheetCommand only - no need to render
+   // spreadsheet.formDataViewer = new SocialCalc.SpreadsheetViewer("te_FormData-"); // should end with -
+   // spreadsheet.formDataViewer.InitializeSpreadsheetViewer("te_formData", 180, 0, 200);
+   // spreadsheet.formDataViewer.editor.ignoreRender = true; // formDataViewer is used for ExecuteSheetCommand only - no need to render
 
-   for (vname in views) {
-      html = views[vname].html;
-      for (style in views[vname].replacements) {
-         html = html.replace(views[vname].replacements[style].regex, views[vname].replacements[style].replacement);
-         }
-      html = html.replace(/\%s\./g, "SocialCalc.");
-      html = html.replace(/\%id\./g, spreadsheet.idPrefix);
-      html = html.replace(/\%tbt\./g, spreadsheet.toolbartext);
-      html = html.replace(/\%img\./g, spreadsheet.imagePrefix);
-      v = document.createElement("div");
-      SocialCalc.setStyles(v, views[vname].divStyle);
-      v.style.display = "none";
-      v.style.width = spreadsheet.width + "px";
-      v.style.height = spreadsheet.viewheight + "px";
-      v.id = spreadsheet.idPrefix + views[vname].name + "view";
-
-      html = SCLocSS(html); // localize with %loc!string!, etc.
-
-      v.innerHTML = html;
-      spreadsheet.spreadsheetDiv.appendChild(v);
-      views[vname].element = v;
-      if (views[vname].oncreate) {
-         views[vname].oncreate(spreadsheet, views[vname]);
-         }
-      }
-
-   views.sheet = {name: "sheet", element: spreadsheet.editorDiv};
 
    // create statusline
 
-   spreadsheet.statuslineDiv = document.createElement("div");
-   spreadsheet.statuslineDiv.id = spreadsheet.idPrefix+"statusline";
-   spreadsheet.editorDiv.appendChild(spreadsheet.statuslineDiv);
+   spreadsheet.statuslineDiv = document.getElementById(spreadsheet.idPrefix+"statusline");
 
    // set current control object based on mouseover
 
@@ -232,6 +100,16 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    else { // don't handle this
       throw SocialCalc.Constants.s_BrowserNotSupported;
       }
+
+
+
+   spreadsheet.editor.griddiv = document.getElementById("te_griddiv")
+
+   // TODO deal on resize
+   spreadsheet.editor.tableheight = spreadsheet.editor.griddiv.offsetHeight
+   spreadsheet.editor.tablewidth = spreadsheet.editor.griddiv.offsetWidth
+
+   spreadsheet.editor.CreateTableEditor()
 
    // done - refresh screen needed
    spreadsheet.editor.EditorScheduleSheetCommands('recalc', true, false);
