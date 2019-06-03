@@ -1,13 +1,46 @@
 .tools-tabs-links {
-  ul { margin: 0; }
+  ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 5px;
+    padding-top: 4px;
+    background-color: $primary-color;
+    list-style: none;
+  }
+
+  .logo img {
+    width: 20px;
+    vertical-align: text-bottom;
+    margin-left: 5px;
+  }
+
+  .title {
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 0 15px 0 5px;
+    color: #bfdbf2;
+    font-size: 18px;
+  }
+
   li {
     display: inline-block;
-    &.active { background-color: grey; }
+    padding: 6px 15px;
+    margin: 0;
+    font-weight: bold;
+    list-style: none;
+    color: white;
+    border-radius: 3px 3px 0 0;
+    &.active {
+      background-color: white;
+      color: $text-color;
+    }
     &:hover { cursor: pointer; }
   }
 }
 
 .tools-tabs-container {
+  padding: 10px 5px;
+
   .tool-tab-content { display: none; }
   .tool-tab-content.active { display: block; }
 }

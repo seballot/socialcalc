@@ -6,7 +6,7 @@
   input {
     border: none;
     height: 26px;
-    padding: 0 8px;
+    padding: 0 5px;
     &:focus { border:none !important; }
   }
 
@@ -37,18 +37,24 @@
   }
 
   .search-group {
-    #searchbarinput { float: left; width: 200px; }
+    #searchbarinput {
+      float: left;
+      width: 200px;
+      margin-left: 5px;
+    }
 
     .search-btn {
       color: $icon-color;
       font-size: 15px;
     }
 
+    #searchbarinput:hover ~ .search-icon { opacity: 1; }
+
     .search-icon {
       float: left;
-      margin-top: 5px;
+      margin-top: 7px;
       font-size: 15px;
-      margin-left: 8px;
+      margin-left: 10px;
       color: $icon-color;
       opacity: .8;
     }

@@ -26,11 +26,16 @@
 
 @import 'panels/table-editor';
 
+@font-face {
+  font-family: OpenSans;
+  src: url(fonts/OpenSans-Regular.ttf);
+}
+
 .socialcalc-main-container {
   color: #5f6368;
   font-weight: normal;
   font-size: 13px;
-  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-family: "OpenSans", Arial, sans-serif;
   height: 100%;
   width: 100%;
 
