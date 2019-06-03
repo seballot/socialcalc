@@ -263,7 +263,7 @@ SocialCalc.SpreadsheetCmdLookup = {
  }
 
 SocialCalc.SpreadsheetCmdSLookup = {
- 'borderon': '1px solid rgb(0,0,0)',
+ 'borderon': '1px solid #617b8b',
  'borderoff': ''
  }
 

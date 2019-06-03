@@ -44,14 +44,15 @@ $scrollbar-thickness: 12px;
     flex: auto;
     position: relative;
 
-    &:hover ~ .tc-thumb { background-color: silver; }
-
     .tc-thumb {
       position: absolute;
       background-color: $text-color;
       opacity: .5;
-      // &:hover { background-color: silver; }
+      transition: opacity .2s;
+      &.dragging { opacity: 1 !important; }
     }
+
+    &:hover .tc-thumb { opacity: .7; }
   }
 
   .tc-less-button, .tc-more-button {
