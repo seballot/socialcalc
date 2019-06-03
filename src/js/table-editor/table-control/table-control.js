@@ -80,16 +80,14 @@ SocialCalc.TableControl.prototype.ComputeTableControlPositions = function() {Soc
 SocialCalc.CreateTableControl = function(control) {
 
    var s, functions, params;
-   var AssignID = SocialCalc.AssignID;
-   var setStyles = SocialCalc.setStyles;
    var scc = SocialCalc.Constants;
-
-   var imageprefix = control.editor.imageprefix;
    var vh = control.vertical ? "v" : "h";
-   var SCLoc = SocialCalc.LocalizeString;
 
    control.main = document.getElementById("te_tablecontrol" + vh);
    control.fixedpane = $(control.main).find(".tc-fixed-pane")[0];
+
+   // PANE SLIDER
+
    control.paneslider = $(control.main).find(".tc-panes-slider")[0];
 
    functions = {MouseDown:SocialCalc.TCPSDragFunctionStart,
@@ -99,9 +97,9 @@ SocialCalc.CreateTableControl = function(control) {
 
    functions.control = control; // make sure this is there
 
-   // Drag pane slider - every thing but app view
    if (SocialCalc._app != true) SocialCalc.DragRegister(control.paneslider, control.vertical, !control.vertical, functions, control.editor.toplevel);
 
+   // LESS BUTTON
 
    control.lessbutton = $(control.main).find(".tc-less-button")[0];
 
@@ -112,6 +110,8 @@ SocialCalc.CreateTableControl = function(control) {
 
    SocialCalc.ButtonRegister(control.editor, control.lessbutton, params, functions);
 
+   // MORE BUTTON
+
    control.morebutton = $(control.main).find(".tc-more-button")[0];
 
    params = {repeatwait:scc.TCmorebuttonRepeatWait, repeatinterval:scc.TCmorebuttonRepeatInterval };
@@ -121,17 +121,18 @@ SocialCalc.CreateTableControl = function(control) {
 
    SocialCalc.ButtonRegister(control.editor, control.morebutton, params, functions);
 
+   // SCROLL AREA
 
    control.scrollarea = $(control.main).find(".tc-scroll-area")[0];
 
-   params = {repeatwait:scc.TCscrollareaRepeatWait, repeatinterval:scc.TCscrollareaRepeatWait};
+   params = {repeatwait:scc.TCscrollareaRepeatWait, repeatinterval:scc.TCscrollareaRepeatInterval};
    functions = {MouseDown:SocialCalc.ScrollAreaClick, Repeat:SocialCalc.ScrollAreaClick,
                 Disabled: function() {return control.editor.busy;}};
    functions.control = control;
 
    SocialCalc.ButtonRegister(control.editor, control.scrollarea, params, functions);
 
-   // control.main.appendChild(control.scrollarea);
+   // THUMB
 
    control.thumb = $(control.main).find(".tc-thumb")[0];
 
@@ -141,13 +142,9 @@ SocialCalc.CreateTableControl = function(control) {
                 Disabled: function() {return control.editor.busy;}};
    functions.control = control; // make sure this is there
 
-   // Drag pane slider - every thing but app view
    if (SocialCalc._app != true) SocialCalc.DragRegister(control.thumb, control.vertical, !control.vertical, functions, control.editor.toplevel);
 
-   SocialCalc.ButtonRegister(control.editor, control.thumb, {name:"Thumb"}, null); // give it button-like visual behavior
-
    return control.main;
-
 }
 
 //

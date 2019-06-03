@@ -12,6 +12,7 @@
 
 SocialCalc.TCTDragFunctionStart = function(event, draginfo, dobj) {
    SocialCalc.DragFunctionStart(event, draginfo, dobj);
+   $(dobj.element).addClass("dragging");
    }
 
 //
@@ -96,4 +97,6 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
 SocialCalc.TCTDragFunctionStop = function(event, draginfo, dobj) {
    // nothing to do cause we are rendering while moving
    dobj.functionobj.control.preventRenderScrollBar = false;
+      $(dobj.element).removeClass("dragging");
+
    }

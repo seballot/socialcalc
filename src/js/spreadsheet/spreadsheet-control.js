@@ -42,11 +42,6 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
    this.multipartBoundary = "SocialCalcSpreadsheetControlSave"; // boundary used by SpreadsheetControlCreateSpreadsheetSave
    this.imagePrefix = scc.defaultImagePrefix; // prefix added to img src
 
-   this.toolbarbackground = scc.SCToolbarbackground;
-   this.tabbackground = scc.SCTabbackground; // "background-color:#CCC;";
-   this.tabselectedCSS = scc.SCTabselectedCSS;
-   this.tabplainCSS = scc.SCTabplainCSS;
-
    // Callbacks:
 
    this.ExportCallback = null; // a function called for Clipboard Export button: this.ExportCallback(spreadsheet_control_object)

@@ -36,16 +36,6 @@ SocialCalc.Css = {
 
    // For each of the following default sheet display values at least one of class and/or style are needed
 
-   defaultColnameClass: "", // regular column heading letters, needs a cursor property
-   defaultColnameStyle: "overflow:visible;font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;",
-   defaultSelectedColnameClass: "", // column with selected cell, needs a cursor property
-   defaultSelectedColnameStyle: "overflow:visible;font-size:small;text-align:center;color:#FFFFFF;background-color:#404040;",
-   defaultRownameClass: "", // regular row heading numbers
-   defaultRownameStyle: "position:relative;overflow:visible;font-size:small;text-align:right;color:#FFFFFF;background-color:#808080;",
-   defaultSelectedRownameClass: "", // column with selected cell, needs a cursor property
-   defaultSelectedRownameStyle: "position:relative;overflow:visible;font-size:small;text-align:right;color:#FFFFFF;background-color:#404040;",
-   defaultUpperLeftClass: "", // Corner cell in upper left
-   defaultUpperLeftStyle: "font-size:small;",
    defaultSkippedCellClass: "", // used if present for spanned cells peeking into a pane (at least one of class/style needed)
    defaultSkippedCellStyle: "font-size:small;background-color:#CCC", // used if present
    defaultPaneDividerClass: "", // used if present for the look of the space between panes (at least one of class/style needed)
@@ -82,7 +72,7 @@ SocialCalc.Css = {
    TCmorebuttonRepeatWait: 300, // in milliseconds
    TCmorebuttonRepeatInterval: 20,//100, // in milliseconds
    TCscrollareaRepeatWait: 500, // in milliseconds
-   TCscrollareaRepeatInterval: 100, // in milliseconds
+   TCscrollareaRepeatInterval: 500, // in milliseconds
 
    //*** SocialCalc.TCPSDragFunctionStart
 
@@ -90,25 +80,6 @@ SocialCalc.Css = {
    TCPStrackinglineStyle: "overflow:hidden;position:absolute;zIndex:100;",
                            // if present, pseudo style (text-align is textAlign)
    TCPStrackinglineThickness: "2px", // narrow dimension of trackling line (string with units)
-
-
-   //*** SocialCalc.TCTDragFunctionStart
-
-   TCTDFSthumbstatusvClass: "", // at least one of class/style for vertical thumb dragging status display in table control
-   TCTDFSthumbstatusvStyle: "height:20px;width:auto;border:3px solid #808080;overflow:hidden;"+
-                           "backgroundColor:#FFF;fontSize:small;position:absolute;zIndex:100;",
-                           // if present, pseudo style (text-align is textAlign)
-   TCTDFSthumbstatushClass: "", // at least one of class/style for horizontal thumb dragging status display in table control
-   TCTDFSthumbstatushStyle: "height:20px;width:auto;border:1px solid black;padding:2px;"+
-                           "backgroundColor:#FFF;fontSize:small;position:absolute;zIndex:100;",
-                           // if present, pseudo style (text-align is textAlign)
-   TCTDFSthumbstatusrownumClass: "", // at least one of class/style for thumb dragging status display in table control
-   TCTDFSthumbstatusrownumStyle: "color:#FFF;background-color:#808080;font-size:small;white-space:nowrap;padding:3px;", // if present, real style
-   TCTDFStopOffsetv: 0, // offsets for thumbstatus display while dragging
-   TCTDFSleftOffsetv: -80,
-   TCTDFStopOffseth: -30,
-   TCTDFSleftOffseth: 0,
-
 
    //*** SocialCalc.TooltipInfo
 
@@ -126,18 +97,4 @@ SocialCalc.Css = {
                         "fontSize:7pt;fontFamily:Verdana,Arial,Helvetica,sans-serif;"+
                         "position:absolute;width:auto;zIndex:110;",
                         // if present, pseudo style (text-align is textAlign)
-
-
-   //
-   // SocialCalc Spreadsheet Control module, socialcalcspreadsheetcontrol.js:
-   //
-
-   //*** SocialCalc.SpreadsheetControl
-
-   SCToolbarbackground: "background-color:#ffffff;",
-   SCTabbackground: "background-color:#CCC;",
-   SCTabselectedCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#404040;cursor:default;border-right:1px solid #CCC;",
-   SCTabplainCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#808080;cursor:default;border-right:1px solid #CCC;",
-
-
 }

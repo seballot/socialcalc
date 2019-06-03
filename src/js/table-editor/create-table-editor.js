@@ -6,28 +6,10 @@ SocialCalc.CreateTableEditor = function(editor) {
    editor.toplevel = document.getElementById("te_toplevel")
    editor.griddiv = document.getElementById("te_griddiv")
 
-   // editor.toplevel = document.createElement("div");
-   // editor.toplevel.style.position = "relative";
-   // AssignID(editor, editor.toplevel, "toplevel");
-   // editor.width = width;
-   // editor.height = height;
-   // defaultTableControlThickness = 20;
-   // editor.griddiv = document.createElement("div");
-   // editor.tablewidth = Math.max(0, width - defaultTableControlThickness);
-   // editor.tableheight = Math.max(0, height - defaultTableControlThickness);
-   // editor.griddiv.style.width = editor.tablewidth+"px";
-   // editor.griddiv.style.height = editor.tableheight+"px";
-   // editor.griddiv.style.overflow = "hidden";
-   // editor.griddiv.style.cursor = "default";
-   // AssignID(editor, editor.griddiv, "griddiv");
    editor.FitToEditTable();
    editor.EditorRenderSheet();
 
    editor.griddiv.appendChild(editor.fullgrid);
-
-
-
-
 
    editor.verticaltablecontrol = new SocialCalc.TableControl(editor, true, editor.tableheight);
    editor.verticaltablecontrol.CreateTableControl();
@@ -37,14 +19,9 @@ SocialCalc.CreateTableEditor = function(editor) {
    editor.horizontaltablecontrol.CreateTableControl();
    AssignID(editor, editor.horizontaltablecontrol.main, "tablecontrolh");
 
-   if (SocialCalc._app != true) { // no scroll bar in app
-     // Add v scroll bar
-
-   }
-
-   if (SocialCalc._app != true) { // no scroll bar in app
-     // Add h scroll bar
-
+   if (SocialCalc._app == true) { // no scroll bar in app
+     editor.verticaltablecontrol.main.style.display = "none"
+     editor.horizontaltablecontrol.main.style.display = "none"
    }
 
    if (!editor.noEdit) {
@@ -64,7 +41,6 @@ SocialCalc.CreateTableEditor = function(editor) {
       window.removeEventListener('beforecut', SocialCalc.SafariPasteFunction, false);
       window.addEventListener('beforecut', SocialCalc.SafariPasteFunction, false);
       }
-
 
    SocialCalc.MouseWheelRegister(editor.toplevel, {WheelMove: SocialCalc.EditorProcessMouseWheel, editor: editor});
 
