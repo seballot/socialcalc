@@ -49,14 +49,16 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    spreadsheet.spreadsheetDiv = document.querySelector('.socialcalc-main-container');
    spreadsheet.$container = $(spreadsheet.spreadsheetDiv);
+   spreadsheet.editor.$appContainer = spreadsheet.$container;
+   console.log(spreadsheet.editor);
 
    spreadsheet.InitializeToolBar();
 
    // Initialize formula bar
 
-   spreadsheet.formulabarDiv = document.querySelector(".SC-formula-bar");
+   spreadsheet.formulabarDiv = spreadsheet.$container.find(".SC-formula-bar");
 
-   new SocialCalc.InputBox(document.getElementById("SC-formula-input"), spreadsheet.editor);
+   new SocialCalc.InputBox(spreadsheet.$container.find("#SC-formula-input")[0], spreadsheet.editor);
    // input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
    // input.on('focus', function() {
    //      SocialCalc.Keyboard.passThru = true;
@@ -85,7 +87,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    // create statusline
 
-   spreadsheet.statuslineDiv = document.getElementById(spreadsheet.idPrefix+"statusline");
+   spreadsheet.statuslineDiv = spreadsheet.$container.find("#"+spreadsheet.idPrefix+"statusline");
 
    // set current control object based on mouseover
 
@@ -100,14 +102,6 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    else { // don't handle this
       throw SocialCalc.Constants.s_BrowserNotSupported;
       }
-
-
-
-   spreadsheet.editor.griddiv = document.getElementById("te_griddiv")
-
-   // TODO deal on resize
-   spreadsheet.editor.tableheight = spreadsheet.editor.griddiv.offsetHeight
-   spreadsheet.editor.tablewidth = spreadsheet.editor.griddiv.offsetWidth
 
    spreadsheet.editor.CreateTableEditor()
 

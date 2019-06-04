@@ -3,8 +3,12 @@ SocialCalc.CreateTableEditor = function(editor) {
    var scc = SocialCalc.Constants;
    var AssignID = SocialCalc.AssignID;
 
-   editor.toplevel = document.getElementById("te_toplevel")
-   editor.griddiv = document.getElementById("te_griddiv")
+   editor.toplevel = editor.$appContainer.find("#te_toplevel")[0]
+   editor.griddiv = editor.$appContainer.find("#te_griddiv")[0]
+
+   // TODO deal on resize
+   editor.tableheight = editor.griddiv.offsetHeight
+   editor.tablewidth = editor.griddiv.offsetWidth
 
    editor.FitToEditTable();
    editor.EditorRenderSheet();

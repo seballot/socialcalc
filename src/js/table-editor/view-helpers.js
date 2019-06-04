@@ -61,7 +61,7 @@ SocialCalc.FitToEditTable = function(editor) {
 
    needed = editor.tableheight - totalrows * context.pixelsPerRow; // estimate amount needed
 
-   context.rowpanes[rowpane].last = context.sheetobj.attribs.usermaxrow || context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow);
+   context.rowpanes[rowpane].last = context.sheetobj.attribs.usermaxrow || context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow) - 2;
 
    }
 

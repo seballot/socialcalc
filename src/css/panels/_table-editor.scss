@@ -6,6 +6,7 @@
     display: flex;
     flex-flow: column;
     height: 100%;
+    position: relative;
 
     .vertical-content {
       flex: auto;
@@ -23,6 +24,13 @@
     }
   }
 
+  .tracking-line {
+    position: absolute;
+    display: none;
+    background-color: grey;
+    &.vertical { width: 100%; height: 2px; }
+    &.horizontal { width: 2px;  height: 100%; }
+  }
 
 
   #SocialCalc-statusline {

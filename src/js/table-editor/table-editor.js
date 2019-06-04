@@ -112,7 +112,7 @@ SocialCalc.TableEditor = function(context) {
    // Properties:
 
    this.context = context; // editing context
-   this.toplevel = null; // top level HTML element for this table editor
+   this.$appContainer = null; // container of the whole app (jquery object)
    this.toplevel = null; // top level HTML element for this table editor
    this.fullgrid = null; // rendered editing context
 

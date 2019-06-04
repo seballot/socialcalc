@@ -40,7 +40,7 @@ SocialCalc.TableControl = function(editor, vertical, size) {
    this.size = size; // length in pixels
 
    this.main = null; // main element containing all the others
-   this.endcap = null; // the area at the top/left between the end and the pane slider
+   this.$main = null; // main element containing all the others (jquery object)
    this.paneslider = null; // the slider to adjust the pane split
    this.lessbutton = null; // the top/left scroll button
    this.morebutton = null; // the bottom/right scroll button
@@ -49,8 +49,6 @@ SocialCalc.TableControl = function(editor, vertical, size) {
 
    // computed position values:
 
-   this.controlborder = null; // left or top screen position for vertical or horizontal control
-   this.endcapstart = null; // top or left screen position for vertical or horizontal control
    this.panesliderstart = null;
    this.lessbuttonstart = null;
    this.morebuttonstart = null;
@@ -83,12 +81,13 @@ SocialCalc.CreateTableControl = function(control) {
    var scc = SocialCalc.Constants;
    var vh = control.vertical ? "v" : "h";
 
-   control.main = document.getElementById("te_tablecontrol" + vh);
-   control.fixedpane = $(control.main).find(".tc-fixed-pane")[0];
+   control.$main = control.editor.$appContainer.find("#te_tablecontrol" + vh);
+   control.main = control.$main[0];
+   control.fixedpane = control.$main.find(".tc-fixed-pane")[0];
 
    // PANE SLIDER
 
-   control.paneslider = $(control.main).find(".tc-panes-slider")[0];
+   control.paneslider = control.$main.find(".tc-panes-slider")[0];
 
    functions = {MouseDown:SocialCalc.TCPSDragFunctionStart,
                     MouseMove: SocialCalc.TCPSDragFunctionMove,
@@ -101,7 +100,7 @@ SocialCalc.CreateTableControl = function(control) {
 
    // LESS BUTTON
 
-   control.lessbutton = $(control.main).find(".tc-less-button")[0];
+   control.lessbutton = control.$main.find(".tc-less-button")[0];
 
    params = {repeatwait:scc.TClessbuttonRepeatWait, repeatinterval:scc.TClessbuttonRepeatInterval};
    functions = {MouseDown:function(){if(!control.editor.busy) control.editor.ScrollRelative(control.vertical, -1);},
@@ -112,7 +111,7 @@ SocialCalc.CreateTableControl = function(control) {
 
    // MORE BUTTON
 
-   control.morebutton = $(control.main).find(".tc-more-button")[0];
+   control.morebutton = control.$main.find(".tc-more-button")[0];
 
    params = {repeatwait:scc.TCmorebuttonRepeatWait, repeatinterval:scc.TCmorebuttonRepeatInterval };
    functions = {MouseDown:function(){if(!control.editor.busy) control.editor.ScrollRelative(control.vertical, +1);},
@@ -123,7 +122,7 @@ SocialCalc.CreateTableControl = function(control) {
 
    // SCROLL AREA
 
-   control.scrollarea = $(control.main).find(".tc-scroll-area")[0];
+   control.scrollarea = control.$main.find(".tc-scroll-area")[0];
 
    params = {repeatwait:scc.TCscrollareaRepeatWait, repeatinterval:scc.TCscrollareaRepeatInterval};
    functions = {MouseDown:SocialCalc.ScrollAreaClick, Repeat:SocialCalc.ScrollAreaClick,
@@ -134,7 +133,7 @@ SocialCalc.CreateTableControl = function(control) {
 
    // THUMB
 
-   control.thumb = $(control.main).find(".tc-thumb")[0];
+   control.thumb = control.$main.find(".tc-thumb")[0];
 
    functions = {MouseDown:SocialCalc.TCTDragFunctionStart,
                 MouseMove: SocialCalc.TCTDragFunctionMove,

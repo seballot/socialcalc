@@ -118,26 +118,6 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
          delete result.coltoresize;
          return result;
          }
-      // else if (clientX >= editor.verticaltablecontrol.controlborder) {
-      //    result.rowfooter = true;
-      //    result.distance = clientX - editor.verticaltablecontrol.controlborder;
-      //    return result;
-      //    }
-      // else if (clientY >= editor.horizontaltablecontrol.controlborder) {
-      //    result.colfooter = true;
-      //    result.distance = clientY - editor.horizontaltablecontrol.controlborder;
-      //    return result;
-      //    }
-      // else if (clientX < editor.gridposition.left) {
-      //    result.rowheader = true;
-      //    result.distance = editor.headposition.left - clientX;
-      //    return result;
-      //    }
-      // else if (clientY <= editor.gridposition.top) {
-      //    result.colheader = true;
-      //    result.distance = editor.headposition.top - clientY;
-      //    return result;
-      //    }
       else {
          result.coord = SocialCalc.crToCoord(result.col, result.row);
          if (editor.context.cellskip[result.coord]) { // handle skipped cells

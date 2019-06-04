@@ -112,18 +112,18 @@ SocialCalc.ShowCellHandles = function(cellhandles, show, moveshow) {
          rowinc += (cell.rowspan || 1) - 1;
          }
 
-      if (editor.rowpositions[row+rowinc]+20>editor.horizontaltablecontrol.controlborder) {
-         break;
-         }
-      if (editor.rowpositions[row+rowinc]-10<editor.headposition.top) {
-         break;
-         }
-      if (editor.colpositions[col+colinc]+20>editor.verticaltablecontrol.controlborder) {
-         break;
-         }
-      if (editor.colpositions[col+colinc]-30<editor.headposition.left) {
-         break;
-         }
+      // if (editor.rowpositions[row+rowinc]+20>editor.horizontaltablecontrol.controlborder) {
+      //    break;
+      //    }
+      // if (editor.rowpositions[row+rowinc]-10<editor.headposition.top) {
+      //    break;
+      //    }
+      // if (editor.colpositions[col+colinc]+20>editor.verticaltablecontrol.controlborder) {
+      //    break;
+      //    }
+      // if (editor.colpositions[col+colinc]-30<editor.headposition.left) {
+      //    break;
+      //    }
 
       cellhandles.draghandle.style.left = (editor.colpositions[col+colinc]-1)+"px";
       cellhandles.draghandle.style.top = (editor.rowpositions[row+rowinc]-1)+"px";
