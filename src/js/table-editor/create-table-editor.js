@@ -35,7 +35,7 @@ SocialCalc.CreateTableEditor = function(editor) {
 
    editor.cellhandles = new SocialCalc.CellHandles(editor);
 
-   editor.pasteTextarea = document.getElementById("te_pastetextarea");
+   editor.pasteTextarea = editor.$appContainer.find("#te_pastetextarea")[0];
 
    if (navigator.userAgent.match(/Safari\//) &&!navigator.userAgent.match(/Chrome\//)) { // special code for Safari 5 change
       window.removeEventListener('beforepaste', SocialCalc.SafariPasteFunction, false);

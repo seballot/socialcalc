@@ -201,8 +201,6 @@ SocialCalc.TableEditor = function(context) {
             cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
             if (cell) {
                position = SocialCalc.GetElementPosition(cell.element);
-               ta.style.left = (position.left-1)+"px";
-               ta.style.top = (position.top-1)+"px";
                }
             if (editor.range.hasrange) {
                sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
@@ -243,8 +241,6 @@ SocialCalc.TableEditor = function(context) {
             cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
             if (cell) {
                position = SocialCalc.GetElementPosition(cell.element);
-               ta.style.left = (position.left-1)+"px";
-               ta.style.top = (position.top-1)+"px";
                }
             ta.style.display = "block";
             ta.value = "";  // must follow "block" setting for Webkit
