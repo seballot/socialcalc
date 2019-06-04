@@ -17,21 +17,26 @@
 // Initially coded by Dan Bricklin of Software Garden, Inc., for Socialtext, Inc.
 */
 
-@import 'variables';
-@import 'normalize';
-@import 'tool-bar';
-@import 'formula-bar';
-@import 'cell';
-@import 'scroll-bar';
 
-@import 'panels/table-editor';
 
 @font-face {
   font-family: OpenSans;
   src: url(fonts/OpenSans-Regular.ttf);
 }
 
+@import 'normalize';
+@import 'variables';
+
 .socialcalc-main-container {
+
+  @import 'tool-bar';
+  @import 'formula-bar';
+  @import 'cell';
+  @import 'cell-handle';
+  @import 'scroll-bar';
+
+  @import 'panels/table-editor';
+
   color: #5f6368;
   font-weight: normal;
   font-size: 13px;
@@ -49,19 +54,10 @@
   }
 }
 
-
-
 .defaultComment {background-repeat:no-repeat;background-position:top right;background-image:url(images/sc-commentbg.gif);}
 .defaultCommentNoGridStyle {}
-.defaultColname {font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;cursor:e-resize;}
-.defaultSelectedColname {font-size:small;text-align:center;color:#FFFFFF;background-color:#404040;cursor:e-resize;}
-.defaultRowname {font-size:small;text-align:right;color:#FFFFFF;background-color:#808080;}
-.defaultSelectedRowname {font-size:small;text-align:right;color:#FFFFFF;background-color:#404040;}
-.defaultUpperLeft {font-size:small;}
 .defaultSkippedCell {font-size:small;background-color:#CCC;}
-.defaultPaneDivider {font-size:small;background-color:#ECECEC;padding:0px;}
 
-.TCPStrackingline {overflow:hidden;position:absolute;z-index:100;}
 .TDpopupElement {border:1px solid black;padding:1px 2px 2px 2px;text-align:center;background-color:#FFF;
  font-size:7pt;font-family:Verdana,Arial,Helvetica,sans-serif;
  position:absolute;width:auto;z-index:110;}

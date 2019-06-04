@@ -60,20 +60,6 @@ SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    SocialCalc.CurrentSpreadsheetControlObject = this; // remember this for rendezvousing on events
 
-   this.editor.MoveECellCallback.movefrom = function(editor) {
-      var cr;
-      var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
-      spreadsheet.context.cursorsuffix = "";
-      if (editor.range2.hasrange && !editor.cellhandles.noCursorSuffix) {
-         if (editor.ecell.row==editor.range2.top && (editor.ecell.col<editor.range2.left || editor.ecell.col>editor.range2.right+1)) {
-            spreadsheet.context.cursorsuffix = "insertleft";
-            }
-         if (editor.ecell.col==editor.range2.left && (editor.ecell.row<editor.range2.top || editor.ecell.row>editor.range2.bottom+1)) {
-            spreadsheet.context.cursorsuffix = "insertup";
-            }
-         }
-      };
-
    this.editor.SettingsCallbacks.sort = {save: SocialCalc.SpreadsheetControlSortSave, load: SocialCalc.SpreadsheetControlSortLoad};
 
    return;

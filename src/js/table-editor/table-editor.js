@@ -134,6 +134,9 @@ SocialCalc.TableEditor = function(context) {
 
    // Dynamic properties:
 
+   this.range = null; // selected range of cells
+   this.range2 = null; // save of the initial range of cells when performing actions like dragging
+
    this.timeout = null; // if non-null, timer id for position calculations
    this.busy = false; // true when executing command, calculating, etc.
    this.ensureecell = false; // if true, ensure ecell is visible after timeout

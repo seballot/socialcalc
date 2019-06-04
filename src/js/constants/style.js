@@ -7,8 +7,8 @@ SocialCalc.Css = {
    defaultCellFontSize: "13px",
    defaultCellFontFamily: "Arial,Helvetica,sans-serif",
 
-   defaultPaneDividerWidth: "3", // a string
-   defaultPaneDividerHeight: "3", // a string
+   defaultPaneDividerWidth: "4", // a string
+   defaultPaneDividerHeight: "4", // a string
 
    defaultGridCSS: "1px solid #e2e3e3;", // used as style to set each border when grid enabled (was #ECECEC)
 

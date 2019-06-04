@@ -44,9 +44,9 @@ SocialCalc.RenderContext = function(sheetobj) {
       {
          cursor: {className: "selected-cell"},
          range: {className: "selected-range"},
-         cursorinsertup: {style: "color:#FFF;backgroundColor:#A6A6A6;backgroundRepeat:repeat-x;backgroundPosition:top left;backgroundImage:url("+scc.defaultImagePrefix+"cursorinsertup.gif);", className: ""},
-         cursorinsertleft: {style: "color:#FFF;backgroundColor:#A6A6A6;backgroundRepeat:repeat-y;backgroundPosition:top left;backgroundImage:url("+scc.defaultImagePrefix+"cursorinsertleft.gif);", className: ""},
-         range2: {style: "color:#000;backgroundColor:#FFF;backgroundImage:url("+scc.defaultImagePrefix+"range2.gif);", className: ""}
+         cursorinsertup: { className: "insert-up selected-cell"},
+         cursorinsertleft: { className: "insert-left selected-cell"},
+         range2: { className: "selected-range-initial"}
       }
 
    this.cellIDprefix = scc.defaultCellIDPrefix; // if non-null, each cell will render with an ID

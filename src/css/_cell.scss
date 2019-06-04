@@ -3,12 +3,15 @@
   color: #3c4042;
   position: relative;
 
-  &.selected-range:after {
+  &.selected-range:after, &.selected-range-initial:after {
     position: relative;
     content: "";
     position: absolute;
     background-color: $cell-selected-range-bg;
     top: 0; right: 0; left: 0; bottom: 0;
+  }
+  &.selected-range-initial:after {
+    background-color: rgba(97, 124, 139, 0.12);
   }
 
   &.selected-cell:after {
@@ -16,6 +19,15 @@
     content: "";
     border: 2px solid $primary-color;
     top: -1px; right: -1px; left: -1px; bottom: -1px;
+  }
+
+  &.insert-up:after {
+    border: none;
+    border-top: 4px dashed $primary-color;
+  }
+  &.insert-left:after {
+    border: none;
+    border-left: 4px dashed $primary-color;
   }
 }
 
@@ -33,11 +45,12 @@
 
   .input-echo-prompt {
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: calc(100% + 3px);
+    left: -2px;
+    right: -2px;
     background-color: white;
     padding: 10px 10px;
-    box-shadow: 0 0 5px 2px #0000004f;
+    box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.13);
   }
 }
 
