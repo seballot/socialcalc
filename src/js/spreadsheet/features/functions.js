@@ -22,7 +22,7 @@ SocialCalc.SpreadsheetControlDoFunctionList = function() {
       '<select id="'+idp+'class" size="'+fcl.length+'" style="width:120px;" onchange="SocialCalc.SpreadsheetControl.FunctionClassChosen(this.options[this.selectedIndex].value);">';
    for (i=0; i<fcl.length; i++) {
       str += '<option value="'+fcl[i]+'"'+(i==0?' selected>':'>')+SocialCalc.special_chars(scf.FunctionClasses[fcl[i]].name)+'</option>';
-      }
+   }
    str += '</select></td><td>&nbsp;&nbsp;</td><td id="'+idp+'list"><span style="font-size:x-small;font-weight:bold">%loc!Functions!</span><br>'+
       '<select id="'+idp+'name" size="'+fcl.length+'" style="width:240px;" '+
       'onchange="SocialCalc.SpreadsheetControl.FunctionChosen(this.options[this.selectedIndex].value);" ondblclick="SocialCalc.SpreadsheetControl.DoFunctionPaste();">';
@@ -60,7 +60,7 @@ SocialCalc.SpreadsheetControlDoFunctionList = function() {
    main.innerHTML = str;
 
    SocialCalc.DragRegister(main.firstChild.firstChild.firstChild.firstChild, true, true,
-                 {MouseDown: SocialCalc.DragFunctionStart, 
+                 {MouseDown: SocialCalc.DragFunctionStart,
                   MouseMove: SocialCalc.DragFunctionPosition,
                   MouseUp: SocialCalc.DragFunctionPosition,
                   Disabled: null, positionobj: main},
@@ -73,7 +73,7 @@ SocialCalc.SpreadsheetControlDoFunctionList = function() {
    SocialCalc.CmdGotFocus(ele);
 //!!! need to do keyboard handling: if esc, hide; if All, letter scrolls to there
 
-   }
+}
 
 SocialCalc.SpreadsheetControl.GetFunctionNamesStr = function(cname) {
 
@@ -84,11 +84,11 @@ SocialCalc.SpreadsheetControl.GetFunctionNamesStr = function(cname) {
    f = scf.FunctionClasses[cname];
    for (i=0; i<f.items.length; i++) {
       str += '<option value="'+f.items[i]+'"'+(i==0?' selected>':'>')+f.items[i]+'</option>';
-      }
+   }
 
    return str;
 
-   }
+}
 
 SocialCalc.SpreadsheetControl.FillFunctionNames = function(cname, ele) {
 
@@ -101,12 +101,12 @@ SocialCalc.SpreadsheetControl.FillFunctionNames = function(cname, ele) {
       ele.options[i] = new Option(f.items[i], f.items[i]);
       if (i==0) {
          ele.options[i].selected = true;
-         }
       }
    }
+}
 
 SocialCalc.SpreadsheetControl.GetFunctionInfoStr = function(fname) {
-   
+
    var scf = SocialCalc.Formula;
    var f = scf.FunctionList[fname];
    var scsc = SocialCalc.special_chars;
@@ -116,7 +116,7 @@ SocialCalc.SpreadsheetControl.GetFunctionInfoStr = function(fname) {
 
    return str;
 
-   }
+}
 
 SocialCalc.SpreadsheetControl.FunctionClassChosen = function(cname) {
 
@@ -128,7 +128,7 @@ SocialCalc.SpreadsheetControl.FunctionClassChosen = function(cname) {
 
    SocialCalc.SpreadsheetControl.FunctionChosen(scf.FunctionClasses[cname].items[0]);
 
-   }
+}
 
 SocialCalc.SpreadsheetControl.FunctionChosen = function(fname) {
 
@@ -137,7 +137,7 @@ SocialCalc.SpreadsheetControl.FunctionChosen = function(fname) {
 
    document.getElementById(idp+"desc").innerHTML = SocialCalc.SpreadsheetControl.GetFunctionInfoStr(fname);
 
-   }
+}
 
 SocialCalc.SpreadsheetControl.HideFunctions = function() {
 
@@ -152,9 +152,9 @@ SocialCalc.SpreadsheetControl.HideFunctions = function() {
 
    if (ele.parentNode) {
       ele.parentNode.removeChild(ele);
-      }
-
    }
+
+}
 
 SocialCalc.SpreadsheetControl.DoFunctionPaste = function() {
 
@@ -171,9 +171,9 @@ SocialCalc.SpreadsheetControl.DoFunctionPaste = function() {
       mele.value += text;
       mele.focus();
       SocialCalc.CmdGotFocus(mele);
-      }
+   }
    else {
       editor.EditorAddToInput(text, "=");
-      }
-
    }
+
+}

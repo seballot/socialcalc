@@ -45,7 +45,7 @@ SocialCalc.Constants = {
       t:"text",
       f:"formula",
       c:"constant"
-   },
+},
 
    //*** Common Constants
 
@@ -176,7 +176,7 @@ SocialCalc.ConstantsDefaultClasses = {
    TCPStrackingline: "",
    TCTDFSthumbstatus: "",
    TDpopupElement: ""
-   };
+};
 
 //
 // SocialCalc.ConstantsSetClasses(prefix)
@@ -204,14 +204,14 @@ SocialCalc.ConstantsSetClasses = function(prefix) {
          scc[item+"Class"] = prefix + (defaults[item] || item);
          if (scc[item+"Style"] !== undefined) {
             scc[item+"Style"] = "";
-            }
          }
+      }
       else if (typeof defaults[item] == "object") {
          scc[item+"Class"] = prefix + (defaults[item].classname || item);
          scc[item+"Style"] = defaults[item].style;
-         }
       }
    }
+}
 
 // Set the image prefix on all images.
 
@@ -222,9 +222,9 @@ SocialCalc.ConstantsSetImagePrefix = function(imagePrefix) {
    for (var item in scc) {
       if (typeof scc[item] == "string") {
          scc[item] = scc[item].replace(scc.defaultImagePrefix, imagePrefix);
-         }
       }
+   }
    scc.defaultImagePrefix = imagePrefix;
 
-   }
+}
 

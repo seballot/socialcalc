@@ -28,7 +28,7 @@ SocialCalc.InputEcho = function(editor) {
    this.container.appendChild(this.prompt);
 
    $(editor.toplevel).find('#te_griddiv').append(this.container);
-   }
+}
 
 // Methods:
 
@@ -54,13 +54,13 @@ SocialCalc.ShowInputEcho = function(inputecho, show) {
       inputecho.container.style.display = "block";
       if (inputecho.interval) window.clearInterval(inputecho.interval); // just in case
       inputecho.interval = window.setInterval(SocialCalc.InputEchoHeartbeat, 50);
-      }
+   }
    else {
       if (inputecho.interval) window.clearInterval(inputecho.interval);
       inputecho.container.style.display = "none";
-      }
-
    }
+
+}
 
 SocialCalc.SetInputEchoText = function(inputecho, str) {
 
@@ -72,7 +72,7 @@ SocialCalc.SetInputEchoText = function(inputecho, str) {
    if (inputecho.text != newstr) {
       inputecho.main.innerHTML = newstr;
       inputecho.text = newstr;
-      }
+   }
 
    var parts = str.match(/.*[\+\-\*\/\&\^\<\>\=\,\(]([A-Za-z][A-Za-z][\w\.]*?)\([^\)]*$/);
    if (str.charAt(0)=="=" && parts) {
@@ -80,21 +80,21 @@ SocialCalc.SetInputEchoText = function(inputecho, str) {
       if (SocialCalc.Formula.FunctionList[fname]) {
          SocialCalc.Formula.FillFunctionInfo(); //  make sure filled
          fstr = SocialCalc.special_chars(fname+"("+SocialCalc.Formula.FunctionArgString(fname)+")");
-         }
+      }
       else {
          fstr = scc.ietUnknownFunction+fname;
-         }
+      }
       if (inputecho.prompt.innerHTML != fstr) {
          inputecho.prompt.innerHTML = fstr;
          inputecho.prompt.style.display = "block";
-         }
       }
+   }
    else if (inputecho.prompt.style.display != "none") {
       inputecho.prompt.innerHTML = "";
       inputecho.prompt.style.display = "none";
-      }
-
    }
+
+}
 
 SocialCalc.InputEchoHeartbeat = function() {
 
@@ -103,7 +103,7 @@ SocialCalc.InputEchoHeartbeat = function() {
 
    editor.inputEcho.SetText(editor.inputBox.GetText()+"_");
 
-   }
+}
 
 SocialCalc.InputEchoMouseDown = function(e) {
    var event = e || window.event;
@@ -112,4 +112,4 @@ SocialCalc.InputEchoMouseDown = function(e) {
    if (!editor) return true; // we're not handling it -- let browser do default
 
    editor.inputBox.element.focus();
-   };
+};

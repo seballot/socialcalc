@@ -28,7 +28,7 @@ SocialCalc.SpreadsheetControlDoMultiline = function() {
       case "inputboxdirect":
          text = editor.inputBox.GetText();
          break;
-      }
+   }
 
    editor.inputBox.element.disabled = true;
 
@@ -63,8 +63,8 @@ SocialCalc.SpreadsheetControlDoMultiline = function() {
       '<td style="font-size:10px;cursor:default;color:#666;" onclick="SocialCalc.SpreadsheetControl.HideMultiline();">&nbsp;X&nbsp;</td></tr></table>'+
       '<div style="background-color:#DDD;">'+str+'</div>';
 
-   SocialCalc.DragRegister(main.firstChild.firstChild.firstChild.firstChild, true, true, 
-                 {MouseDown: SocialCalc.DragFunctionStart, 
+   SocialCalc.DragRegister(main.firstChild.firstChild.firstChild.firstChild, true, true,
+                 {MouseDown: SocialCalc.DragFunctionStart,
                   MouseMove: SocialCalc.DragFunctionPosition,
                   MouseUp: SocialCalc.DragFunctionPosition,
                   Disabled: null, positionobj: main},
@@ -77,7 +77,7 @@ SocialCalc.SpreadsheetControlDoMultiline = function() {
    SocialCalc.CmdGotFocus(ele);
 //!!! need to do keyboard handling: if esc, hide?
 
-   }
+}
 
 
 SocialCalc.SpreadsheetControl.HideMultiline = function() {
@@ -95,7 +95,7 @@ SocialCalc.SpreadsheetControl.HideMultiline = function() {
 
    if (ele.parentNode) {
       ele.parentNode.removeChild(ele);
-      }
+   }
 
    switch (editor.state) {
       case "start":
@@ -107,9 +107,9 @@ SocialCalc.SpreadsheetControl.HideMultiline = function() {
          editor.inputBox.element.disabled = false;
          editor.inputBox.Focus();
          break;
-      }
-
    }
+
+}
 
 SocialCalc.SpreadsheetControlDoMultilineClear = function() {
 
@@ -120,7 +120,7 @@ SocialCalc.SpreadsheetControlDoMultilineClear = function() {
    ele.value = "";
    ele.focus();
 
-   }
+}
 
 
 SocialCalc.SpreadsheetControlDoMultilinePaste = function() {
@@ -148,8 +148,8 @@ SocialCalc.SpreadsheetControlDoMultilinePaste = function() {
          editor.inputBox.ShowInputBox(false);
          editor.state = "start";
          break;
-      }
+   }
 
    editor.EditorSaveEdit(text);
 
-   }
+}

@@ -24,15 +24,15 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
       if (newattribs[attribname]) {
          if (newattribs[attribname].def) {
             val = "";
-            }
+         }
          else {
             val = newattribs[attribname].val;
-            }
+         }
          if (val != (oldval || "")) {
             DoCmd(cmdname+" "+val);
-            }
          }
       }
+   }
 
    var cmdstr = "";
 
@@ -40,7 +40,7 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
       if (cmdstr) cmdstr += "\n";
       cmdstr += "set "+(range || coord)+" "+str;
       changed = true;
-      }
+   }
 
    // cellformat: alignhoriz
 
@@ -57,14 +57,14 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
          (newattribs.padleft.def ? "*" : newattribs.padleft.val) +
          ";vertical-align:" +
          (newattribs.alignvert.def ? "*;" : newattribs.alignvert.val+";");
-      }
+   }
    else {
       value = "";
-      }
+   }
 
    if (value != (sheet.layouts[cell.layout] || "")) {
       DoCmd("layout "+value);
-      }
+   }
 
    // font: fontfamily, fontlook, fontsize
 
@@ -73,14 +73,14 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
          (newattribs.fontlook.def ? "* " : newattribs.fontlook.val + " ") +
          (newattribs.fontsize.def ? "* " : newattribs.fontsize.val + " ") +
          (newattribs.fontfamily.def ? "*" : newattribs.fontfamily.val);
-      }
+   }
    else {
       value = "";
-      }
+   }
 
    if (value != (sheet.fonts[cell.font] || "")) {
       DoCmd("font "+value);
-      }
+   }
 
    // color: textcolor
 
@@ -104,7 +104,7 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
       b = "trbl".charAt(i);
       bb = "b"+b;
       CheckChanges(bb, sheet.borderstyles[cell[bb]], bb);
-      }
+   }
 
    // misc: cssc, csss, mod
 
@@ -115,23 +115,23 @@ SocialCalc.DecodeCellAttributes = function(sheet, coord, newattribs, range) {
    if (newattribs.mod) {
       if (newattribs.mod.def) {
          value = "n";
-         }
+      }
       else {
          value = newattribs.mod.val;
-         }
+      }
       if (value != (cell.mod || "n")) {
          if (value=="n") value = ""; // restrict to "y" and "" normally
          DoCmd("mod "+value);
-         }
       }
+   }
 
    // if any changes return command(s)
 
    if (changed) {
        return cmdstr;
-      }
+   }
    else {
       return null;
-      }
-
    }
+
+}

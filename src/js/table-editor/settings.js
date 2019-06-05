@@ -31,26 +31,26 @@ SocialCalc.SaveEditorSettings = function(editor) {
 
    for (i=0; i<context.rowpanes.length; i++) {
       result += "rowpane:"+i+":"+context.rowpanes[i].first+":"+context.rowpanes[i].last+"\n";
-      }
+   }
    for (i=0; i<context.colpanes.length; i++) {
       result += "colpane:"+i+":"+context.colpanes[i].first+":"+context.colpanes[i].last+"\n";
-      }
+   }
 
    if (editor.ecell) {
       result += "ecell:"+editor.ecell.coord+"\n";
-      }
+   }
 
    if (range.hasrange) {
       result += "range:"+range.anchorcoord+":"+range.top+":"+range.bottom+":"+range.left+":"+range.right+"\n";
-      }
+   }
 
    for (setting in editor.SettingsCallbacks) {
       result += editor.SettingsCallbacks[setting].save(editor, setting);
-      }
+   }
 
    return result;
 
-   }
+}
 
 //
 // LoadEditorSettings(editor, str, flags)
@@ -113,19 +113,19 @@ SocialCalc.LoadEditorSettings = function(editor, str, flags) {
                   coord = SocialCalc.crToCoord(col, row);
                   if (highlights[coord]!="cursor") {
                      highlights[coord] = "range";
-                     }
                   }
                }
+            }
             break;
 
          default:
             if (editor.SettingsCallbacks[setting]) {
                editor.SettingsCallbacks[setting].load(editor, setting, line, flags);
-               }
+            }
             break;
-         }
       }
+   }
 
    return;
 
-   }
+}

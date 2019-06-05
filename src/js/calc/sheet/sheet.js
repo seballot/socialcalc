@@ -40,7 +40,7 @@ SocialCalc.Sheet = function() {
                                 // sheet.statuscallback(data, status, arg, params)
    this.statuscallbackparams = null; // parameters passed to that routine
 
-   }
+}
 
 //
 // SocialCalc.ResetSheet(sheet)
@@ -61,17 +61,17 @@ SocialCalc.ResetSheet = function(sheet, reload) {
          usermaxcol: 0,
          usermaxrow: 0
 
-      };
+   };
    sheet.rowattribs =
       {
          hide: {}, // access by row number
          height: {}
-      };
+   };
    sheet.colattribs =
       {
          width: {}, // access by col name
          hide: {}
-      };
+   };
    sheet.names={}; // Each is: {desc: "optional description", definition: "B5, A1:B7, or =formula"}
    sheet.layouts=[];
    sheet.layouthash={};
@@ -105,7 +105,7 @@ SocialCalc.ResetSheet = function(sheet, reload) {
    sheet.ioEventTree ={};
    sheet.ioParameterList = {};
 
-   }
+}
 
 // Methods:
 
@@ -117,8 +117,8 @@ SocialCalc.Sheet.prototype.LastCol = function() {
         var cr = SocialCalc.coordToCr(cell_id);
         if (cr.col > last_col) {
             last_col = cr.col;
-        }
-    }
+     }
+ }
     return last_col;
 }
 SocialCalc.Sheet.prototype.LastRow = function() {
@@ -127,13 +127,13 @@ SocialCalc.Sheet.prototype.LastRow = function() {
         var cr = SocialCalc.coordToCr(cell_id);
         if (cr.row > last_row) {
             last_row = cr.row;
-        }
-    }
+     }
+ }
     return last_row;
 }
 SocialCalc.Sheet.prototype.GetAssuredCell = function(coord) {
    return this.cells[coord] || this.AddCell(new SocialCalc.Cell(coord));
-   };
+};
 SocialCalc.Sheet.prototype.ParseSheetSave = function(savedsheet) {SocialCalc.ParseSheetSave(savedsheet,this);};
 SocialCalc.Sheet.prototype.CellFromStringParts = function(cell, parts, j) {return SocialCalc.CellFromStringParts(this, cell, parts, j);};
 SocialCalc.Sheet.prototype.CreateSheetSave = function(range, canonicalize) {return SocialCalc.CreateSheetSave(this, range, canonicalize);};

@@ -28,13 +28,13 @@ SocialCalc.SpreadsheetControlDoLink = function() {
       case "inputboxdirect":
          text = editor.inputBox.GetText();
          break;
-      }
+   }
 
    editor.inputBox.element.disabled = true;
 
    if (text.charAt(0)=="'") {
       text = text.slice(1);
-      }
+   }
 
    var parts = SocialCalc.ParseCellLinkText(text);
 
@@ -43,10 +43,10 @@ SocialCalc.SpreadsheetControlDoLink = function() {
    cell = spreadsheet.sheet.cells[editor.ecell.coord];
    if (!cell || !cell.textvalueformat) { // set to link format, but don't override
       setformat = " checked";
-      }
+   }
    else {
       setformat = "";
-      }
+   }
 
    popup = parts.newwin ? " checked" : "";
 
@@ -60,7 +60,7 @@ SocialCalc.SpreadsheetControlDoLink = function() {
              '<input type="text" id="'+idp+'pagename" style="width:380px;" value="'+SocialCalc.special_chars(parts.pagename)+'"><br>'+
              '<span style="font-size:smaller;">'+SCLoc("Workspace")+'</span><br>'+
              '<input type="text" id="'+idp+'workspace" style="width:380px;" value="'+SocialCalc.special_chars(parts.workspace)+'"><br>';
-      }
+   }
    str += SocialCalc.LocalizeSubstrings('<input type="checkbox" id="'+idp+'format"'+setformat+'>&nbsp;'+
          '<span style="font-size:smaller;">%loc!Set to Link format!</span><br>'+
          '<input type="checkbox" id="'+idp+'popup"'+popup+'>&nbsp;'+
@@ -93,8 +93,8 @@ SocialCalc.SpreadsheetControlDoLink = function() {
       '<td style="font-size:10px;cursor:default;color:#666;" onclick="SocialCalc.SpreadsheetControl.HideLink();">&nbsp;X&nbsp;</td></tr></table>'+
       '<div style="background-color:#DDD;">'+str+'</div>';
 
-   SocialCalc.DragRegister(main.firstChild.firstChild.firstChild.firstChild, true, true, 
-                 {MouseDown: SocialCalc.DragFunctionStart, 
+   SocialCalc.DragRegister(main.firstChild.firstChild.firstChild.firstChild, true, true,
+                 {MouseDown: SocialCalc.DragFunctionStart,
                   MouseMove: SocialCalc.DragFunctionPosition,
                   MouseUp: SocialCalc.DragFunctionPosition,
                   Disabled: null, positionobj: main},
@@ -107,7 +107,7 @@ SocialCalc.SpreadsheetControlDoLink = function() {
    SocialCalc.CmdGotFocus(ele);
 //!!! need to do keyboard handling: if esc, hide?
 
-   }
+}
 
 
 SocialCalc.SpreadsheetControl.HideLink = function() {
@@ -125,7 +125,7 @@ SocialCalc.SpreadsheetControl.HideLink = function() {
 
    if (ele.parentNode) {
       ele.parentNode.removeChild(ele);
-      }
+   }
 
    switch (editor.state) {
       case "start":
@@ -137,9 +137,9 @@ SocialCalc.SpreadsheetControl.HideLink = function() {
          editor.inputBox.element.disabled = false;
          editor.inputBox.Focus();
          break;
-      }
-
    }
+
+}
 
 SocialCalc.SpreadsheetControlDoLinkClear = function() {
 
@@ -153,7 +153,7 @@ SocialCalc.SpreadsheetControlDoLinkClear = function() {
    ele.value = "";
    ele.focus();
 
-   }
+}
 
 
 SocialCalc.SpreadsheetControlDoLinkPaste = function() {
@@ -175,22 +175,22 @@ SocialCalc.SpreadsheetControlDoLinkPaste = function() {
 
    if (popupele.checked) {
       ltsym = "<<"; gtsym = ">>"; obsym = "[["; cbsym = "]]";
-      }
+   }
    else {
       ltsym = "<"; gtsym = ">"; obsym = "["; cbsym = "]";
-      }
+   }
 
    if (pagenameele && pagenameele.value) {
       if (workspaceele.value) {
          text = descele.value+"{"+workspaceele.value+obsym+pagenameele.value+cbsym+"}";
-         }
+      }
       else {
          text = descele.value+obsym+pagenameele.value+cbsym;
-         }
       }
+   }
    else {
       text = descele.value+ltsym+urlele.value+gtsym;
-      }
+   }
 
    SocialCalc.SpreadsheetControl.HideLink();
 
@@ -207,12 +207,12 @@ SocialCalc.SpreadsheetControlDoLinkPaste = function() {
          editor.inputBox.ShowInputBox(false);
          editor.state = "start";
          break;
-      }
+   }
 
    if (formatele.checked) {
       SocialCalc.SpreadsheetControlExecuteCommand(null, "set %C textvalueformat text-link", "");
-      }
+   }
 
    editor.EditorSaveEdit(text);
 
-   }
+}

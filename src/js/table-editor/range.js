@@ -9,11 +9,11 @@ SocialCalc.RangeAnchor = function(editor, ecoord) {
 
    if (editor.range.hasrange) {
       editor.RangeRemove();
-      }
+   }
 
    editor.RangeExtend(ecoord);
 
-   }
+}
 
 //
 // RangeExtend(editor, ecoord)
@@ -33,7 +33,7 @@ SocialCalc.RangeExtend = function(editor, ecoord) {
    if (ecoord) {
       ecell = SocialCalc.coordToCr(ecoord);
       ecell.coord = ecoord;
-      }
+   }
    else ecell = editor.ecell;
 
    if (!ecell) return; // just in case
@@ -47,24 +47,24 @@ SocialCalc.RangeExtend = function(editor, ecoord) {
       range.left = ecell.col;
       range.right = ecell.col;
       range.hasrange = true;
-      }
+   }
 
    if (range.anchorrow < ecell.row) {
       range.top = range.anchorrow;
       range.bottom = ecell.row;
-      }
+   }
    else {
       range.top = ecell.row;
       range.bottom = range.anchorrow;
-      }
+   }
    if (range.anchorcol < ecell.col) {
       range.left = range.anchorcol;
       range.right = ecell.col;
-      }
+   }
    else {
       range.left = ecell.col;
       range.right = range.anchorcol;
-      }
+   }
 
    for (coord in highlights) {
       switch (highlights[coord]) {
@@ -74,8 +74,8 @@ SocialCalc.RangeExtend = function(editor, ecoord) {
          case "range2":
             highlights[coord] = "unrange2";
             break;
-         }
       }
+   }
 
    for (row=range.top; row<=range.bottom; row++) {
       for (col=range.left; col<=range.right; col++) {
@@ -90,9 +90,9 @@ SocialCalc.RangeExtend = function(editor, ecoord) {
             default:
                highlights[coord] = "newrange";
                break;
-            }
          }
       }
+   }
 
    for (row=range2.top; range2.hasrange && row<=range2.bottom; row++) {
       for (col=range2.left; col<=range2.right; col++) {
@@ -108,9 +108,9 @@ SocialCalc.RangeExtend = function(editor, ecoord) {
             default:
                highlights[coord] = "newrange2";
                break;
-            }
          }
       }
+   }
 
    for (coord in highlights) {
 
@@ -128,31 +128,31 @@ SocialCalc.RangeExtend = function(editor, ecoord) {
          case "range2":
          case "cursor":
             continue;
-         }
+      }
 
       cr = SocialCalc.coordToCr(coord);
       cell = SocialCalc.GetEditorCellElement(editor, cr.row, cr.col);
       editor.UpdateCellCSS(cell, cr.row, cr.col);
 
-      }
+   }
 
    for (f in editor.RangeChangeCallback) { // let others know
       editor.RangeChangeCallback[f](editor);
-      }
+   }
 
    // create range/coord string and do status callback
 
    coord = SocialCalc.crToCoord(editor.range.left, editor.range.top);
    if (editor.range.left!=editor.range.right || editor.range.top!=editor.range.bottom) { // more than one cell
       coord += ":" + SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-      }
+   }
    for (f in editor.StatusCallback) {
       editor.StatusCallback[f].func(editor, "rangechange", coord, editor.StatusCallback[f].params);
-      }
+   }
 
    return;
 
-   }
+}
 
 //
 // RangeRemove(editor)
@@ -183,9 +183,9 @@ SocialCalc.RangeRemove = function(editor) {
             default:
                highlights[coord] = "newrange2";
                break;
-            }
          }
       }
+   }
 
    for (coord in highlights) {
       switch (highlights[coord]) {
@@ -197,25 +197,25 @@ SocialCalc.RangeRemove = function(editor) {
             break;
          case "cursor":
             continue;
-         }
+      }
       cr = SocialCalc.coordToCr(coord);
       cell=SocialCalc.GetEditorCellElement(editor, cr.row, cr.col);
       editor.UpdateCellCSS(cell, cr.row, cr.col);
-      }
+   }
 
    range.hasrange = false;
 
    for (f in editor.RangeChangeCallback) { // let others know
       editor.RangeChangeCallback[f](editor);
-      }
+   }
 
    for (f in editor.StatusCallback) {
       editor.StatusCallback[f].func(editor, "rangechange", "", editor.StatusCallback[f].params);
-      }
+   }
 
    return;
 
-   }
+}
 
 //
 // Range2Remove(editor)
@@ -240,14 +240,14 @@ SocialCalc.Range2Remove = function(editor) {
          case "range":
          case "cursor":
             continue;
-         }
+      }
       cr = SocialCalc.coordToCr(coord);
       cell=SocialCalc.GetEditorCellElement(editor, cr.row, cr.col);
       editor.UpdateCellCSS(cell, cr.row, cr.col);
-      }
+   }
 
    range2.hasrange = false;
 
    return;
 
-   }
+}

@@ -33,8 +33,8 @@ SocialCalc.InputBox = function(element, editor) {
    editor.MoveECellCallback.formulabar = function(e){
       if (e.state!="start") return; // if not in normal keyboard mode don't replace formula bar
       editor.inputBox.DisplayCellContents(e.ecell.coord);
-      };
-   }
+   };
+}
 
 
 // Methods:
@@ -46,7 +46,7 @@ SocialCalc.InputBox.prototype.SetText = function(newtext) {
    if (!this.element) return;
    this.element.value=newtext;
    this.editor.inputEcho.SetText(newtext+"_");
-   };
+};
 SocialCalc.InputBox.prototype.Focus = function() {SocialCalc.InputBoxFocus(this);};
 SocialCalc.InputBox.prototype.Blur = function() {return this.element.blur();};
 SocialCalc.InputBox.prototype.Select = function(t) {
@@ -60,20 +60,20 @@ SocialCalc.InputBox.prototype.Select = function(t) {
                range.moveToElementText(this.element);
                range.collapse(false);
                range.select();
-            }
+         }
             catch (e) {
                if (this.element.selectionStart!=undefined) {
                   this.element.selectionStart=this.element.value.length;
                   this.element.selectionEnd=this.element.value.length;
-               }
             }
-         } else if (this.element.selectionStart!=undefined) {
+         }
+      } else if (this.element.selectionStart!=undefined) {
             this.element.selectionStart=this.element.value.length;
             this.element.selectionEnd=this.element.value.length;
-         }
-         break;
       }
-   };
+         break;
+   }
+};
 
 // Functions:
 
@@ -92,21 +92,21 @@ SocialCalc.InputBoxDisplayCellContents = function(inputbox, coord) {
      if (!inputbox.editor) return; // not initialized yet
      if (!inputbox.editor.ecell) return; // not initialized yet
      coord = inputbox.editor.ecell.coord;
-   }
+}
    var text = SocialCalc.GetCellContents(inputbox.editor.context.sheetobj, coord);
    if (text.indexOf("\n")!=-1) {
       text = scc.s_inputboxdisplaymultilinetext;
       inputbox.element.disabled = true;
-      }
+   }
    else if (inputbox.editor.ECellReadonly()) {
       inputbox.element.disabled = true;
-      }
+   }
    else {
       inputbox.element.disabled = false;
-      }
+   }
    inputbox.SetText(text);
 
-   }
+}
 
 //
 // SocialCalc.InputBoxFocus(inputbox)
@@ -127,7 +127,7 @@ SocialCalc.InputBoxFocus = function(inputbox) {
    wval.erow = editor.ecell.row;
    wval.ecol = editor.ecell.col;
 
-   };
+};
 
 //
 // SocialCalc.InputBoxOnMouseDown(e)
@@ -161,5 +161,5 @@ SocialCalc.InputBoxOnMouseDown = function(e) {
 
       case "inputboxdirect":
          break;
-      }
    }
+}

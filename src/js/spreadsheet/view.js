@@ -16,11 +16,11 @@ SocialCalc.DoOnResize = function(spreadsheet) {
       v = views[vname].element;
       v.style.width = spreadsheet.width + "px";
       v.style.height = (spreadsheet.height-spreadsheet.nonviewheight) + "px";
-      }
+   }
 
    spreadsheet.editor.ResizeTableEditor(spreadsheet.width, spreadsheet.height-spreadsheet.nonviewheight);
 
-   }
+}
 
 
 //
@@ -48,16 +48,16 @@ SocialCalc.SizeSSDiv = function(spreadsheet) {
 
    if (nodestyle.marginTop) {
       pos.top += nodestyle.marginTop.slice(0,-2)-0;
-      }
+   }
    if (nodestyle.marginBottom) {
       pos.bottom += nodestyle.marginBottom.slice(0,-2)-0;
-      }
+   }
    if (nodestyle.marginLeft) {
       pos.left += nodestyle.marginLeft.slice(0,-2)-0;
-      }
+   }
    if (nodestyle.marginRight) {
       pos.right += nodestyle.marginRight.slice(0,-2)-0;
-      }
+   }
 
    newval = spreadsheet.requestedHeight ||
             sizes.height - (pos.top + pos.bottom + fudgefactorY) -
@@ -66,20 +66,20 @@ SocialCalc.SizeSSDiv = function(spreadsheet) {
       spreadsheet.height = newval;
       spreadsheet.spreadsheetDiv.style.height = newval + "px";
       resized = true;
-      }
+   }
    newval = spreadsheet.requestedWidth ||
             sizes.width - (pos.left + pos.right + fudgefactorX) || 700;
    if (spreadsheet.width != newval) {
       spreadsheet.width = newval;
       spreadsheet.spreadsheetDiv.style.width = newval + "px";
       resized = true;
-      }
+   }
 
    spreadsheet.spreadsheetDiv.style.position = "relative";
 
    return resized;
 
-   }
+}
 
 //
 // result = SocialCalc.SpreadsheetControlCreateSheetHTML(spreadsheet)
@@ -103,7 +103,7 @@ SocialCalc.SpreadsheetControlCreateSheetHTML = function(spreadsheet) {
    delete div;
    return result;
 
-   }
+}
 
 //
 // result = SocialCalc.SpreadsheetControlCreateCellHTML(spreadsheet, coord, linkstyle)
@@ -120,16 +120,16 @@ SocialCalc.SpreadsheetControlCreateCellHTML = function(spreadsheet, coord, links
 
    if (cell.displaystring == undefined) {
       result = SocialCalc.FormatValueForDisplay(spreadsheet.sheet, cell.datavalue, coord, (linkstyle || spreadsheet.context.defaultHTMLlinkstyle));
-      }
+   }
    else {
       result = cell.displaystring;
-      }
+   }
 
    if (result == "&nbsp;") result = "";
 
    return result;
 
-   }
+}
 
 //
 // result = SocialCalc.SpreadsheetControlCreateCellHTMLSave(spreadsheet, range, linkstyle)
@@ -152,11 +152,11 @@ SocialCalc.SpreadsheetControlCreateCellHTMLSave = function(spreadsheet, range, l
 
    if (range) {
       prange = SocialCalc.ParseRange(range);
-      }
+   }
    else {
       prange = {cr1: {row: 1, col:1},
                 cr2: {row: spreadsheet.sheet.attribs.lastrow, col: spreadsheet.sheet.attribs.lastcol}};
-      }
+   }
    cr1 = prange.cr1;
    cr2 = prange.cr2;
 
@@ -169,15 +169,15 @@ SocialCalc.SpreadsheetControlCreateCellHTMLSave = function(spreadsheet, range, l
          if (!cell) continue;
          if (cell.displaystring == undefined) {
             cellHTML = SocialCalc.FormatValueForDisplay(spreadsheet.sheet, cell.datavalue, coord, (linkstyle || spreadsheet.context.defaultHTMLlinkstyle));
-            }
+         }
          else {
             cellHTML = cell.displaystring;
-            }
+         }
          if (cellHTML == "&nbsp;") continue;
          result.push(coord+":"+SocialCalc.encodeForSave(cellHTML));
-         }
       }
+   }
 
    result.push(""); // one extra to get extra \n
    return result.join("\n");
-   }
+}

@@ -19,13 +19,13 @@ SocialCalc.RenderSheet = function(context, oldtable, linkstyle) {
       context.needcellskip = true;
       context.needprecompute = true;
       context.sheetobj.changedrendervalues = false;
-      }
+   }
    if (context.needcellskip) {
       context.CalculateCellSkipData();
-      }
+   }
    if (context.needprecompute) {
       context.PrecomputeSheetFontsAndLayouts();
-      }
+   }
 
    context.CalculateColWidthData(); // always make sure col width values are up to date
    context.CalculateRowHeightData();
@@ -44,26 +44,26 @@ SocialCalc.RenderSheet = function(context, oldtable, linkstyle) {
    if (context.showRCHeaders) {
       newrow=context.RenderColHeaders();
       if (newrow) tbodyobj.appendChild(newrow);
-      }
+   }
 
    for (rowpane=0; rowpane<context.rowpanes.length; rowpane++) {
       for (rownum=context.rowpanes[rowpane].first;rownum<=context.rowpanes[rowpane].last;rownum++) {
          newrow=context.RenderRow(rownum, rowpane, linkstyle);
          tbodyobj.appendChild(newrow);
-         }
+      }
       if (rowpane<context.rowpanes.length-1) {
          newrow=context.RenderSpacingRow();
          tbodyobj.appendChild(newrow);
-         }
       }
+   }
 
    tableobj.appendChild(tbodyobj);
 
    if (oldtable) {
       parentnode = oldtable.parentNode;
       if (parentnode) parentnode.replaceChild(tableobj, oldtable);
-      }
+   }
 
    return tableobj;
 
-   }
+}

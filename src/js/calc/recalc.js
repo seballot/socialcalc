@@ -31,7 +31,7 @@ SocialCalc.RecalcInfo = {
 
    LoadSheet: function(sheetname) {return false;} // default returns not found
 
-   }
+}
 
 // SocialCalc.RecalcData - object with recalc info while determining recalc order and afterward
 
@@ -57,7 +57,7 @@ SocialCalc.RecalcData = function() { // initialize a RecalcData object
    this.checkinfo = {}; // attributes are coords; if no attrib for a coord, it wasn't checked or doesn't need it
                         // values are RecalcCheckInfo objects while checking or TRUE when complete
 
-   }
+}
 
 // SocialCalc.RecalcCheckInfo - object that stores checking info while determining recalc order
 
@@ -79,7 +79,7 @@ SocialCalc.RecalcCheckInfo = function() { // initialize a RecalcCheckInfo object
    this.c = null; // looping values
    this.r = null;
 
-   }
+}
 
 // Recalc the entire sheet
 
@@ -91,7 +91,7 @@ SocialCalc.RecalcSheet = function(sheet) {
    if (scri.currentState != scri.state.idle) {
       scri.queue.push(sheet);
       return;
-      }
+   }
 
    delete sheet.attribs.circularreferencecell; // reset recalc-wide things
    SocialCalc.Formula.FreshnessInfoReset();
@@ -105,11 +105,11 @@ SocialCalc.RecalcSheet = function(sheet) {
 
    if (sheet.statuscallback) {
       sheet.statuscallback(scri, "calcstart", null, sheet.statuscallbackparams);
-      }
+   }
 
    SocialCalc.RecalcSetTimeout();
 
-   }
+}
 
 //
 // SocialCalc.RecalcSetTimeout - set a timer for next recalc step
@@ -121,7 +121,7 @@ SocialCalc.RecalcSetTimeout = function() {
 
    scri.recalctimer = window.setTimeout(SocialCalc.RecalcTimerRoutine, scri.timeslicedelay);
 
-   }
+}
 
 //
 // SocialCalc.RecalcClearTimeout - cancel any timeouts
@@ -134,9 +134,9 @@ SocialCalc.RecalcClearTimeout = function() {
    if (scri.recalctimer) {
       window.clearTimeout(scri.recalctimer);
       scri.recalctimer = null;
-      }
-
    }
+
+}
 
 
 //
@@ -159,12 +159,12 @@ SocialCalc.RecalcLoadedSheet = function(sheetname, str, recalcneeded, live) {
       sheet.previousrecalcsheet = scri.sheet;
       scri.sheet = sheet;
       scri.currentState = scri.state.start_calc;
-      }
+   }
    scf.SheetCache.waitingForLoading = null;
 
    SocialCalc.RecalcSetTimeout();
 
-   }
+}
 
 
 //
@@ -179,19 +179,19 @@ SocialCalc.RecalcTimerRoutine = function() {
    var scf = SocialCalc.Formula;
    if (!scf) {
       return "Need SocialCalc.Formula";
-      }
+   }
    var scri = SocialCalc.RecalcInfo;
    var sheet = scri.sheet;
    if (!sheet) {
       return;
-      }
+   }
    var recalcdata = sheet.recalcdata || (sheet.recalcdata = {});
 
    var do_statuscallback = function(status, arg) { // routine to do callback if required
       if (sheet.statuscallback) {
          sheet.statuscallback(recalcdata, status, arg, sheet.statuscallbackparams);
-         }
       }
+   }
 
    SocialCalc.RecalcClearTimeout();
 
@@ -203,11 +203,11 @@ SocialCalc.RecalcTimerRoutine = function() {
       for (coord in sheet.cells) { // get list of cells to check for order
          if (!coord) continue;
          recalcdata.celllist.push(coord);
-         }
+      }
 
       recalcdata.calclist = {}; // start with empty list
       scri.currentState = scri.state.order; // drop through to determining recalc order
-      }
+   }
 
    if (scri.currentState == scri.state.order) {
       while (recalcdata.celllistitem < recalcdata.celllist.length) { // check all the cells to see if they should be on the list
@@ -217,8 +217,8 @@ SocialCalc.RecalcTimerRoutine = function() {
             do_statuscallback("calcorder", {coord: coord, total: recalcdata.celllist.length, count: recalcdata.celllistitem});
             SocialCalc.RecalcSetTimeout();
             return;
-            }
          }
+      }
 
       do_statuscallback("calccheckdone", recalcdata.calclistlength);
 
@@ -226,7 +226,7 @@ SocialCalc.RecalcTimerRoutine = function() {
       scri.currentState = scri.state.calc; // loop through cells on next timer call
       SocialCalc.RecalcSetTimeout();
       return;
-      }
+   }
 
    if (scri.currentState == scri.state.start_wait) { // starting to wait for something
       scri.currentState = scri.state.done_wait; // finished on next timer call
@@ -234,23 +234,23 @@ SocialCalc.RecalcTimerRoutine = function() {
          status = scri.LoadSheet(scf.SheetCache.waitingForLoading);
          if (status) { // started a load operation
             return;
-            }
          }
+      }
       SocialCalc.RecalcLoadedSheet(null, "", false);
       return;
-      }
+   }
 
    if (scri.currentState == scri.state.done_wait) {
       scri.currentState = scri.state.calc; // loop through cells on next timer call
       SocialCalc.RecalcSetTimeout();
       return;
-      }
+   }
 
    // otherwise should be scri.state.calc
 
    if (scri.currentState != scri.state.calc) {
       alert("Recalc state error: "+scri.currentState+". Error in SocialCalc code.");
-      }
+   }
 
    coord = sheet.recalcdata.nextcalc;
    while (coord) {
@@ -258,7 +258,7 @@ SocialCalc.RecalcTimerRoutine = function() {
     // app widgets need cell ID so store in parseinfo {
       if (!cell.parseinfo) { // cache parsed formula
         cell.parseinfo = scf.ParseFormulaIntoTokens(cell.formula);
-        }
+     }
       cell.parseinfo.coord = coord;
     // }
       eresult = scf.evaluate_parsed_formula(cell.parseinfo, sheet, false);
@@ -268,14 +268,14 @@ SocialCalc.RecalcTimerRoutine = function() {
            var editor = SocialCalc.GetSpreadsheetControlObject().editor;
            editor.ScheduleRender(false);
            scri.firstRenderScheduled = true; // stop more renders because done first render of sheet
-         }
+      }
          recalcdata.nextcalc = coord; // start with this cell again
          recalcdata.count += count;
          do_statuscallback("calcloading", {sheetname: scf.SheetCache.waitingForLoading});
          scri.currentState = scri.state.start_wait; // start load on next timer call
          SocialCalc.RecalcSetTimeout();
          return;
-         }
+      }
 
       if (scf.RemoteFunctionInfo.waitingForServer) { // wait until restarted
          recalcdata.nextcalc = coord; // start with this cell again
@@ -284,7 +284,7 @@ SocialCalc.RecalcTimerRoutine = function() {
             {funcname: scf.RemoteFunctionInfo.waitingForServer, coord: coord, total: recalcdata.calclistlength, count: recalcdata.count});
          scri.currentState = scri.state.done_wait; // start load on next timer call
          return; // return and wait for next recalc timer event
-         }
+      }
 
       if (cell.datavalue != eresult.value ||
        cell.valuetype != eresult.type) { // only update if changed from last time
@@ -292,10 +292,10 @@ SocialCalc.RecalcTimerRoutine = function() {
          cell.valuetype = eresult.type;
          delete cell.displaystring;
          sheet.recalcchangedavalue = true; // remember something changed in case other code wants to know
-         }
+      }
       if (eresult.error) {
          cell.errors = eresult.error;
-         }
+      }
       count++;
       coord = sheet.recalcdata.calclist[coord];
 
@@ -305,8 +305,8 @@ SocialCalc.RecalcTimerRoutine = function() {
          do_statuscallback("calcstep", {coord: coord, total: recalcdata.calclistlength, count: recalcdata.count});
          SocialCalc.RecalcSetTimeout();
          return;
-         }
       }
+   }
 
    recalcdata.inrecalc = false;
 
@@ -320,7 +320,7 @@ SocialCalc.RecalcTimerRoutine = function() {
       scri.currentState = scri.state.calc; // start where we left off
       SocialCalc.RecalcSetTimeout();
       return;
-      }
+   }
 
    scf.FreshnessInfo.recalc_completed = true; // say freshness info is complete
    scri.currentState = scri.state.idle; // we are idle
@@ -331,8 +331,8 @@ SocialCalc.RecalcTimerRoutine = function() {
    if (scri.queue.length > 0) {
       sheet = scri.queue.shift();
       sheet.RecalcSheet();
-      }
    }
+}
 
 
 //
@@ -350,7 +350,7 @@ SocialCalc.RecalcCheckCell = function(sheet, startcoord) {
    var scf = SocialCalc.Formula;
    if (!scf) {
       return "Need SocialCalc.Formula";
-      }
+   }
    var tokentype = scf.TokenType;
    var token_op = tokentype.op;
    var token_name = tokentype.name;
@@ -377,20 +377,20 @@ mainloop:
          coord = oldcoord; // go back up dependency tree to coord that referred to us
          if (checkinfo[coord]) oldcoord = checkinfo[coord].oldcoord;
          continue;
-         }
+      }
 
       if (!coordvals) { // do we have checking information about this cell?
          coordvals = new SocialCalc.RecalcCheckInfo(); // no - make a place to hold it
          checkinfo[coord] = coordvals;
-         }
+      }
 
       if (cell.errors) { // delete errors from previous recalcs
          delete cell.errors;
-         }
+      }
 
       if (!cell.parseinfo) { // cache parsed formula
          cell.parseinfo = scf.ParseFormulaIntoTokens(cell.formula);
-         }
+      }
       parseinfo = cell.parseinfo;
 
       for (i=coordvals.parsepos; i<parseinfo.length; i++) { // go through each token in formula
@@ -405,18 +405,18 @@ mainloop:
                else { coordvals.r1 = coordvals.cr1.row; coordvals.r2 = coordvals.cr2.row; }
                coordvals.r = coordvals.r1; // start on this row
                coordvals.inrangestart = false;
-               }
+            }
             else { // not first time
-               }
+            }
             coordvals.c += 1; // increment column
             if (coordvals.c > coordvals.c2) { // finished the columns of this row
                coordvals.r += 1; // increment row
                if (coordvals.r > coordvals.r2) { // finished checking the entire range
                   coordvals.inrange = false;
                   continue;
-                  }
-               coordvals.c = coordvals.c1; // start at the beginning of next row
                }
+               coordvals.c = coordvals.c1; // start at the beginning of next row
+            }
             rangecoord = SocialCalc.crToCoord(coordvals.c, coordvals.r);
 
             // now check that one
@@ -430,28 +430,28 @@ mainloop:
                checkinfo[startcoord] = true; // this one should be calculated once at this point
                if (!recalcdata.firstcalc) {
                   recalcdata.firstcalc = startcoord;
-                  }
+               }
                else {
                   recalcdata.calclist[recalcdata.lastcalc] = startcoord;
-                  }
+               }
                recalcdata.lastcalc = startcoord;
                recalcdata.calclistlength++; // count number on list
                sheet.attribs.circularreferencecell = coord+"|"+oldcoord; // remember at least one circ ref
                return cell.errors;
-               }
-            continue mainloop;
             }
+            continue mainloop;
+         }
 
          ttype = parseinfo[i].type; // get token details
          ttext = parseinfo[i].text;
          if (ttype == token_op) { // references with sheet specifier are not checked
             if (ttext == "!") {
                sheetref = true; // found a sheet reference
-               }
+            }
             else if (ttext != ":") { // for everything but a range, reset
                sheetref = false;
-               }
             }
+         }
 
          if (ttype == token_name) { // look for named range
             value = scf.LookupName(sheet, ttext);
@@ -465,15 +465,15 @@ mainloop:
                   coordvals.inrangestart = true;
                   i = i-1; // back up so will start up again here
                   continue;
-                  }
                }
+            }
             else if (value.type == "coord") { // just a coord
                ttype = token_coord; // treat as a coord inline
                ttext = value.value; // and then drop through to next test which should succeed
-               }
-            else { // not a defined name - probably a function
-               }
             }
+            else { // not a defined name - probably a function
+            }
+         }
 
          if (ttype == token_coord) { // token is a coord
 
@@ -487,7 +487,7 @@ mainloop:
                coordvals.inrangestart = true;
                i = i-1; // back up so will start up again here
                continue;
-               }
+            }
 
             else if (!sheetref) { // Single cell reference
                if (ttext.indexOf("$") != -1) ttext = ttext.replace(/\$/g, ""); // remove any $'s
@@ -500,37 +500,37 @@ mainloop:
                   checkinfo[startcoord] = true; // this one should be calculated once at this point
                   if (!recalcdata.firstcalc) { // add to calclist
                      recalcdata.firstcalc = startcoord;
-                     }
+                  }
                   else {
                      recalcdata.calclist[recalcdata.lastcalc] = startcoord;
-                     }
+                  }
                   recalcdata.lastcalc = startcoord;
                   recalcdata.calclistlength++; // count number on list
                   sheet.attribs.circularreferencecell = coord+"|"+oldcoord; // remember at least one circ ref
                   return cell.errors;
-                  }
-               continue mainloop;
                }
+               continue mainloop;
             }
          }
+      }
 
       sheetref = false; // make sure off when bump back up
 
       checkinfo[coord] = true; // this one is finished
       if (!recalcdata.firstcalc) { // add to calclist
          recalcdata.firstcalc = coord;
-         }
+      }
       else {
          recalcdata.calclist[recalcdata.lastcalc] = coord;
-         }
+      }
       recalcdata.lastcalc = coord;
       recalcdata.calclistlength++; // count number on list
 
       coord = oldcoord; // go back to the formula that referred to us and continue
       oldcoord = checkinfo[coord] ? checkinfo[coord].oldcoord : null;
 
-      }
+   }
 
    return "";
 
-   }
+}

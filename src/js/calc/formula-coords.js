@@ -12,7 +12,7 @@ SocialCalc.OffsetFormulaCoords = function(formula, coloffset, rowoffset) {
    var scf = SocialCalc.Formula;
    if (!scf) {
       return "Need SocialCalc.Formula";
-      }
+   }
    var tokentype = scf.TokenType;
    var token_op = tokentype.op;
    var token_string = tokentype.string;
@@ -29,40 +29,40 @@ SocialCalc.OffsetFormulaCoords = function(formula, coloffset, rowoffset) {
          cr = SocialCalc.coordToCr(ttext);
          if (ttext.charAt(0)!="$") { // add col offset unless absolute column
             cr.col += coloffset;
-            }
+         }
          else {
             newcr += "$";
-            }
+         }
          newcr += SocialCalc.rcColname(cr.col);
          if (ttext.indexOf("$", 1)==-1) { // add row offset unless absolute row
             cr.row += rowoffset;
-            }
+         }
          else {
             newcr += "$";
-            }
+         }
          newcr += cr.row;
          if (cr.row < 1 || cr.col < 1) {
             newcr = "#REF!";
-            }
-         updatedformula += newcr;
          }
+         updatedformula += newcr;
+      }
       else if (ttype == token_string) {
          if (ttext.indexOf('"') >= 0) { // quotes to double
             updatedformula += '"' + ttext.replace(/"/, '""') + '"';
-            }
-         else updatedformula += '"' + ttext + '"';
          }
+         else updatedformula += '"' + ttext + '"';
+      }
       else if (ttype == token_op) {
          updatedformula += tokenOpExpansion[ttext] || ttext; // make sure short tokens (e.g., "G") go back full (">=")
-         }
+      }
       else { // leave everything else alone
          updatedformula += ttext;
-         }
       }
+   }
 
    return updatedformula;
 
-   }
+}
 
 //
 // updatedformula = SocialCalc.AdjustFormulaCoords(formula, col, coloffset, row, rowoffset)
@@ -78,7 +78,7 @@ SocialCalc.AdjustFormulaCoords = function(formula, col, coloffset, row, rowoffse
    var scf = SocialCalc.Formula;
    if (!scf) {
       return "Need SocialCalc.Formula";
-      }
+   }
    var tokentype = scf.TokenType;
    var token_op = tokentype.op;
    var token_string = tokentype.string;
@@ -93,12 +93,12 @@ SocialCalc.AdjustFormulaCoords = function(formula, col, coloffset, row, rowoffse
       if (ttype == token_op) { // references with sheet specifier are not offset
          if (ttext == "!") {
             sheetref = true; // found a sheet reference
-            }
+         }
          else if (ttext != ":") { // for everything but a range, reset
             sheetref = false;
-            }
-         ttext = tokenOpExpansion[ttext] || ttext; // make sure short tokens (e.g., "G") go back full (">=")
          }
+         ttext = tokenOpExpansion[ttext] || ttext; // make sure short tokens (e.g., "G") go back full (">=")
+      }
       if (ttype == token_coord) {
          cr = SocialCalc.coordToCr(ttext);
          if ((coloffset < 0 && cr.col >= col && cr.col < col-coloffset) ||
@@ -106,45 +106,45 @@ SocialCalc.AdjustFormulaCoords = function(formula, col, coloffset, row, rowoffse
             if (!sheetref) {
                cr.col = 0;
                cr.row = 0;
-               }
             }
+         }
          if (!sheetref) {
             if (cr.col >= col) {
                cr.col += coloffset;
-               }
+            }
             if (cr.row >= row) {
                cr.row += rowoffset;
-               }
             }
+         }
          if (ttext.charAt(0)=="$") {
             newcr = "$"+SocialCalc.rcColname(cr.col);
-            }
+         }
          else {
             newcr = SocialCalc.rcColname(cr.col);
-            }
+         }
          if (ttext.indexOf("$", 1)!=-1) {
             newcr += "$" + cr.row;
-            }
+         }
          else {
             newcr += cr.row;
-            }
+         }
          if (cr.row < 1 || cr.col < 1) {
             newcr = "#REF!";
-            }
-         ttext = newcr;
          }
+         ttext = newcr;
+      }
       else if (ttype == token_string) {
          if (ttext.indexOf('"') >= 0) { // quotes to double
             ttext = '"' + ttext.replace(/"/, '""') + '"';
-            }
-         else ttext = '"' + ttext + '"';
          }
-      updatedformula += ttext;
+         else ttext = '"' + ttext + '"';
       }
+      updatedformula += ttext;
+   }
 
    return updatedformula;
 
-   }
+}
 
 //
 // updatedformula = SocialCalc.ReplaceFormulaCoords(formula, movedto)
@@ -162,7 +162,7 @@ SocialCalc.ReplaceFormulaCoords = function(formula, movedto) {
    var scf = SocialCalc.Formula;
    if (!scf) {
       return "Need SocialCalc.Formula";
-      }
+   }
    var tokentype = scf.TokenType;
    var token_op = tokentype.op;
    var token_string = tokentype.string;
@@ -177,15 +177,15 @@ SocialCalc.ReplaceFormulaCoords = function(formula, movedto) {
       if (ttype == token_op) { // references with sheet specifier are not change
          if (ttext == "!") {
             sheetref = true; // found a sheet reference
-            }
+         }
          else if (ttext != ":") { // for everything but a range, reset
             sheetref = false;
-            }
+         }
 
 //!!!! HANDLE RANGE EXTENT MOVES
 
          ttext = tokenOpExpansion[ttext] || ttext; // make sure short tokens (e.g., "G") go back full (">=")
-         }
+      }
       if (ttype == token_coord) {
          cr = SocialCalc.coordToCr(ttext); // get parts
          coord = SocialCalc.crToCoord(cr.col, cr.row); // get "clean" reference
@@ -193,28 +193,28 @@ SocialCalc.ReplaceFormulaCoords = function(formula, movedto) {
             cr = SocialCalc.coordToCr(movedto[coord]); // get new row and col
             if (ttext.charAt(0)=="$") { // copy absolute ref marks if present
                newcr = "$"+SocialCalc.rcColname(cr.col);
-               }
+            }
             else {
                newcr = SocialCalc.rcColname(cr.col);
-               }
+            }
             if (ttext.indexOf("$", 1)!=-1) {
                newcr += "$" + cr.row;
-               }
+            }
             else {
                newcr += cr.row;
-               }
-            ttext = newcr;
             }
+            ttext = newcr;
          }
+      }
       else if (ttype == token_string) {
          if (ttext.indexOf('"') >= 0) { // quotes to double
             ttext = '"' + ttext.replace(/"/, '""') + '"';
-            }
-         else ttext = '"' + ttext + '"';
          }
-      updatedformula += ttext;
+         else ttext = '"' + ttext + '"';
       }
+      updatedformula += ttext;
+   }
 
    return updatedformula;
 
-   }
+}

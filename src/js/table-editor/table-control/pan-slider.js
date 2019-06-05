@@ -27,8 +27,8 @@ SocialCalc.TCPSDragFunctionStart = function(event, draginfo, dobj) {
          editor.context.SetRowPaneFirstLast(1, editor.context.rowpanes[0].last+1, editor.context.rowpanes[0].last+1);
          editor.FitToEditTable();
          editor.ScheduleRender();
-         }
       }
+   }
    else {
       col = SocialCalc.Lookup(draginfo.clientX+dobj.functionobj.control.sliderthickness, editor.colpositions);
       draginfo.trackingline.style.top = editor.headposition.top+"px";
@@ -38,12 +38,12 @@ SocialCalc.TCPSDragFunctionStart = function(event, draginfo, dobj) {
          editor.context.SetColPaneFirstLast(1, editor.context.colpanes[0].last+1, editor.context.colpanes[0].last+1);
          editor.FitToEditTable();
          editor.ScheduleRender();
-         }
       }
+   }
 
    editor.griddiv.appendChild(draginfo.trackingline);
 
-   }
+}
 
 //
 // TCPSDragFunctionMove(event, draginfo, dobj)
@@ -65,7 +65,7 @@ SocialCalc.TCPSDragFunctionMove = function(event, draginfo, dobj) {
       while (editor.context.sheetobj.rowattribs.hide[row] == "yes") row++;
 
       draginfo.trackingline.style.top = (editor.rowpositions[row] || editor.headposition.top)+"px";
-      }
+   }
    else {
       draginfo.clientX = Math.max(draginfo.clientX, editor.headposition.left - $(control.paneslider).width() - draginfo.offsetX)
       draginfo.clientX = Math.min(draginfo.clientX, control.scrollareasize - draginfo.offsetX)
@@ -75,11 +75,11 @@ SocialCalc.TCPSDragFunctionMove = function(event, draginfo, dobj) {
       while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == "yes") col++;
 
       draginfo.trackingline.style.left = (editor.colpositions[col] || editor.headposition.left)+"px";
-      }
+   }
 
    SocialCalc.DragFunctionPosition(event, draginfo, dobj);
 
-   }
+}
 
 //
 // TCPSDragFunctionStop(event, draginfo, dobj)
@@ -100,7 +100,7 @@ SocialCalc.TCPSDragFunctionStop = function(event, draginfo, dobj) {
       while (editor.context.sheetobj.rowattribs.hide[row] == "yes") row++;
 
      editor.EditorScheduleSheetCommands('pane row ' + row, true, false);
-   }
+}
    else {
       col = SocialCalc.Lookup(draginfo.clientX+sliderthickness, editor.colpositions);
       if (col>editor.context.sheetobj.attribs.lastcol) col=editor.context.sheetobj.attribs.lastcol; // can't extend sheet here
@@ -109,8 +109,8 @@ SocialCalc.TCPSDragFunctionStop = function(event, draginfo, dobj) {
       while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == "yes") col++;
 
       editor.EditorScheduleSheetCommands('pane col ' + col, true, false);
-   }
+}
 
    draginfo.trackingline.style.display = "none";
 
-   }
+}

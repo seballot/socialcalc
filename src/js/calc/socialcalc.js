@@ -126,7 +126,7 @@ SocialCalc.Callbacks = {
 
    NormalizeSheetName: null // use default - lowercase
 
-   };
+};
 
 SocialCalc.sheetfields = ["defaultrowheight", "defaultcolwidth", "circularreferencecell", "recalc", "needsrecalc", "usermaxcol", "usermaxrow"];
 SocialCalc.sheetfieldsshort = ["h", "w", "circularreferencecell", "recalc", "needsrecalc", "usermaxcol", "usermaxrow"];
@@ -144,7 +144,7 @@ SocialCalc.sheetfieldsxlatxlt = ["cellformat", "cellformat", "valueformat", "val
 var ustack="";
 for (var i=0;i<sheet.changes.stack.length;i++) {
    ustack+=(i-0)+":"+sheet.changes.stack[i].command[0]+" of "+sheet.changes.stack[i].command.length+"/"+sheet.changes.stack[i].undo[0]+" of "+sheet.changes.stack[i].undo.length+",";
-   }
+}
 alert(cmdstr+"|"+sheet.changes.stack.length+"--"+ustack);
 */
    if(SocialCalc._app) {
@@ -152,11 +152,11 @@ alert(cmdstr+"|"+sheet.changes.stack.length+"--"+ustack);
      if(cellChanged) {
        if(sheet.renderneeded == true && attrib!="value" && attrib!="text" && attrib!="formula" && attrib!="constant" && attrib!="empty") sheet.widgetsClean = false;  // force widgets to render
        else if(attrib=="all") sheet.widgetsClean = false;  // force widgets to render - because of undo
-       }
+    }
      else {
        if(sheet.renderneeded == true) sheet.widgetsClean = false;  // force widgets to render
-       }
-     }
+    }
+  }
 
 
 
@@ -176,4 +176,4 @@ SocialCalc.Clipboard = {
 
    clipboard:  "" // empty or string in save format with "copiedfrom:" set to a range
 
-   }
+}

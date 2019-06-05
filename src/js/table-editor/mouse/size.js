@@ -27,13 +27,13 @@ SocialCalc.ProcessEditorColsizeMouseDown = function(e, ele, result) {
       SocialCalc.setStyles(sizedisplay.firstChild.lastChild.firstChild.childNodes[0], "filter:alpha(opacity=85);opacity:.85;"); // so no warning msg with Firefox about filter
 
       editor.toplevel.appendChild(sizedisplay);
-      }
+   }
     SocialCalc.SetMouseMoveUp( SocialCalc.ProcessEditorColsizeMouseMove,
              SocialCalc.ProcessEditorColsizeMouseUp,
              editor.toplevel,
              event);
    return;
-   }
+}
 
 
 SocialCalc.ProcessEditorColsizeMouseMove = function(e) {
@@ -58,10 +58,10 @@ SocialCalc.ProcessEditorColsizeMouseMove = function(e) {
           '<td><div style="font-size:small;color:white;background-color:gray;padding:4px;">'+
           newsize + '</div></td></tr></table>';
       SocialCalc.setStyles(sizedisplay.firstChild.lastChild.firstChild.childNodes[0], "filter:alpha(opacity=85);opacity:.85;"); // so no warning msg with Firefox about filter
-      }
+   }
    SocialCalc.StopPropagation(event);
    return;
-   }
+}
 
 
 SocialCalc.ProcessEditorColsizeMouseUp = function(e) {
@@ -84,8 +84,8 @@ SocialCalc.ProcessEditorColsizeMouseUp = function(e) {
       /*
       if (editor.ecell && editor.ecell.col == mouseinfo.mousecoltounhide+1) {
          editor.MoveECell(SocialCalc.crToCoord(mouseinfo.mousecoltounhide, editor.ecell.row));
-         }*/
-      }
+      }*/
+   }
    else if (mouseinfo.mouseresizecolnum) {
       var newsize = (editor.context.colwidth[mouseinfo.mouseresizecolnum]-0) + (clientX - mouseinfo.mousedownclientx);
       if (newsize < SocialCalc.Constants.defaultMinimumColWidth) newsize = SocialCalc.Constants.defaultMinimumColWidth;
@@ -94,11 +94,11 @@ SocialCalc.ProcessEditorColsizeMouseUp = function(e) {
 
       if (editor.timeout) window.clearTimeout(editor.timeout);
       editor.timeout = window.setTimeout(SocialCalc.FinishColRowSize, 1); // wait - Firefox 2 has a bug otherwise with next mousedown
-      }
+   }
 
    return false;
 
-   }
+}
 
 
 SocialCalc.FinishColRowSize = function() {
@@ -118,7 +118,7 @@ SocialCalc.FinishColRowSize = function() {
 
    return;
 
-   }
+}
 
 SocialCalc.ProcessEditorRowsizeMouseDown = function(e, ele, result) {
 
@@ -156,7 +156,7 @@ SocialCalc.ProcessEditorRowsizeMouseDown = function(e, ele, result) {
             editor.toplevel,
             event);
     return;
-   }
+}
 
 
 SocialCalc.ProcessEditorRowsizeMouseMove = function(e) {
@@ -184,7 +184,7 @@ SocialCalc.ProcessEditorRowsizeMouseMove = function(e) {
    SocialCalc.StopPropagation(event);
    return;
 
-   }
+}
 
 
 SocialCalc.ProcessEditorRowsizeMouseUp = function(e) {
@@ -203,7 +203,7 @@ SocialCalc.ProcessEditorRowsizeMouseUp = function(e) {
        event);
    if (mouseinfo.mouserowtounhide) {
       editor.EditorScheduleSheetCommands("set "+mouseinfo.mouserowtounhide+" hide", true, false);
-      }
+   }
    else if (mouseinfo.mouseresizerownum) {
      var newsize = (editor.context.rowheight[mouseinfo.mouseresizerownum]-0) + (clientY - mouseinfo.mousedownclienty);
      if (newsize < SocialCalc.Constants.defaultAssumedRowHeight) newsize = SocialCalc.Constants.defaultAssumedRowHeight;
@@ -211,8 +211,8 @@ SocialCalc.ProcessEditorRowsizeMouseUp = function(e) {
 
      if (editor.timeout) window.clearTimeout(editor.timeout);
      editor.timeout = window.setTimeout(SocialCalc.FinishColRowSize, 1); // wait - Firefox 2 has a bug otherwise with next mousedown
-   }
+}
 
    return false;
 
-   }
+}

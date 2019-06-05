@@ -26,7 +26,7 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
    xlt.namesorder = []; // always return a sorted list
    for (a in sheetobj.names) {
       xlt.namesorder.push(a);
-      }
+   }
    xlt.namesorder.sort();
 
    if (!SocialCalc.Constants.doCanonicalizeSheet || !full) { // return make-no-changes values if not wanted
@@ -38,9 +38,9 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
          newxlat[0] = "";
          for (i=1; i<l; i++) {
             newxlat[i] = i;
-            }
-         xlt[a+"sxlat"] = newxlat;
          }
+         xlt[a+"sxlat"] = newxlat;
+      }
 
       xlt.maxrow = sheetobj.attribs.lastrow;
       xlt.maxcol = sheetobj.attribs.lastcol;
@@ -48,12 +48,12 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
       sheetobj.xlt = xlt;
 
       return;
-      }
+   }
 
    for (an=0; an<alist.length; an++) {
       a = alist[an];
       xlt[a+"sUsed"] = {};
-      }
+   }
 
    var colorsUsed = xlt.colorsUsed;
    var borderstylesUsed = xlt.borderstylesUsed;
@@ -72,81 +72,81 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
       if (cell.color) {
          colorsUsed[cell.color] = 1;
          filled = true;
-         }
+      }
 
       if (cell.bgcolor) {
          colorsUsed[cell.bgcolor] = 1;
          filled = true;
-         }
+      }
 
       if (cell.bt) {
          borderstylesUsed[cell.bt] = 1;
          filled = true;
-         }
+      }
       if (cell.br) {
          borderstylesUsed[cell.br] = 1;
          filled = true;
-         }
+      }
       if (cell.bb) {
          borderstylesUsed[cell.bb] = 1;
          filled = true;
-         }
+      }
       if (cell.bl) {
          borderstylesUsed[cell.bl] = 1;
          filled = true;
-         }
+      }
 
       if (cell.layout) {
          layoutsUsed[cell.layout] = 1;
          filled = true;
-         }
+      }
 
       if (cell.font) {
          fontsUsed[cell.font] = 1;
          filled = true;
-         }
+      }
 
       if (cell.cellformat) {
          cellformatsUsed[cell.cellformat] = 1;
          filled = true;
-         }
+      }
 
       if (cell.textvalueformat) {
          valueformatsUsed[cell.textvalueformat] = 1;
          filled = true;
-         }
+      }
 
       if (cell.nontextvalueformat) {
          valueformatsUsed[cell.nontextvalueformat] = 1;
          filled = true;
-         }
+      }
 
       if (filled) {
          if (cr.row > maxrow) maxrow = cr.row;
          if (cr.col > maxcol) maxcol = cr.col;
-         }
       }
+   }
 
    for (i=0; i<SocialCalc.sheetfieldsxlat.length; i++) { // do sheet values, too
       v = sheetobj.attribs[SocialCalc.sheetfieldsxlat[i]];
       if (v) {
          xlt[SocialCalc.sheetfieldsxlatxlt[i]+"sUsed"][v] = 1;
-         }
       }
+   }
 
    a = {"height": 1, "hide": 1}; // look at explicit row settings
    for (v in a) {
       for (cr in sheetobj.rowattribs[v]) {
          if (cr > maxrow) maxrow = cr;
-         }
       }
+   }
    a = {"hide": 1, "width": 1}; // look at explicit col settings
    for (v in a) {
       for (coord in sheetobj.colattribs[v]) {
          cr = SocialCalc.coordToCr(coord+"1");
          if (cr.col > maxcol) maxcol = cr.col;
-         }
       }
+   }
 
    for (an=0; an<alist.length; an++) { // go through the attribs we want
       a = alist[an];
@@ -155,7 +155,7 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
       used = xlt[a+"sUsed"];
       for (v in used) {
          newa.push(sheetobj[a+"s"][v]);
-         }
+      }
       newa.sort();
       newa.unshift("");
 
@@ -164,16 +164,16 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
 
       for (i=1; i<newa.length; i++) {
          newxlat[ahash[newa[i]]] = i;
-         }
+      }
 
       xlt[a+"sxlat"] = newxlat;
       xlt["new"+a+"s"] = newa;
 
-      }
+   }
 
    xlt.maxrow = maxrow || 1;
    xlt.maxcol = maxcol || 1;
 
    sheetobj.xlt = xlt; // leave for use by caller
 
-   }
+}

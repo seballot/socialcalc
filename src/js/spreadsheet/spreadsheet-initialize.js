@@ -71,10 +71,10 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    //         // search down when enter is pressed
    //         if (e.shiftKey) {
    //             SocialCalc.SpreadsheetControlSearchUp();
-   //         } else {
+   //      } else {
    //             SocialCalc.SpreadsheetControlSearchDown();
-   //         }
    //      }
+   //   }
    // });
 
 
@@ -94,14 +94,14 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    if (spreadsheet.spreadsheetDiv.addEventListener) { // DOM Level 2 -- Firefox, et al
       spreadsheet.spreadsheetDiv.addEventListener("mousedown", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); }, false);
       spreadsheet.spreadsheetDiv.addEventListener("mouseover", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); }, false);
-      }
+   }
    else if (spreadsheet.spreadsheetDiv.attachEvent) { // IE 5+
       spreadsheet.spreadsheetDiv.attachEvent("onmousedown", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); });
       spreadsheet.spreadsheetDiv.attachEvent("onmouseover", function() { SocialCalc.SetSpreadsheetControlObject(spreadsheet); });
-      }
+   }
    else { // don't handle this
       throw SocialCalc.Constants.s_BrowserNotSupported;
-      }
+   }
 
    spreadsheet.editor.CreateTableEditor()
 

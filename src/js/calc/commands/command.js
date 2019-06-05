@@ -18,7 +18,7 @@ SocialCalc.SheetCommandInfo = function(sheetobj) {
    this.saveundo = false; // arg for ExecuteSheetCommand
 
    this.CmdExtensionCallbacks = {}; // for startcmdextension, in form: cmdname, {func:function(cmdname, data, sheet, SocialCalc.Parse object, saveundo), data:whatever}
-   };
+};
 
 SocialCalc.SheetCommandsTimerRoutine = function(sci, parseobj, saveundo) {
 
@@ -29,31 +29,31 @@ SocialCalc.SheetCommandsTimerRoutine = function(sci, parseobj, saveundo) {
    while (!parseobj.EOF()) { // go through all commands (separated by newlines)
       try {
         errortext = SocialCalc.ExecuteSheetCommand(sci.sheetobj, parseobj, saveundo);
-      } catch (err) {
+   } catch (err) {
         errortext = err.message
-      }
+   }
 
       // Error - Use  log on server   OR  alert on client
       if (errortext) {
         if (typeof(alert) == "function")  {
           alert(errortext);
-        } else {
+     } else {
           console.log(errortext)
-        }
-      }
+     }
+   }
 
       parseobj.NextLine();
 
       if (((new Date()) - starttime) >= sci.maxtimeslice) { // if taking too long, give up CPU for a while
          sci.timerobj = window.setTimeout(function() {
             SocialCalc.SheetCommandsTimerRoutine(sci, parseobj, saveundo);
-         }, sci.timerdelay);
+      }, sci.timerdelay);
          return;
-         }
       }
+   }
 
    if (sci.sheetobj.statuscallback) { // notify others if requested
       sci.sheetobj.statuscallback(sci, "cmdend", "", sci.sheetobj.statuscallbackparams);
-      }
-
    }
+
+}

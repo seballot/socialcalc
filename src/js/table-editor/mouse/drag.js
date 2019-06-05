@@ -27,7 +27,7 @@ SocialCalc.DragInfo = {
    offsetY: 0,
    relativeOffset: {left:0,top:0} // retrieved at drag start
 
-   }
+}
 
 //
 // DragRegister(element, vertical, horizontal, functionobj, parent) - make element draggable
@@ -43,7 +43,7 @@ SocialCalc.DragRegister = function(element, vertical, horizontal, functionobj, p
       functionobj = {MouseDown: SocialCalc.DragFunctionStart, MouseMove: SocialCalc.DragFunctionPosition,
                      MouseUp: SocialCalc.DragFunctionPosition,
                      Disabled: null};
-      }
+   }
 
    draginfo.registeredElements.push(
       {element: element, vertical: vertical, horizontal: horizontal, functionobj: functionobj, parent: parent}
@@ -51,15 +51,15 @@ SocialCalc.DragRegister = function(element, vertical, horizontal, functionobj, p
 
    if (element.addEventListener) { // DOM Level 2 -- Firefox, et al
       element.addEventListener("mousedown", SocialCalc.DragMouseDown, false);
-      }
+   }
    else if (element.attachEvent) { // IE 5+
       element.attachEvent("onmousedown", SocialCalc.DragMouseDown);
-      }
+   }
    else { // don't handle this
       throw SocialCalc.Constants.s_BrowserNotSupported;
-      }
-
    }
+
+}
 
 //
 // DragUnregister(element) - remove object from list
@@ -78,17 +78,17 @@ SocialCalc.DragUnregister = function(element) {
          draginfo.registeredElements.splice(i,1);
          if (element.removeEventListener) { // DOM Level 2 -- Firefox, et al
             element.removeEventListener("mousedown", SocialCalc.DragMouseDown, false);
-            }
+         }
          else { // IE 5+
             element.detachEvent("onmousedown", SocialCalc.DragMouseDown);
-            }
-         return;
          }
+         return;
       }
+   }
 
    return; // ignore if not in list
 
-   }
+}
 
 //
 // DragMouseDown(event)
@@ -106,13 +106,13 @@ SocialCalc.DragMouseDown = function(event) {
    if (dobj && dobj.functionobj && dobj.functionobj.Disabled) {
       if (dobj.functionobj.Disabled(e, draginfo, dobj)) {
          return;
-         }
       }
+   }
 
    draginfo.draggingElement = dobj;
    if (dobj.parent) {
       draginfo.relativeOffset = SocialCalc.GetElementPositionWithScroll(dobj.parent);
-      }
+   }
    draginfo.clientX = e.clientX - draginfo.relativeOffset.left;
    draginfo.clientY = e.clientY - draginfo.relativeOffset.top;
    draginfo.startX = draginfo.clientX;
@@ -130,7 +130,7 @@ SocialCalc.DragMouseDown = function(event) {
 
    return false;
 
-   }
+}
 
 //
 // DragMouseMove(event)
@@ -149,7 +149,7 @@ SocialCalc.DragMouseMove = function(event) {
    SocialCalc.StopPropagation(e);
    if (dobj && dobj.functionobj && dobj.functionobj.MouseMove) dobj.functionobj.MouseMove(e, draginfo, dobj);
    return false;
-   }
+}
 
 //
 // DragMouseUp(event)
@@ -172,7 +172,7 @@ SocialCalc.DragMouseUp = function(event) {
         dobj.element, e);
    draginfo.draggingElement = null;
    return false;
-   }
+}
 
 //
 // DragFunctionStart(event, draginfo, dobj)
@@ -184,7 +184,7 @@ SocialCalc.DragFunctionStart = function(event, draginfo, dobj) {
 
    draginfo.offsetY = parseInt(element.style.top) - draginfo.clientY;
    draginfo.offsetX = parseInt(element.style.left) - draginfo.clientX;
-   }
+}
 
 //
 // DragFunctionPosition(event, draginfo, dobj)
@@ -198,4 +198,4 @@ SocialCalc.DragFunctionPosition = function(event, draginfo, dobj) {
    // console.log("DragFunctionPosition", draginfo.clientY, "offset", draginfo.offsetY);
    if (dobj.horizontal) element.style.left = (draginfo.clientX + draginfo.offsetX)+"px";
 
-   }
+}

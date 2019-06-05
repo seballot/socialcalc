@@ -27,21 +27,21 @@ SocialCalc.CellFromStringParts = function(sheet, cell, parts, j) {
             if (v.charAt(0)=="n") {
                cell.datatype="v";
                cell.datavalue=SocialCalc.decodeFromSave(parts[j++])-0;
-               }
+            }
             else {
                cell.datatype="t";
                cell.datavalue=SocialCalc.decodeFromSave(parts[j++]);
-               }
+            }
             break;
          case "vtf":
             v=parts[j++];
             cell.valuetype=v;
             if (v.charAt(0)=="n") {
                cell.datavalue=SocialCalc.decodeFromSave(parts[j++])-0;
-               }
+            }
             else {
                cell.datavalue=SocialCalc.decodeFromSave(parts[j++]);
-               }
+            }
             cell.formula=SocialCalc.decodeFromSave(parts[j++]);
             cell.datatype="f";
             break;
@@ -50,10 +50,10 @@ SocialCalc.CellFromStringParts = function(sheet, cell, parts, j) {
             cell.valuetype=v;
             if (v.charAt(0)=="n") {
                cell.datavalue=SocialCalc.decodeFromSave(parts[j++])-0;
-               }
+            }
             else {
                cell.datavalue=SocialCalc.decodeFromSave(parts[j++]);
-               }
+            }
             cell.formula=SocialCalc.decodeFromSave(parts[j++]);
             cell.datatype="c";
             break;
@@ -112,7 +112,7 @@ SocialCalc.CellFromStringParts = function(sheet, cell, parts, j) {
          default:
             throw SocialCalc.Constants.s_cfspUnknownCellType+" '"+t+"'";
             break;
-         }
       }
-
    }
+
+}

@@ -15,9 +15,9 @@ SocialCalc.LocalizeString = function(str) {
    if (!cstr) { // no - look up
       cstr = SocialCalc.Constants["s_loc_"+str.toLowerCase().replace(/\s/g, "_").replace(/\W/g, "X")] || str;
       SocialCalc.LocalizeStringList[str] = cstr;
-      }
-   return cstr;
    }
+   return cstr;
+}
 
 
 
@@ -50,10 +50,10 @@ SocialCalc.LocalizeSubstrings = function(str) {
    return str.replace(/%(loc|ssc)!(.*?)!/g, function(a, t, c) {
       if (t=="ssc") {
          return SocialCalc.Constants[c] || alert("Missing constant: "+c);
-         }
+      }
       else {
          return SCLoc(c);
-         }
-      });
+      }
+   });
 
-   }
+}

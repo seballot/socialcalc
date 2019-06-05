@@ -13,24 +13,24 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
 
    var InitAttrib = function(name) {
       result[name] = {def: true, val: ""};
-      }
+   }
 
    var InitAttribs = function(namelist) {
       for (var i=0; i<namelist.length; i++) {
          InitAttrib(namelist[i]);
-         }
       }
+   }
 
    var SetAttrib = function(name, v) {
       result[name].def = false;
       result[name].val = v || "";
-      }
+   }
 
    var SetAttribStar = function(name, v) {
       if (v=="*") return;
       result[name].def = false;
       result[name].val = v;
-      }
+   }
 
    var cell = sheet.GetAssuredCell(coord);
 
@@ -39,7 +39,7 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
    InitAttrib("alignhoriz");
    if (cell.cellformat) {
       SetAttrib("alignhoriz", sheet.cellformats[cell.cellformat]);
-      }
+   }
 
    // layout: alignvert, padtop, padright, padbottom, padleft
 
@@ -51,7 +51,7 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
       SetAttribStar("padbottom", parts[3]);
       SetAttribStar("padleft", parts[4]);
       SetAttribStar("alignvert", parts[5]);
-      }
+   }
 
    // font: fontfamily, fontlook, fontsize
 
@@ -61,31 +61,31 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
       SetAttribStar("fontfamily", parts[3]);
       SetAttribStar("fontsize", parts[2]);
       SetAttribStar("fontlook", parts[1]);
-      }
+   }
 
    // color: textcolor
 
    InitAttrib("textcolor");
    if (cell.color) {
       SetAttrib("textcolor", sheet.colors[cell.color]);
-      }
+   }
 
    // bgcolor: bgcolor
 
    InitAttrib("bgcolor");
    if (cell.bgcolor) {
       SetAttrib("bgcolor", sheet.colors[cell.bgcolor]);
-      }
+   }
 
    // formatting: numberformat, textformat
 
    InitAttribs(["numberformat", "textformat"]);
    if (cell.nontextvalueformat) {
       SetAttrib("numberformat", sheet.valueformats[cell.nontextvalueformat]);
-      }
+   }
    if (cell.textvalueformat) {
       SetAttrib("textformat", sheet.valueformats[cell.textvalueformat]);
-      }
+   }
 
    // merges: colspan, rowspan
 
@@ -108,8 +108,8 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
          SetAttrib(bb+"thickness", parts[1]);
          SetAttrib(bb+"style", parts[2]);
          SetAttrib(bb+"color", parts[3]);
-         }
       }
+   }
 
    // misc: cssc, csss, mod
 
@@ -120,4 +120,4 @@ SocialCalc.EncodeCellAttributes = function(sheet, coord) {
 
    return result;
 
-   }
+}

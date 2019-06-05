@@ -16,9 +16,9 @@ SocialCalc.ResizeTableEditor = function(editor, width, height) {
 
    if (SocialCalc._app) {
      editor.tablewidth = Math.max(0, width ); // no v scroll bar with app
-   } else {
+} else {
      editor.tablewidth = Math.max(0, width - defaultTableControlThickness);
-   }
+}
    editor.tableheight = Math.max(0, height - defaultTableControlThickness);
    editor.griddiv.style.width=editor.tablewidth+"px";
    editor.griddiv.style.height=editor.tableheight+"px";
@@ -32,4 +32,4 @@ SocialCalc.ResizeTableEditor = function(editor, width, height) {
 
    return;
 
-   }
+}

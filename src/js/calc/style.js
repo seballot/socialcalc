@@ -11,10 +11,10 @@ SocialCalc.GetStyleNum = function(sheet, atype, style) {
       num = sheet[atype+"s"].push(style) - 1;
       sheet[atype+"hash"][style] = num;
       sheet.changedrendervalues = true;
-      }
+   }
    return num;
 
-   }
+}
 
 SocialCalc.GetStyleString = function(sheet, atype, num) {
 
@@ -22,7 +22,7 @@ SocialCalc.GetStyleString = function(sheet, atype, num) {
 
    return sheet[atype+"s"][num];
 
-   }
+}
 
 
 //
@@ -47,10 +47,10 @@ SocialCalc.setStyles = function (element, cssText) {
          value = parts[part].substring(pos+1);
          if (name && value) { // if non-null name and value, set style
             element.style[name] = value;
-            }
          }
       }
    }
+}
 
 //
 // GetComputedStyle(element, style) - returns computed style value
@@ -63,10 +63,10 @@ SocialCalc.GetComputedStyle = function (element, style) {
    var computedStyle;
    if (typeof element.currentStyle != 'undefined') { // IE
       computedStyle = element.currentStyle;
-      }
+   }
    else {
       computedStyle = document.defaultView.getComputedStyle(element, null);
-      }
+   }
    return computedStyle[style];
 
-   }
+}

@@ -13,12 +13,12 @@ SocialCalc.MoveECellWithKey = function(editor, ch) {
 
    if (!editor.ecell) {
       return null;
-      }
+   }
 
    if (ch.slice(-7)=="shifted") {
       ch = ch.slice(0,-7);
       shifted = true;
-      }
+   }
 
    row = editor.ecell.row;
    col = editor.ecell.col;
@@ -52,7 +52,7 @@ SocialCalc.MoveECellWithKey = function(editor, ch) {
          break;
       default:
          return null;
-      }
+   }
 
    // Adjust against usermax col and row.
    if (editor.context.sheetobj.attribs.usermaxcol) col = Math.min(editor.context.sheetobj.attribs.usermaxcol, col);
@@ -64,8 +64,8 @@ SocialCalc.MoveECellWithKey = function(editor, ch) {
       if (col < 1) {
          delta = -delta;
          col = 1;
-         }
       }
+   }
 
    // Handle hidden row.
    while (editor.context.sheetobj.rowattribs.hide[row] == "yes") {
@@ -73,13 +73,13 @@ SocialCalc.MoveECellWithKey = function(editor, ch) {
       if (row < 1) {
          delta = -delta;
          row = 1;
-         }
       }
+   }
 
    if (!editor.range.hasrange) {
       if (shifted)
          editor.RangeAnchor();
-      }
+   }
 
    coord = editor.MoveECell(SocialCalc.crToCoord(col, row));
 
@@ -88,11 +88,11 @@ SocialCalc.MoveECellWithKey = function(editor, ch) {
          editor.RangeExtend();
       else
          editor.RangeRemove();
-      }
+   }
 
    return coord;
 
-   }
+}
 
 //
 // cellcoord = MoveECell(editor, newecell)
@@ -123,11 +123,11 @@ SocialCalc.MoveECell = function(editor, newcell) {
         editor.ecell.row>=editor.range2.top && editor.ecell.row<=editor.range2.bottom &&
         editor.ecell.col>=editor.range2.left && editor.ecell.col<=editor.range2.right) {
          highlights[editor.ecell.coord] = "range2";
-         }
+      }
       editor.UpdateCellCSS(cell, editor.ecell.row, editor.ecell.col);
       editor.SetECellHeaders(""); // set to regular col/rowname styles
       if(editor.cellhandles) editor.cellhandles.ShowCellHandles(false); // only if row/col visible
-      }
+   }
    newcell = editor.context.cellskip[newcell] || newcell;
    editor.ecell = SocialCalc.coordToCr(newcell);
    editor.ecell.coord = newcell;
@@ -138,23 +138,23 @@ SocialCalc.MoveECell = function(editor, newcell) {
 
    for (f in editor.MoveECellCallback) { // let others know
       editor.MoveECellCallback[f](editor);
-      }
+   }
 
    editor.UpdateCellCSS(cell, editor.ecell.row, editor.ecell.col);
    editor.SetECellHeaders("selected");
 
    for (f in editor.StatusCallback) { // let status line, etc., know
       editor.StatusCallback[f].func(editor, "moveecell", newcell, editor.StatusCallback[f].params);
-      }
+   }
 
    if (editor.busy) {
       editor.ensureecell = true; // wait for when not busy
-      }
+   }
    else {
       editor.ensureecell = false;
       editor.EnsureECellVisible();
-      }
+   }
 
    return newcell;
 
-   }
+}

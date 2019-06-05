@@ -13,7 +13,7 @@
 SocialCalc.TCTDragFunctionStart = function(event, draginfo, dobj) {
    SocialCalc.DragFunctionStart(event, draginfo, dobj);
    $(dobj.element).addClass("dragging");
-   }
+}
 
 //
 // TCTDragFunctionMove(event, draginfo, dobj)
@@ -27,11 +27,11 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
    if (dobj.vertical) {
       draginfo.clientY = Math.max(draginfo.clientY, - draginfo.offsetY)
       draginfo.clientY = Math.min(draginfo.clientY, control.scrollareasize - draginfo.offsetY - control.thumbthickness)
-      }
+   }
    else {
       draginfo.clientX = Math.max(draginfo.clientX, - draginfo.offsetX)
       draginfo.clientX = Math.min(draginfo.clientX, control.scrollareasize - draginfo.offsetX - control.thumbthickness)
-      }
+   }
 
 
    // make the thumb follow the mouse
@@ -56,13 +56,13 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
       while(heightToTop <= firstVisibleRowHeightToTopScrollableContainer) {
          heightToTop += editor.rowheight[i];
          i++;
-      }
+   }
       first = i;
 
       if (first <= editor.lastnonscrollingrow) first = editor.lastnonscrollingrow + 1;
       if (first > editor.context.sheetobj.attribs.lastrow) first = editor.context.sheetobj.attribs.lastrow;
       editor.context.SetRowPaneFirstLast(editor.context.rowpanes.length-1, first, first+1);
-      }
+   }
    else {
       var thumbpos = draginfo.clientX+draginfo.offsetX;
       var maxWidthPx = control.scrollareasize - control.thumbthickness;
@@ -75,14 +75,14 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
       while(widthToLeft <= firstVisibleColWidthLeftScrollableContainer) {
          widthToLeft += editor.colwidth[i];
          i++;
-      }
+   }
       first = i;
 
       if (first <= editor.lastnonscrollingcol) first = editor.lastnonscrollingcol + 1;
       if (first > editor.context.sheetobj.attribs.lastcol) first = editor.context.sheetobj.attribs.lastcol;
 
       editor.context.SetColPaneFirstLast(editor.context.colpanes.length-1, first, first+1);
-      }
+   }
 
    // while we are dragging, we prevent updating the thumb position
    control.preventRenderScrollBar = true;
@@ -99,4 +99,4 @@ SocialCalc.TCTDragFunctionStop = function(event, draginfo, dobj) {
    dobj.functionobj.control.preventRenderScrollBar = false;
       $(dobj.element).removeClass("dragging");
 
-   }
+}

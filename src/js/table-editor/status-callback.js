@@ -14,9 +14,9 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
       for (f in editor.StatusCallback) {
          if (editor.StatusCallback[f].func) {
             editor.StatusCallback[f].func(editor, s, arg, editor.StatusCallback[f].params);
-            }
          }
       }
+   }
 
    switch (status) {
 
@@ -38,20 +38,20 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
             editor.context.PrecomputeSheetFontsAndLayouts();
             editor.context.CalculateCellSkipData();
             sheetobj.changedrendervalues = false;
-            }
+         }
 
          if (sheetobj.celldisplayneeded && !sheetobj.renderneeded) {
              if (sheetobj.cells[sheetobj.celldisplayneeded] && sheetobj.cells[sheetobj.celldisplayneeded].valuetype != "e#N/A") {
                 cr = SocialCalc.coordToCr(sheetobj.celldisplayneeded);
                 cell = SocialCalc.GetEditorCellElement(editor, cr.row, cr.col);
                 editor.ReplaceCell(cell, cr.row, cr.col); // if no value set, wait for recalc and render .
-                }
              }
+          }
          if (editor.deferredCommands.length) {
             dcmd = editor.deferredCommands.shift();
             editor.EditorScheduleSheetCommands(dcmd.cmdstr, dcmd.saveundo, true);
             return;
-            }
+         }
          if (sheetobj.attribs.needsrecalc &&
                (sheetobj.attribs.recalc!="off" || sheetobj.recalconce)
                && editor.recalcFunction) {
@@ -59,19 +59,19 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
             sheetobj.renderneeded = false; // recalc will force a render
             if (sheetobj.recalconce) delete sheetobj.recalconce; // only do once
             editor.recalcFunction(editor);
-            }
+         }
          else {
             if (sheetobj.renderneeded) {
                editor.FitToEditTable();
                sheetobj.renderneeded = false;
                editor.ScheduleRender(false);
-               }
+            }
             else {
                editor.SchedulePositionCalculations(); // just in case command changed positions
 //               editor.busy = false;
 //               signalstatus("cmdendnorender");
-               }
             }
+         }
 
          // Handle hidden column.
          if (sheetobj.hiddencolrow == "col") {
@@ -79,12 +79,12 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
                var col = editor.ecell.col;
                while (sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == "yes") {
                   col++;
-                  }
+               }
                var coord = SocialCalc.crToCoord(col, editor.ecell.row);
                editor.MoveECell(coord);
                sheetobj.hiddencolrow = "";
-               }
             }
+         }
 
          // Handle hidden row.
          if (sheetobj.hiddencolrow == "row") {
@@ -92,12 +92,12 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
                var row = editor.ecell.row;
                while (sheetobj.rowattribs.hide[row] == "yes") {
                   row++;
-                  }
+               }
                var coord = SocialCalc.crToCoord(editor.ecell.col, row);
                editor.MoveECell(coord);
                sheetobj.hiddencolrow = "";
-               }
             }
+         }
 
          return;
 
@@ -134,19 +134,19 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
               var emailcmd = editor.deferredEmailCommands.shift();
               editor.EditorScheduleSheetCommands(emailcmd.cmdstr, emailcmd.saveundo, true);
               return;
-              }
+           }
 
 
          if (editor.deferredCommands.length) {
             signalstatus(status);
             dcmd = editor.deferredCommands.shift();
             editor.EditorScheduleSheetCommands(dcmd.cmdstr, dcmd.saveundo, true);
-            }
+         }
          else {
             editor.busy = false;
             signalstatus(status);
             if (editor.state=="start") editor.DisplayCellContents(); // make sure up to date
-            }
+         }
          return;
       // eddy EditorSheetStatusCallback {
       case "emailing":
@@ -158,10 +158,10 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
        alert("Unknown status: "+status);
          break;
 
-      }
+   }
 
    signalstatus(status);
 
    return;
 
-   }
+}

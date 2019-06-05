@@ -35,15 +35,15 @@ SocialCalc.SpreadsheetControlCreateSpreadsheetSave = function(spreadsheet, other
       for (partname in otherparts) {
          if (otherparts[partname].charAt(otherparts[partname]-1) != "\n") {
             extranl = "\n";
-            }
+         }
          else {
             extranl = "";
-            }
+         }
          otherpartsstr += "--" + spreadsheet.multipartBoundary + "\nContent-type: text/plain; charset=UTF-8\n\n" +
             otherparts[partname] + extranl;
          otherpartsnames += "part:"+partname + "\n";
-         }
       }
+   }
 
    result = "socialcalc:version:1.0\n" +
       "MIME-Version: 1.0\nContent-Type: multipart/mixed; boundary="+
@@ -61,7 +61,7 @@ SocialCalc.SpreadsheetControlCreateSpreadsheetSave = function(spreadsheet, other
 
    return result;
 
-   }
+}
 
 
 //
@@ -112,8 +112,8 @@ SocialCalc.SpreadsheetControlDecodeSpreadsheetSave = function(spreadsheet, str) 
          case "part":
             partlist.push(p[1]);
             break;
-         }
       }
+   }
 
    for (pnum=0; pnum<partlist.length; pnum++) { // get each part
       blanklineregex.lastIndex = ending;
@@ -122,14 +122,14 @@ SocialCalc.SpreadsheetControlDecodeSpreadsheetSave = function(spreadsheet, str) 
       start = blanklineregex.lastIndex;
       if (pnum==partlist.length-1) { // last one has different boundary
          boundaryregex = new RegExp("^--"+boundary+"--$", "mg");
-         }
+      }
       boundaryregex.lastIndex = start;
       searchinfo = boundaryregex.exec(str); // find ending boundary
       if (!searchinfo) return parts;
       ending = searchinfo.index;
       parts[partlist[pnum]] = {start: start, end: ending}; // return position within full string
-      }
+   }
 
    return parts;
 
-   }
+}

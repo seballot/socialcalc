@@ -26,12 +26,12 @@ SocialCalc.CreateTableEditor = function(editor) {
    if (SocialCalc._app == true) { // no scroll bar in app
      editor.verticaltablecontrol.main.style.display = "none"
      editor.horizontaltablecontrol.main.style.display = "none"
-   }
+}
 
    if (!editor.noEdit) {
       editor.inputEcho = new SocialCalc.InputEcho(editor);
       AssignID(editor, editor.inputEcho.main, "inputecho");
-      }
+   }
 
    editor.cellhandles = new SocialCalc.CellHandles(editor);
 
@@ -44,7 +44,7 @@ SocialCalc.CreateTableEditor = function(editor) {
       window.addEventListener('beforecopy', SocialCalc.SafariPasteFunction, false);
       window.removeEventListener('beforecut', SocialCalc.SafariPasteFunction, false);
       window.addEventListener('beforecut', SocialCalc.SafariPasteFunction, false);
-      }
+   }
 
    SocialCalc.MouseWheelRegister(editor.toplevel, {WheelMove: SocialCalc.EditorProcessMouseWheel, editor: editor});
 
@@ -54,6 +54,6 @@ SocialCalc.CreateTableEditor = function(editor) {
 
    return editor.toplevel;
 
-   }
+}
 
 

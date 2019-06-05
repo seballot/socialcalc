@@ -8,7 +8,7 @@ SocialCalc.CmdGotFocus = function(obj) {
 
    SocialCalc.Keyboard.passThru = obj;
 
-   }
+}
 
 
 //
@@ -19,7 +19,7 @@ SocialCalc.DoButtonCmd = function(e, buttoninfo, bobj) {
 
    SocialCalc.DoCmd(bobj.element, bobj.functionobj.command);
 
-   }
+}
 
 //
 // SocialCalc.DoCmd(obj, which)
@@ -50,7 +50,7 @@ SocialCalc.DoCmd = function(obj, which) {
          clele.length = 0;
          for (i=0; i<SocialCalc.SpreadsheetCmdTable[cl].length; i++) {
             clele.options[i] = new Option(SocialCalc.SpreadsheetCmdTable[cl][i].t);
-            }
+         }
          which = "changed-"+cl; // fall through to changed code
 
       case "changed-rowcolstuff":
@@ -62,7 +62,7 @@ SocialCalc.DoCmd = function(obj, which) {
          slistele.length = 0; // reset
          for (i=0; i<(slist.length||0); i++) {
             slistele.options[i] = new Option(slist[i].t, slist[i].s);
-            }
+         }
          return; // nothing else to do
 
       case "ok-rowcolstuff":
@@ -81,11 +81,11 @@ SocialCalc.DoCmd = function(obj, which) {
             if (editor.range.hasrange) {
                spreadsheet.sortrange = SocialCalc.crToCoord(editor.range.left, editor.range.top) + ":" +
                           SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-               }
+            }
             else {
                spreadsheet.sortrange = editor.ecell.coord+":"+editor.ecell.coord;
-               }
             }
+         }
          else {
             var val = lele.options[lele.selectedIndex].value;
             if (val == 'all') {
@@ -95,23 +95,23 @@ SocialCalc.DoCmd = function(obj, which) {
                     var cr = SocialCalc.coordToCr(cell_id);
                     if (min_row == -1 || cr.row < min_row) {
                         min_row = cr.row;
-                    }
+                 }
                     if (min_col == -1 || cr.col < min_col) {
                         min_col = cr.col;
-                    }
+                 }
                     if (max_row == -1 || cr.row > max_row) {
                         max_row = cr.row;
-                    }
+                 }
                     if (max_col == -1 || cr.col > max_col) {
                         max_col = cr.col;
-                    }
-                }
+                 }
+             }
                 spreadsheet.sortrange = SocialCalc.crToCoord(min_col, min_row) + ":" + SocialCalc.crToCoord(max_col, max_row);
                 lele.options[lele.selectedIndex].text += " (" + spreadsheet.sortrange + ")";
-            } else {
+         } else {
                 spreadsheet.sortrange = lele.options[lele.selectedIndex].value;
-            }
          }
+      }
          ele = document.getElementById(spreadsheet.idPrefix+"sortbutton");
          ele.value = SocialCalc.LocalizeString("Sort ")+spreadsheet.sortrange;
          ele.style.visibility = "visible";
@@ -126,10 +126,10 @@ SocialCalc.DoCmd = function(obj, which) {
             if (nrange.type != "range") return;
             rparts = nrange.value.match(/^(.*)\|(.*)\|$/);
             sortrange = rparts[1] + ":" + rparts[2];
-            }
+         }
          else {
             sortrange = spreadsheet.sortrange;
-            }
+         }
          if (sortrange == "A1:A1") return;
          str = "sort "+sortrange+" ";
          sele = document.getElementById(spreadsheet.idPrefix+"majorsort");
@@ -139,12 +139,12 @@ SocialCalc.DoCmd = function(obj, which) {
          if (sele.selectedIndex>0) {
            rele = document.getElementById(spreadsheet.idPrefix+"minorsortup");
            str += " "+sele.options[sele.selectedIndex].value + (rele.checked ? " up" : " down");
-           }
+        }
          sele = document.getElementById(spreadsheet.idPrefix+"lastsort");
          if (sele.selectedIndex>0) {
            rele = document.getElementById(spreadsheet.idPrefix+"lastsortup");
            str += " "+sele.options[sele.selectedIndex].value + (rele.checked ? " up" : " down");
-           }
+        }
          spreadsheet.ExecuteCommand(str, "");
          break;
 
@@ -155,7 +155,7 @@ SocialCalc.DoCmd = function(obj, which) {
          if (editor.range.hasrange) { // set ecell to upper left
             editor.MoveECell(SocialCalc.crToCoord(editor.range.left, editor.range.top));
             editor.RangeRemove();
-            }
+         }
          break;
 
       case "movefrom":
@@ -163,7 +163,7 @@ SocialCalc.DoCmd = function(obj, which) {
             spreadsheet.context.cursorsuffix = "";
             editor.Range2Remove();
             spreadsheet.ExecuteCommand("redisplay", "");
-            }
+         }
          else if (editor.range.hasrange) { // set range2 to range or one cell
             editor.range2.top = editor.range.top;
             editor.range2.right = editor.range.right;
@@ -171,14 +171,14 @@ SocialCalc.DoCmd = function(obj, which) {
             editor.range2.left = editor.range.left;
             editor.range2.hasrange = true;
             editor.MoveECell(SocialCalc.crToCoord(editor.range.left, editor.range.top));
-            }
+         }
          else {
             editor.range2.top = editor.ecell.row;
             editor.range2.right = editor.ecell.col;
             editor.range2.bottom = editor.ecell.row;
             editor.range2.left = editor.ecell.col;
             editor.range2.hasrange = true;
-            }
+         }
          str = editor.range2.hasrange ? "" : "off";
          ele = document.getElementById(spreadsheet.idPrefix+"button_movefrom");
          ele.src=spreadsheet.imagePrefix+"movefrom"+str+".gif";
@@ -205,7 +205,7 @@ SocialCalc.DoCmd = function(obj, which) {
             ele.src=spreadsheet.imagePrefix+"movepasteoff.gif";
             ele = document.getElementById(spreadsheet.idPrefix+"button_moveinsert");
             ele.src=spreadsheet.imagePrefix+"moveinsertoff.gif";
-            }
+         }
          break;
 
       case "swapcolors":
@@ -225,12 +225,12 @@ SocialCalc.DoCmd = function(obj, which) {
          sstr = SocialCalc.SpreadsheetCmdSLookup[which] || "";
          spreadsheet.ExecuteCommand(combostr, sstr);
          break;
-      }
+   }
 
    if (obj && obj.blur) obj.blur();
    SocialCalc.KeyboardFocus();
 
-   }
+}
 
 SocialCalc.SpreadsheetCmdLookup = {
  'copy': 'copy %C all',
@@ -289,19 +289,19 @@ SocialCalc.SpreadsheetControlExecuteCommand = function(obj, combostr, sstr) {
       str.C = str.R;
       str.W = SocialCalc.rcColname(eobj.range.left) + ":" + SocialCalc.rcColname(eobj.range.right);
       str.H = eobj.range.top + ":" + eobj.range.bottom;
-      }
+   }
    else if (eobj.ecell) {
       str.C = eobj.ecell.coord;
       str.R = eobj.ecell.coord+":"+eobj.ecell.coord;
       str.W = SocialCalc.rcColname(SocialCalc.coordToCr(eobj.ecell.coord).col);
       str.H = SocialCalc.coordToCr(eobj.ecell.coord).row;
-      }
+   }
    else {
       str.C = 'A1'
       str.R = 'A1:A1'
       str.W = SocialCalc.rcColname(SocialCalc.coordToCr('A1').col);
       str.H = SocialCalc.coordToCr('A1').row;
-      }
+   }
    str.S = sstr;
    combostr = combostr.replace(/%C/g, str.C);
    combostr = combostr.replace(/%R/g, str.R);

@@ -65,7 +65,7 @@ SocialCalc.TableControl = function(editor, vertical, size) {
    this.thumbthickness = 0; // auto calculated
    this.minscrollingpanesize = this.buttonthickness+this.buttonthickness+this.thumbthickness+20; // the 20 is to leave a little space
 
-   }
+}
 
 // Methods:
 
@@ -157,7 +157,7 @@ SocialCalc.ScrollAreaClick = function(e, buttoninfo, bobj) {
    var clickpos = control.vertical ? buttoninfo.clientY-pos.top : buttoninfo.clientX-pos.left;
    if (control.editor.busy) { // ignore if busy - wait for next repeat
       return;
-      }
+   }
    control.editor.PageRelative(control.vertical, clickpos > control.thumbpos ? 1 : -1);
 
    return;
@@ -187,7 +187,7 @@ SocialCalc.PositionTableControlElements = function(control) {
 
       control.thumb.style.top = Math.floor(thumbpos)+"px";
       control.thumb.style.height = control.thumbthickness + "px";
-      }
+   }
    else {
       control.paneslider.style.left = control.panesliderstart +"px";
       control.fixedpane.style.width = editor.firstscrollingcolleft + "px";
@@ -202,11 +202,11 @@ SocialCalc.PositionTableControlElements = function(control) {
 
       control.thumb.style.left = Math.floor(thumbpos)+"px";
       control.thumb.style.width = control.thumbthickness + "px";
-      }
+   }
 
    control.thumbpos = thumbpos;
 
-   }
+}
 
 //
 // ComputeTableControlPositions
@@ -224,9 +224,9 @@ SocialCalc.ComputeTableControlPositions = function(control) {
    if (control.vertical) {
       control.scrollareasize = $(control.scrollarea).height();
       control.panesliderstart = editor.firstscrollingrowtop - $(control.paneslider).height();
-      }
+   }
    else {
       control.scrollareasize = $(control.scrollarea).width();
       control.panesliderstart = editor.firstscrollingcolleft - $(control.paneslider).width();
-      }
    }
+}

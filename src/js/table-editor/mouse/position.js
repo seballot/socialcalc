@@ -17,14 +17,14 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
       if (!editor.rowheight[row]) continue; // not rendered yet -- may be above or below us
       if (editor.rowpositions[row]+editor.rowheight[row]>clientY) {
          break;
-         }
       }
+   }
    for (col=1; col<editor.colpositions.length; col++) {
       if (!editor.colwidth[col]) continue;
       if (editor.colpositions[col]+editor.colwidth[col]>clientX) {
          break;
-         }
       }
+   }
 
    result.row = row;
    result.col = col;
@@ -44,8 +44,8 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
                && ((editor.rowpositions[rowtoresize] + editor.rowheight[rowtoresize]) + 3) >= clientY) {
                result.rowtoresize = rowtoresize;
                break;
-            }
          }
+      }
 
          // Handle unhide row.
          if (unhide = editor.context.rowunhidetop[row]) {
@@ -54,28 +54,28 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
                && clientY >= (editor.rowpositions[row] + editor.rowheight[row] - unhide.offsetHeight)
                && clientY < (editor.rowpositions[row] + editor.rowheight[row])) {
              result.rowtounhide = row+1;
-           }
-         }
+        }
+      }
          if (unhide = editor.context.rowunhidebottom[row]) {
            pos = SocialCalc.GetElementPosition(unhide);
            if (clientX >= pos.left && clientX < pos.left+unhide.offsetWidth
                && clientY >= (editor.rowpositions[row])
                && clientY < (editor.rowpositions[row] + unhide.offsetHeight)) {
              result.rowtounhide = row-1;
-           }
-         }
+        }
+      }
          if(result.rowtounhide == null) {  //if unhide then ignore row select & resize
            for (rowpane=0; rowpane<editor.context.rowpanes.length; rowpane++) {
              if (result.rowtoresize >= editor.context.rowpanes[rowpane].first &&
                result.rowtoresize <= editor.context.rowpanes[rowpane].last) { // visible column
                return result;
-             }
-           }
+          }
+        }
            result.rowselect = true;
-         }
+      }
          delete result.rowtoresize;
          return result;
-         }
+      }
       else if (clientY < editor.headposition.top /*&& clientY > editor.gridposition.top*/) { // > because of sizing row
          result.colheader = true;
          result.distance = editor.headposition.top - clientY;
@@ -89,44 +89,44 @@ SocialCalc.GridMousePosition = function(editor, clientX, clientY) {
                && ((editor.colpositions[coltoresize] + editor.colwidth[coltoresize]) + 3) >= clientX) {
                result.coltoresize = coltoresize;
                break;
-            }
          }
+      }
 
          // Handle unhide column.
          if (unhide = editor.context.colunhideleft[col]) {
             pos = SocialCalc.GetElementPosition(unhide);
             if (clientX >= pos.left && clientX < pos.left+unhide.offsetWidth && clientY >= pos.top  && clientY < pos.top+unhide.offsetHeight) {
                result.coltounhide = col+1;
-               }
             }
+         }
          if (unhide = editor.context.colunhideright[col]) {
             pos = SocialCalc.GetElementPosition(unhide);
             if (clientX >= pos.left && clientX < pos.left+unhide.offsetWidth && clientY >= pos.top  && clientY < pos.top+unhide.offsetHeight) {
                result.coltounhide = col-1;
-               }
             }
+         }
 
          if(result.coltounhide == null) {  //if unhide then ignore col select & resize
            for (colpane=0; colpane<editor.context.colpanes.length; colpane++) {
               if (result.coltoresize >= editor.context.colpanes[colpane].first &&
                   result.coltoresize <= editor.context.colpanes[colpane].last) { // visible column
                  return result;
-                 }
               }
-           result.colselect = true;
            }
+           result.colselect = true;
+        }
          delete result.coltoresize;
          return result;
-         }
+      }
       else {
          result.coord = SocialCalc.crToCoord(result.col, result.row);
          if (editor.context.cellskip[result.coord]) { // handle skipped cells
             result.coord = editor.context.cellskip[result.coord];
-            }
-         return result;
          }
+         return result;
       }
+   }
 
    return null;
 
-   }
+}

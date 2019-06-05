@@ -8,7 +8,7 @@
 // All Rights Reserved.
 //
 // The contents of this file are subject to the Artistic License 2.0; you may not
-// use this file except in compliance with the License. You may obtain a copy of 
+// use this file except in compliance with the License. You may obtain a copy of
 // the License at http://socialcalc.org/licenses/al-20/.
 //
 // Some of the other files in the SocialCalc package are licensed under
@@ -97,11 +97,11 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
    if (!isFinite(value)) {
       if (typeof(rawvalue) == "string") { // if original was a string, try to format it
          return scfn.formatTextWithFormat(rawvalue, format_string);
-         }
+      }
       else {
          return "NaN";
-         }
       }
+   }
    rawvalue = value;
 
    var negativevalue = value < 0 ? 1 : 0; // determine sign, etc.
@@ -129,17 +129,17 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
                scfn.parse_format_string(scfn.format_definitions, format_string);
                thisformat = scfn.format_definitions[format_string];
                section = 0;
-               }
-            break; // if no comparision, matches on this section
             }
+            break; // if no comparision, matches on this section
+         }
          if (op == scfn.commands.section) { // end of section
             if (!gotcomparison) { // no comparison, so it's a match
                break;
-               }
+            }
             gotcomparison = 0;
             section++; // check out next one
             continue;
-            }
+         }
          if (op == scfn.commands.comparison) { // found a comparison - do we meet it?
             i=operandstr.indexOf(":");
             compop=operandstr.substring(0,i);
@@ -151,52 +151,52 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
                 (compop == ">=" && rawvalue >= compval) ||
                 (compop == ">" && rawvalue > compval)) { // a match
                break;
-               }
-            gotcomparison = 1;
             }
+            gotcomparison = 1;
          }
       }
+   }
    else if (section > 0) { // more than one section (separated by ";")
       if (section == 1) { // two sections
          if (negativevalue) {
             negativevalue = 0; // sign will provided by section, not automatically
             section = 1; // use second section for negative values
-            }
+         }
          else {
             section = 0; // use first for all others
-            }
          }
+      }
       else if (section == 2 || section == 3) { // three or four sections
          if (negativevalue) {
             negativevalue = 0; // sign will provided by section, not automatically
             section = 1; // use second section for negative values
-            }
+         }
          else if (zerovalue) {
             section = 2; // use third section for zero values
-            }
+         }
          else {
             section = 0; // use first for positive
-            }
          }
       }
+   }
 
    sectioninfo = thisformat.sectioninfo[section]; // look at values for our section
 
    if (sectioninfo.commas > 0) { // scale by thousands
       for (i=0; i<sectioninfo.commas; i++) {
          value /= 1000;
-         }
       }
+   }
    if (sectioninfo.percent > 0) { // do percent scaling
       for (i=0; i<sectioninfo.percent; i++) {
          value *= 100;
-         }
       }
+   }
 
    decimalscale = 1; // cut down to required number of decimal digits
    for (i=0; i<sectioninfo.fractiondigits; i++) {
       decimalscale *= 10;
-      }
+   }
    scaledvalue = Math.floor(value * decimalscale + 0.5);
    scaledvalue = scaledvalue / decimalscale;
 
@@ -210,11 +210,11 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
 
    if (scaledvalue == 0 && (sectioninfo.fractiondigits || sectioninfo.integerdigits)) {
       negativevalue = 0; // no "-0" unless using multiple sections or General
-      }
+   }
 
    if (strvalue.indexOf("e")>=0) { // converted to scientific notation
       return rawvalue+""; // Just return plain converted raw value
-      }
+   }
 
    strparts=strvalue.match(/^\+{0,1}(\d*)(?:\.(\d*)){0,1}$/); // get integer and fraction parts
    if (!strparts) return "NaN"; // if not a number
@@ -226,7 +226,7 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
    if (sectioninfo.hasdate) { // there are date placeholders
       if (rawvalue < 0) { // bad date
          return "??-???-??&nbsp;??:??:??";
-         }
+      }
       startval = (rawvalue-Math.floor(rawvalue)) * scfn.datevalues.seconds_in_a_day; // get date/time parts
       estartval = rawvalue * scfn.datevalues.seconds_in_a_day; // do elapsed time version, too
       hrs = Math.floor(startval / scfn.datevalues.seconds_in_an_hour);
@@ -238,7 +238,7 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
       decimalscale = 1; // round appropriately depending if there is ss.0
       for (i=0; i<sectioninfo.fractiondigits; i++) {
          decimalscale *= 10;
-         }
+      }
       secs = Math.floor(secs * decimalscale + 0.5);
       secs = secs / decimalscale;
       esecs = Math.floor(estartval * decimalscale + 0.5);
@@ -252,9 +252,9 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
             if (hrs >= 24) {
                hrs = 0;
                rawvalue++;
-               }
             }
          }
+      }
       fractionvalue = (secs-Math.floor(secs))+""; // for "hh:mm:ss.000"
       fractionvalue = fractionvalue.substring(2); // skip "0."
 
@@ -272,27 +272,27 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
                if (hrs >= 12) {
                   hrs -= 12;
                   ampmstr = operandstr.toLowerCase()=="a/p" ? scc.s_FormatNumber_pm1 : scc.s_FormatNumber_pm; // "P" : "PM";
-                  }
+               }
                else {
                   ampmstr = operandstr.toLowerCase()=="a/p" ? scc.s_FormatNumber_am1 : scc.s_FormatNumber_am; // "A" : "AM";
-                  }
+               }
                if (operandstr.indexOf(ampmstr)<0)
                   ampmstr = ampmstr.toLowerCase(); // have case match case in format
-               }
+            }
             if (minOK && (operandstr=="m" || operandstr=="mm")) {
                thisformat.operands[mspos] += "in"; // turn into "min" or "mmin"
-               }
+            }
             if (operandstr.charAt(0)=="h") {
                minOK = 1; // m following h or hh or [h] is minutes not months
-               }
+            }
             else {
                minOK = 0;
-               }
-            }
-         else if (op!=scfn.commands.copy) { // copying chars can be between h and m
-            minOK = 0;
             }
          }
+         else if (op!=scfn.commands.copy) { // copying chars can be between h and m
+            minOK = 0;
+         }
+      }
       minOK = 0;
       for (--mspos; ; mspos--) { // scan other way for s after m
          op = thisformat.operators[mspos];
@@ -302,19 +302,19 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
          if (op==scfn.commands.date) {
             if (minOK && (operandstr=="m" || operandstr=="mm")) {
                thisformat.operands[mspos] += "in"; // turn into "min" or "mmin"
-               }
+            }
             if (operandstr=="ss") {
                minOK = 1; // m before ss is minutes not months
-               }
+            }
             else {
                minOK = 0;
-               }
-            }
-         else if (op!=scfn.commands.copy) { // copying chars can be between ss and m
-            minOK = 0;
             }
          }
+         else if (op!=scfn.commands.copy) { // copying chars can be between ss and m
+            minOK = 0;
+         }
       }
+   }
 
    integerdigits2 = 0; // init counters, etc.
    integerpos = 0;
@@ -333,21 +333,21 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
 
       if (op == scfn.commands.copy) { // put char in result
          result += operandstr;
-         }
+      }
 
       else if (op == scfn.commands.color) { // set color
          textcolor = operandstr;
-         }
+      }
 
       else if (op == scfn.commands.style) { // set style
          textstyle = operandstr;
-         }
+      }
 
       else if (op == scfn.commands.integer_placeholder) { // insert number part
          if (negativevalue) {
             result += "-";
             negativevalue = 0;
-            }
+         }
          integerdigits2++;
          if (integerdigits2 == 1) { // first one
             if (integervalue.length > sectioninfo.integerdigits) { // see if integer wider than field
@@ -357,11 +357,11 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
                      fromend = integervalue.length - integerpos - 1;
                      if (fromend > 2 && fromend % 3 == 0) {
                         result += separatorchar;
-                        }
                      }
                   }
                }
             }
+         }
          if (integervalue.length < sectioninfo.integerdigits
              && integerdigits2 <= sectioninfo.integerdigits - integervalue.length) { // field is wider than value
             if (operandstr == "0" || operandstr == "?") { // fill with appropriate characters
@@ -370,48 +370,48 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
                   fromend = sectioninfo.integerdigits - integerdigits2;
                   if (fromend > 2 && fromend % 3 == 0) {
                      result += separatorchar;
-                     }
                   }
                }
             }
+         }
          else { // normal integer digit - add it
             result += integervalue.charAt(integerpos);
             if (sectioninfo.thousandssep) { // see if this is a separator position
                fromend = integervalue.length - integerpos - 1;
                if (fromend > 2 && fromend % 3 == 0) {
                   result += separatorchar;
-                  }
                }
-            integerpos++;
             }
+            integerpos++;
          }
+      }
       else if (op == scfn.commands.fraction_placeholder) { // add fraction part of number
          if (fractionpos >= fractionvalue.length) {
             if (operandstr == "0" || operandstr == "?") {
                result += operandstr == "0" ? "0" : "&nbsp;";
-               }
             }
+         }
          else {
             result += fractionvalue.charAt(fractionpos);
-            }
-         fractionpos++;
          }
+         fractionpos++;
+      }
 
       else if (op == scfn.commands.decimal) { // decimal point
          if (negativevalue) {
             result += "-";
             negativevalue = 0;
-            }
-         result += decimalchar;
          }
+         result += decimalchar;
+      }
 
       else if (op == scfn.commands.currency) { // currency symbol
          if (negativevalue) {
             result += "-";
             negativevalue = 0;
-            }
-         result += operandstr;
          }
+         result += operandstr;
+      }
 
       else if (op == scfn.commands.general) { // insert "General" conversion
 
@@ -422,15 +422,15 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
             factor = Math.pow(10, 13-factor); // turn into scaling factor
             value = Math.floor(factor * value + 0.5)/factor; // scale positive value, round, undo scaling
             if (!isFinite(value)) return "NaN";
-            }
+         }
          if (negativevalue) {
             result += "-";
-            }
+         }
          strvalue = value+""; // convert original value to string
          if (strvalue.indexOf("e")>=0) { // converted to scientific notation
             result += strvalue;
             continue;
-            }
+         }
          strparts=strvalue.match(/^\+{0,1}(\d*)(?:\.(\d*)){0,1}$/); // get integer and fraction parts
          integervalue = strparts[1];
          if (!integervalue || integervalue=="0") integervalue="";
@@ -445,133 +445,133 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
                   fromend = integervalue.length - integerpos - 1;
                   if (fromend > 2 && fromend % 3 == 0) {
                      result += separatorchar;
-                     }
                   }
                }
-             }
+            }
+          }
          else {
             result += "0";
-            }
+         }
          if (fractionvalue.length) {
             result += decimalchar;
             for (;fractionpos < fractionvalue.length; fractionpos++) {
                result += fractionvalue.charAt(fractionpos);
-               }
             }
          }
+      }
       else if (op==scfn.commands.date) { // date placeholder
          operandstrlc = operandstr.toLowerCase();
          if (operandstrlc=="y" || operandstrlc=="yy") {
             result += (ymd.year+"").substring(2);
-            }
+         }
          else if (operandstrlc=="yyyy") {
             result += ymd.year+"";
-            }
+         }
          else if (operandstrlc=="d") {
             result += ymd.day+"";
-            }
+         }
          else if (operandstrlc=="dd") {
             cval = 1000 + ymd.day;
             result += (cval+"").substr(2);
-            }
+         }
          else if (operandstrlc=="ddd") {
             cval = Math.floor(rawvalue+6) % 7;
             result += scc.s_FormatNumber_daynames3[cval];
-            }
+         }
          else if (operandstrlc=="dddd") {
             cval = Math.floor(rawvalue+6) % 7;
             result += scc.s_FormatNumber_daynames[cval];
-            }
+         }
          else if (operandstrlc=="m") {
             result += ymd.month+"";
-            }
+         }
          else if (operandstrlc=="mm") {
             cval = 1000 + ymd.month;
             result += (cval+"").substr(2);
-            }
+         }
          else if (operandstrlc=="mmm") {
             result += scc.s_FormatNumber_monthnames3[ymd.month-1];
-            }
+         }
          else if (operandstrlc=="mmmm") {
             result += scc.s_FormatNumber_monthnames[ymd.month-1];
-            }
+         }
          else if (operandstrlc=="mmmmm") {
             result += scc.s_FormatNumber_monthnames[ymd.month-1].charAt(0);
-            }
+         }
          else if (operandstrlc=="h") {
             result += hrs+"";
-            }
+         }
          else if (operandstrlc=="h]") {
             result += ehrs+"";
-            }
+         }
          else if (operandstrlc=="mmin") {
             cval = (1000 + mins)+"";
             result += cval.substr(2);
-            }
+         }
          else if (operandstrlc=="mm]") {
             if (emins < 100) {
                cval = (1000 + emins)+"";
                result += cval.substr(2);
-               }
+            }
             else {
                result += emins+"";
-               }
             }
+         }
          else if (operandstrlc=="min") {
             result += mins+"";
-            }
+         }
          else if (operandstrlc=="m]") {
             result += emins+"";
-            }
+         }
          else if (operandstrlc=="hh") {
             cval = (1000 + hrs)+"";
             result += cval.substr(2);
-            }
+         }
          else if (operandstrlc=="s") {
             cval = Math.floor(secs);
             result += cval+"";
-            }
+         }
          else if (operandstrlc=="ss") {
             cval = (1000 + Math.floor(secs))+"";
             result += cval.substr(2);
-            }
+         }
          else if (operandstrlc=="am/pm" || operandstrlc=="a/p") {
             result += ampmstr;
-            }
+         }
          else if (operandstrlc=="ss]") {
             if (esecs < 100) {
                cval = (1000 + Math.floor(esecs))+"";
                result += cval.substr(2);
-               }
+            }
             else {
                cval = Math.floor(esecs);
                result += cval+"";
-               }
             }
          }
+      }
       else if (op == scfn.commands.section) { // end of section
          break;
-         }
+      }
 
       else if (op == scfn.commands.comparison) { // ignore
          continue;
-         }
+      }
 
       else {
          result += "!! Parse error !!";
-         }
       }
+   }
 
    if (textcolor) {
       result = '<span style="color:'+textcolor+';">'+result+'</span>';
-      }
+   }
    if (textstyle) {
       result = '<span style="'+textstyle+';">'+result+'</span>';
-      }
+   }
 
    return result;
 
-   };
+};
 
 /* *******************
 
@@ -600,13 +600,13 @@ SocialCalc.FormatNumber.formatTextWithFormat = function(rawvalue, format_string)
    section = thisformat.sectioninfo.length - 1; // get number of sections - 1
    if (section == 0) {
       section = 0;
-      }
+   }
    else if (section == 3) {
       section = 3;
-      }
+   }
    else {
       return value;
-      }
+   }
 
    sectioninfo = thisformat.sectioninfo[section]; // look at values for our section
    oppos = sectioninfo.sectionstart;
@@ -617,31 +617,31 @@ SocialCalc.FormatNumber.formatTextWithFormat = function(rawvalue, format_string)
       if (op == scfn.commands.copy) { // put char in result
          if (operandstr == "@") {
             result += value;
-            }
+         }
          else {
             result += operandstr.replace(/ /g, "&nbsp;");
-            }
          }
+      }
 
       else if (op == scfn.commands.color) { // set color
          textcolor = operandstr;
-         }
+      }
 
       else if (op == scfn.commands.style) { // set style
          textstyle = operandstr;
-         }
       }
+   }
 
    if (textcolor) {
       result = '<span style="color:'+textcolor+';">'+result+'</span>';
-      }
+   }
    if (textstyle) {
       result = '<span style="'+textstyle+';">'+result+'</span>';
-      }
+   }
 
    return result;
 
-   };
+};
 
 /* *******************
 
@@ -704,10 +704,10 @@ SocialCalc.FormatNumber.parse_format_string = function(format_defs, format_strin
             thisformat.operators.push(scfn.commands.copy);
             thisformat.operands.push(quotestr);
             continue;
-            }
+         }
          quotestr += ch;
          continue;
-         }
+      }
       if (inbracket) {
          if (ch==']') {
             inbracket = 0;
@@ -715,38 +715,38 @@ SocialCalc.FormatNumber.parse_format_string = function(format_defs, format_strin
             if (bracketdata.operator==scfn.commands.separator) {
                sectioninfo.thousandssep = 1; // explicit [,]
                continue;
-               }
+            }
             if (bracketdata.operator==scfn.commands.date) {
                sectioninfo.hasdate = 1;
-               }
+            }
             if (bracketdata.operator==scfn.commands.comparison) {
                thisformat.hascomparison = 1;
-               }
+            }
             thisformat.operators.push(bracketdata.operator);
             thisformat.operands.push(bracketdata.operand);
             continue;
-            }
+         }
          bracketstr += ch;
          continue;
-         }
+      }
       if (lastwasslash) {
          thisformat.operators.push(scfn.commands.copy);
          thisformat.operands.push(ch);
          lastwasslash=false;
          continue;
-         }
+      }
       if (lastwasasterisk) {
          thisformat.operators.push(scfn.commands.copy);
          thisformat.operands.push(ch+ch+ch+ch+ch); // do 5 of them since no real tabs
          lastwasasterisk=false;
          continue;
-         }
+      }
       if (lastwasunderscore) {
          thisformat.operators.push(scfn.commands.copy);
          thisformat.operands.push("&nbsp;");
          lastwasunderscore=false;
          continue;
-         }
+      }
       if (ingeneral) {
          if ("general".charAt(ingeneral)==ch.toLowerCase()) {
             ingeneral++;
@@ -754,100 +754,100 @@ SocialCalc.FormatNumber.parse_format_string = function(format_defs, format_strin
                thisformat.operators.push(scfn.commands.general);
                thisformat.operands.push(ch);
                ingeneral=0;
-               }
-            continue;
             }
-         ingeneral = 0;
+            continue;
          }
+         ingeneral = 0;
+      }
       if (indate) { // last char was part of a date placeholder
          if (indate.charAt(0)==ch) { // another of the same char
             indate += ch; // accumulate it
             continue;
-            }
+         }
          thisformat.operators.push(scfn.commands.date); // something else, save date info
          thisformat.operands.push(indate);
          sectioninfo.hasdate=1;
          indate = "";
-         }
+      }
       if (ampmstr) {
          ampmstr += ch;
          part=ampmstr.toLowerCase();
          if (part!="am/pm".substring(0,part.length) && part!="a/p".substring(0,part.length)) {
             ampstr="";
-            }
+         }
          else if (part=="am/pm" || part=="a/p") {
             thisformat.operators.push(scfn.commands.date);
             thisformat.operands.push(ampmstr);
             ampmstr = "";
-            }
-         continue;
          }
+         continue;
+      }
       if (ch=="#" || ch=="0" || ch=="?") { // placeholder
          if (integerpart) {
             sectioninfo.integerdigits++;
             if (sectioninfo.commas) { // comma inside of integer placeholders
                sectioninfo.thousandssep = 1; // any number is thousands separator
                sectioninfo.commas = 0; // reset count of "thousand" factors
-               }
+            }
             lastwasinteger = 1;
             thisformat.operators.push(scfn.commands.integer_placeholder);
             thisformat.operands.push(ch);
-            }
+         }
          else {
             sectioninfo.fractiondigits++;
             lastwasinteger = 1;
             thisformat.operators.push(scfn.commands.fraction_placeholder);
             thisformat.operands.push(ch);
-            }
          }
+      }
       else if (ch==".") { // decimal point
          lastwasinteger = 0;
          thisformat.operators.push(scfn.commands.decimal);
          thisformat.operands.push(ch);
          integerpart = 0;
-         }
+      }
       else if (ch=='$') { // currency char
          lastwasinteger = 0;
          thisformat.operators.push(scfn.commands.currency);
          thisformat.operands.push(ch);
-         }
+      }
       else if (ch==",") {
          if (lastwasinteger) {
             sectioninfo.commas++;
-            }
+         }
          else {
             thisformat.operators.push(scfn.commands.copy);
             thisformat.operands.push(ch);
-            }
          }
+      }
       else if (ch=="%") {
          lastwasinteger = 0;
          sectioninfo.percent++;
          thisformat.operators.push(scfn.commands.copy);
          thisformat.operands.push(ch);
-         }
+      }
       else if (ch=='"') {
          lastwasinteger = 0;
          inquote = 1;
          quotestr = "";
-         }
+      }
       else if (ch=='[') {
          lastwasinteger = 0;
          inbracket = 1;
          bracketstr = "";
-         }
+      }
       else if (ch=='\\') {
          lastwasslash = 1;
          lastwasinteger = 0;
-         }
+      }
       else if (ch=='*') {
          lastwasasterisk = 1;
          lastwasinteger = 0;
-         }
+      }
       else if (ch=='_') {
          lastwasunderscore = 1;
          lastwasinteger = 0;
-         }
+      }
       else if (ch==";") {
          section++; // start next section
          thisformat.sectioninfo[section] = {}; // create a new section
@@ -861,34 +861,34 @@ SocialCalc.FormatNumber.parse_format_string = function(format_defs, format_strin
          lastwasinteger = 0;
          thisformat.operators.push(scfn.commands.section);
          thisformat.operands.push(ch);
-         }
+      }
       else if (ch.toLowerCase()=="g") {
          ingeneral = 1;
          lastwasinteger = 0;
-         }
+      }
       else if (ch.toLowerCase()=="a") {
          ampmstr = ch;
          lastwasinteger = 0;
-         }
+      }
       else if ("dmyhHs".indexOf(ch)>=0) {
          indate = ch;
-         }
+      }
       else {
          lastwasinteger = 0;
          thisformat.operators.push(scfn.commands.copy);
          thisformat.operands.push(ch);
-         }
       }
+   }
 
    if (indate) { // last char was part of unsaved date placeholder
       thisformat.operators.push(scfn.commands.date);
       thisformat.operands.push(indate);
       sectioninfo.hasdate = 1;
-      }
+   }
 
    return;
 
-   }
+}
 
 
 /* *******************
@@ -916,44 +916,44 @@ SocialCalc.FormatNumber.parse_format_bracket = function(bracketstr) {
       parts=bracketstr.match(/^\$(.+?)(\-.+?){0,1}$/);
       if (parts) {
          bracketdata.operand = parts[1] || scc.FormatNumber_defaultCurrency || '$';
-         }
+      }
       else {
          bracketdata.operand = bracketstr.substring(1) || scc.FormatNumber_defaultCurrency || '$';
-         }
       }
+   }
    else if (bracketstr=='?$') {
       bracketdata.operator = scfn.commands.currency;
       bracketdata.operand = '[?$]';
-      }
+   }
    else if (scfn.allowedcolors[bracketstr.toUpperCase()]) {
       bracketdata.operator = scfn.commands.color;
       bracketdata.operand = scfn.allowedcolors[bracketstr.toUpperCase()];
-      }
+   }
    else if (parts=bracketstr.match(/^style=([^"]*)$/)) { // [style=...]
       bracketdata.operator = scfn.commands.style;
       bracketdata.operand = parts[1];
-      }
+   }
    else if (bracketstr==",") {
       bracketdata.operator = scfn.commands.separator;
       bracketdata.operand = bracketstr;
-      }
+   }
    else if (scfn.alloweddates[bracketstr.toUpperCase()]) {
       bracketdata.operator = scfn.commands.date;
       bracketdata.operand = scfn.alloweddates[bracketstr.toUpperCase()];
-      }
+   }
    else if (parts=bracketstr.match(/^[<>=]/)) { // comparison operator
       parts=bracketstr.match(/^([<>=]+)(.+)$/); // split operator and value
       bracketdata.operator = scfn.commands.comparison;
       bracketdata.operand = parts[1]+":"+parts[2];
-      }
+   }
    else { // unknown bracket
       bracketdata.operator = scfn.commands.copy;
       bracketdata.operand = "["+bracketstr+"]";
-      }
+   }
 
    return bracketdata;
 
-   }
+}
 
 /* *******************
 
@@ -982,7 +982,7 @@ SocialCalc.FormatNumber.convert_date_gregorian_to_julian = function(year, month,
 
    return juliandate;
 
-   }
+}
 
 
 /* *******************
@@ -1017,14 +1017,14 @@ SocialCalc.FormatNumber.convert_date_julian_to_gregorian = function(juliandate) 
 
    return {year:I, month:J, day:K};
 
-   }
+}
 
 SocialCalc.intFunc = function(n) {
    if (n < 0) {
       return -Math.floor(-n);
-      }
+   }
    else {
       return Math.floor(n);
-      }
    }
+}
 

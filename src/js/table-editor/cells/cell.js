@@ -14,7 +14,7 @@ SocialCalc.GetEditorCellElement = function(editor, row, col) {
    if (editor.context.showRCHeaders == false) {
      var headerColOffset = -1;
      var headerRowOffset = -1;
-   }
+}
    var rowpane, colpane, c, coord;
    var rowindex = 0;
    var colindex = 0;
@@ -28,21 +28,21 @@ SocialCalc.GetEditorCellElement = function(editor, row, col) {
                   coord=editor.context.cellskip[SocialCalc.crToCoord(c,row)];
                   if (!coord || !editor.context.CoordInPane(coord, rowpane, colpane)) // don't count col-spanned cells
                      colindex++;
-                  }
+               }
                return {
                   element: $(editor.griddiv).find('tbody')[0].childNodes[rowindex +headerRowOffset].childNodes[colindex + headerColOffset],
                   rowpane: rowpane, colpane: colpane};
-               }
+            }
             for (c=editor.context.colpanes[colpane].first; c<=editor.context.colpanes[colpane].last; c++) {
                coord=editor.context.cellskip[SocialCalc.crToCoord(c,row)];
                if (!coord || !editor.context.CoordInPane(coord, rowpane, colpane)) // don't count col-spanned cells
                   colindex++;
-               }
-            colindex += 1;
             }
+            colindex += 1;
          }
-      rowindex += editor.context.rowpanes[rowpane].last - editor.context.rowpanes[rowpane].first + 1 + 1;
       }
+      rowindex += editor.context.rowpanes[rowpane].last - editor.context.rowpanes[rowpane].first + 1 + 1;
+   }
 
    return null;
 }
@@ -57,28 +57,28 @@ SocialCalc.EnsureECellVisible = function(editor) {
    if (editor.ecell.row > editor.lastnonscrollingrow) {
       if (editor.ecell.row < editor.firstscrollingrow) {
          vamount = editor.ecell.row - editor.firstscrollingrow;
-         }
+      }
       else if (editor.ecell.row + 1 > editor.lastvisiblerow) {
          vamount = editor.ecell.row - editor.lastvisiblerow + 1;
-         }
       }
+   }
    if (editor.ecell.col > editor.lastnonscrollingcol) {
       if (editor.ecell.col < editor.firstscrollingcol) {
          hamount = editor.ecell.col - editor.firstscrollingcol;
-         }
+      }
       else if (editor.ecell.col + 1 > editor.lastvisiblecol) {
         hamount = editor.ecell.col- editor.lastvisiblecol + 1;
-         }
       }
+   }
 
    if (vamount!=0 || hamount!=0) {
       editor.ScrollRelativeBoth(vamount, hamount);
-      }
+   }
    else {
       editor.cellhandles.ShowCellHandles(true);
-      }
-
    }
+
+}
 
 SocialCalc.ReplaceCell = function(editor, cell, row, col) {
 
@@ -93,9 +93,9 @@ SocialCalc.ReplaceCell = function(editor, cell, row, col) {
       for (a in newelement.style) {
          if (newelement.style[a]!="cssText")
             cell.element.style[a] = newelement.style[a];
-         }
       }
    }
+}
 
 
 SocialCalc.UpdateCellCSS = function(editor, cell, row, col) {
@@ -109,9 +109,9 @@ SocialCalc.UpdateCellCSS = function(editor, cell, row, col) {
       for (a in newelement.style) {
          if (newelement.style[a]!="cssText")
             cell.element.style[a] = newelement.style[a];
-         }
       }
    }
+}
 
 
 SocialCalc.SetECellHeaders = function(editor, selected) {
@@ -132,10 +132,10 @@ SocialCalc.SetECellHeaders = function(editor, selected) {
    // Handle ecell on a hidden column/row.
    while (context.sheetobj.colattribs.hide[SocialCalc.rcColname(ecell.col)] == "yes") {
       ecell.col++;
-      }
+   }
    while (context.sheetobj.rowattribs.hide[ecell.row] == "yes") {
       ecell.row++;
-      }
+   }
 
    ecell.coord = SocialCalc.crToCoord(ecell.col, ecell.row);
 
@@ -151,11 +151,11 @@ SocialCalc.SetECellHeaders = function(editor, selected) {
                if (context.explicitStyles) headercell.style.cssText=context.explicitStyles[selected+"rowname"];
                headercell.style.verticalAlign="top"; // to get around Safari making top of centered row number be
                                                      // considered top of row (and can't get <row> position in Safari)
-               }
             }
          }
-      rowindex += last - first + 1 + 1;
       }
+      rowindex += last - first + 1 + 1;
+   }
 
    for (colpane=0; colpane<context.colpanes.length; colpane++) {
       first = context.colpanes[colpane].first;
@@ -167,12 +167,12 @@ SocialCalc.SetECellHeaders = function(editor, selected) {
             if (headercell) {
                if (context.classnames) headercell.className=context.classnames[selected+"colname"];
                if (context.explicitStyles) headercell.style.cssText=context.explicitStyles[selected+"colname"];
-               }
             }
          }
-      colindex += last - first + 1 + 1;
       }
+      colindex += last - first + 1 + 1;
    }
+}
 
 //
 // ECellReadonly(editor, ecoord)
@@ -184,11 +184,11 @@ SocialCalc.ECellReadonly = function(editor, ecoord) {
 
    if (!ecoord && editor.ecell) {
       ecoord = editor.ecell.coord;
-      }
+   }
 
    if (!ecoord) return false;
 
    var cell = editor.context.sheetobj.cells[ecoord];
    return cell && cell.readonly;
 
-   }
+}

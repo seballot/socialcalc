@@ -5,12 +5,12 @@
 SocialCalc.EditorScheduleSheetCommands = function(editor, cmdstr, saveundo, ignorebusy) {
    if (editor.state!="start" && !ignorebusy) { // ignore commands if editing a cell
       return;
-      }
+   }
 
    if (editor.busy && !ignorebusy) { // hold off on commands if doing one
       editor.deferredCommands.push({cmdstr: cmdstr, saveundo: saveundo});
       return;
-      }
+   }
 
    var cmdTokens = cmdstr.split(" ");
 
@@ -38,8 +38,8 @@ SocialCalc.EditorScheduleSheetCommands = function(editor, cmdstr, saveundo, igno
       default:
          editor.context.sheetobj.ScheduleSheetCommands(cmdstr, saveundo);
          break;
-      }
    }
+}
 
 //
 // SocialCalc.ScheduleSheetCommands
@@ -55,17 +55,17 @@ SocialCalc.ScheduleSheetCommands = function(sheet, cmdstr, saveundo) {
 
    if (sci.sheetobj.statuscallback) { // notify others if requested
       sheet.statuscallback(sci, "cmdstart", "", sci.sheetobj.statuscallbackparams);
-      }
+   }
 
    if (saveundo) {
       sci.sheetobj.changes.PushChange(""); // add a step to undo stack
-      }
+   }
 
    sci.timerobj = window.setTimeout(function() {
       SocialCalc.SheetCommandsTimerRoutine(sci, parseobj, saveundo);
-   }, sci.firsttimerdelay);
+}, sci.firsttimerdelay);
 
-   }
+}
 
 //
 // SocialCalc.EditorApplySetCommandsToRange(editor, cmd)
@@ -85,12 +85,12 @@ SocialCalc.EditorApplySetCommandsToRange = function(editor, cmd) {
       coord = SocialCalc.crToCoord(range.left, range.top)+":"+SocialCalc.crToCoord(range.right, range.bottom);
       line = "set "+coord+" "+cmd;
       errortext = editor.EditorScheduleSheetCommands(line, true, false);
-      }
+   }
    else {
       line = "set "+ecell.coord+" "+cmd;
       errortext = editor.EditorScheduleSheetCommands(line, true, false);
-      }
+   }
 
    editor.DisplayCellContents();
 
-   }
+}

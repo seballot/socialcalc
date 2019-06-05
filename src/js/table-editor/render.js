@@ -12,7 +12,7 @@ SocialCalc.ScheduleRender = function(editor) {
    SocialCalc.EditorSheetStatusCallback(null, "schedrender", null, editor);
    editor.timeout = window.setTimeout(function() { SocialCalc.DoRenderStep(editor); }, 1);
 
-   }
+}
 
 // DoRenderStep(editor)
 //
@@ -29,7 +29,7 @@ SocialCalc.DoRenderStep = function(editor) {
 
    editor.timeout = window.setTimeout(function() { SocialCalc.DoPositionCalculations(editor); }, 1);
 
-   }
+}
 
 //
 // SocialCalc.SchedulePositionCalculations(editor)
@@ -41,7 +41,7 @@ SocialCalc.SchedulePositionCalculations = function(editor) {
 
    editor.timeout = window.setTimeout(function() { SocialCalc.DoPositionCalculations(editor); }, 1);
 
-   }
+}
 
 // DoPositionCalculations(editor)
 //
@@ -64,7 +64,7 @@ SocialCalc.DoPositionCalculations = function(editor) {
    if (editor.ensureecell && editor.ecell && !editor.deferredCommands.length) { // don't do if deferred cmd to execute
       editor.ensureecell = false;
       editor.EnsureECellVisible(); // this could cause another redisplay
-      }
+   }
 
    editor.cellhandles.ShowCellHandles(true);
 
@@ -72,7 +72,7 @@ SocialCalc.DoPositionCalculations = function(editor) {
 //!!! Need to now check to see if this positioned controls out of the editing area
 //!!! (such as when there is a large wrapped cell and it pushes the pane boundary too far down).
 
-   }
+}
 
 SocialCalc.CalculateRowPositions = function(editor, panenum, positions, sizes) {
 
@@ -95,7 +95,7 @@ SocialCalc.CalculateRowPositions = function(editor, panenum, positions, sizes) {
    toprow = 2;
    for (rowpane=0; rowpane<panenum; rowpane++) {
       toprow += context.rowpanes[rowpane].last - context.rowpanes[rowpane].first + 2; // skip pane and spacing row
-      }
+   }
 
    offset = 0;
    for (rownum=context.rowpanes[rowpane].first; rownum<=context.rowpanes[rowpane].last; rownum++) {
@@ -106,12 +106,12 @@ SocialCalc.CalculateRowPositions = function(editor, panenum, positions, sizes) {
       if (!positions[rownum]) {
          positions[rownum] = trowobj.firstChild.offsetTop;
          sizes[rownum] = trowobj.firstChild.offsetHeight;
-         }
       }
+   }
 
    return;
 
-   }
+}
 
 SocialCalc.CalculateColPositions = function(editor, panenum, positions, sizes) {
 
@@ -134,7 +134,7 @@ SocialCalc.CalculateColPositions = function(editor, panenum, positions, sizes) {
    leftcol = 1;
    for (colpane=0; colpane<panenum; colpane++) {
       leftcol += context.colpanes[colpane].last - context.colpanes[colpane].first + 2; // skip pane and spacing col
-      }
+   }
 
    trowobj = tbodyobj.childNodes[1]; // get heading row, which has all columns
    offset = 0;
@@ -144,11 +144,11 @@ SocialCalc.CalculateColPositions = function(editor, panenum, positions, sizes) {
          positions[colnum] = cellposition.left; // first one takes precedence
          if (trowobj.childNodes[leftcol+offset]) {
             sizes[colnum] = trowobj.childNodes[leftcol+offset].offsetWidth;
-            }
          }
-      offset++;
       }
+      offset++;
+   }
 
    return;
 
-   }
+}

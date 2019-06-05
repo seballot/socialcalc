@@ -50,7 +50,7 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
            progress = params.emailreponse;
            params.emailreponse = "";
            params.emailing = "done";
-         }
+      }
          // } eddy EditorGetStatuslineString
          break;
 
@@ -92,21 +92,21 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
       default:
          progress = status;
          break;
-      }
+   }
 
    // eddy EditorGetStatuslineString {
    // if send email then update status bar with "sending" and then "sent"
    if(params.emailing == "sending") {
      progress += scc.s_statusline_sendemail;
-   }
+}
    if(params.emailing == "sent") {
      progress += params.emailreponse;
-   }
+}
    // } eddy EditorGetStatuslineString
 
    if (!progress && params.calculating) {
       progress = scc.s_statusline_calculating;
-      }
+   }
 
    // if there is a range, calculate sum (not during busy times)
    if (!params.calculating && !params.command && !progress && editor.range.hasrange
@@ -118,9 +118,9 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
             if (!cell) continue;
             if (cell.valuetype && cell.valuetype.charAt(0)=="n") {
                sum += cell.datavalue-0;
-               }
             }
          }
+      }
 
       sum = SocialCalc.FormatNumber.formatNumberWithFormat(sum, "[,]General", "");
 
@@ -128,22 +128,22 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
          SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
       progress = coord + " (" + (editor.range.right-editor.range.left+1) + "x" + (editor.range.bottom-editor.range.top+1) +
                  ") "+scc.s_statusline_sum+"=" + sum + " " + progress;
-      }
+   }
    sstr = (editor.ecell || {}).coord;
    if (progress) sstr += " | "+progress;
 
    if (!params.calculating && editor.context.sheetobj.attribs.needsrecalc=="yes") {
       sstr += ' &nbsp; '+scc.s_statusline_recalcneeded;
-      }
+   }
 
    circ = editor.context.sheetobj.attribs.circularreferencecell;
    if (circ) {
       circ = circ.replace(/\|/, " referenced by ");
       sstr += ' &nbsp; '+scc.s_statusline_circref + circ + '</span>';
-      }
+   }
    // eddy EditorGetStatuslineString {
    sstr += "";
    // } eddy EditorGetStatuslineString
    return sstr;
 
-   }
+}

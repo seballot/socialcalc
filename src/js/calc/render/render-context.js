@@ -47,7 +47,7 @@ SocialCalc.RenderContext = function(sheetobj) {
          cursorinsertup: { className: "insert-up selected-cell"},
          cursorinsertleft: { className: "insert-left selected-cell"},
          range2: { className: "selected-range-initial"}
-      }
+   }
 
    this.cellIDprefix = scc.defaultCellIDPrefix; // if non-null, each cell will render with an ID
 
@@ -93,7 +93,7 @@ SocialCalc.RenderContext = function(sheetobj) {
          unhidebottom: scc.defaultUnhideBottomClass,
          colresizebar: scc.defaultColResizeBarClass,
          rowresizebar: scc.defaultRowResizeBarClass
-      };
+   };
 
    this.explicitStyles = // these may be used so you won't need a stylesheet with the classnames
       {
@@ -108,7 +108,7 @@ SocialCalc.RenderContext = function(sheetobj) {
          unhideright: scc.defaultUnhideRightStyle,
          unhidetop: scc.defaultUnhideTopStyle,
          unhidebottom: scc.defaultUnhideBottomStyle
-      };
+   };
 
    // processed info about cell skipping
 
@@ -130,10 +130,10 @@ SocialCalc.RenderContext = function(sheetobj) {
       this.usermaxcol = attribs.usermaxcol;
       this.usermaxrow = attribs.usermaxrow;
 
-      }
+   }
    else throw scc.s_rcMissingSheet;
 
-   }
+}
 
 // Methods:
 

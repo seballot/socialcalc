@@ -15,7 +15,7 @@ SocialCalc.MouseWheelInfo = {
 
    registeredElements: []
 
-   }
+}
 
 //
 // MouseWheelRegister(element, functionobj) - make element respond to mousewheel
@@ -32,17 +32,17 @@ SocialCalc.MouseWheelRegister = function(element, functionobj) {
    if (element.addEventListener) { // DOM Level 2 -- Firefox, et al
       element.addEventListener("DOMMouseScroll", SocialCalc.ProcessMouseWheel, false);
       element.addEventListener("mousewheel", SocialCalc.ProcessMouseWheel, false); // Opera needs this
-      }
+   }
    else if (element.attachEvent) { // IE 5+
       element.attachEvent("onmousewheel", SocialCalc.ProcessMouseWheel);
-      }
+   }
    else { // don't handle this
       throw SocialCalc.Constants.s_BrowserNotSupported;
-      }
+   }
 
    return;
 
-   }
+}
 
 SocialCalc.ProcessMouseWheel = function(e) {
 
@@ -57,7 +57,7 @@ SocialCalc.ProcessMouseWheel = function(e) {
 
    for (wobj=null; !wobj && ele; ele=ele.parentNode) { // go up tree looking for one of our elements
       wobj = SocialCalc.LookupElement(ele, mousewheelinfo.registeredElements);
-      }
+   }
    if (!wobj) return; // not one of our elements
 
    if (event.wheelDelta) delta = event.wheelDelta/40;
@@ -69,4 +69,4 @@ SocialCalc.ProcessMouseWheel = function(e) {
    if (event.preventDefault) event.preventDefault();
    event.returnValue = false;
 
-   }
+}

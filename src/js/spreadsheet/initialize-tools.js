@@ -6,12 +6,12 @@ SocialCalc.InitializeSpreadsheetToolBar = function(spreadsheet) {
    $tableTools = spreadsheet.$container.find('.tool-tab-content[name=table]');
    $tableTools.find('.action-btn').click(function() {
       SocialCalc.DoCmd(this, $(this).data('command'));
-   });
+});
 
    // buttons for styling
    $tableTools.find('.style-btn').click(function() {
       SocialCalc.HandleStyleButtonClicked(this);
-   });
+});
 
    var palette = [
      ["#000000","#3c4042","#5b5b5b","#999999","#bcbcbc","#eeeeee","#f3f6f4","#ffffff"],
@@ -33,7 +33,7 @@ SocialCalc.InitializeSpreadsheetToolBar = function(spreadsheet) {
       hideAfterPaletteSelect:true,
       showPaletteOnly: true,
       palette: palette
-   });
+});
 
    $tableTools.find('[data-command="style.color"] + .sp-replacer').prepend($('<span class="fas fa-font"></span>'));
    $tableTools.find('[data-command="style.background-color"] + .sp-replacer').prepend($('<span class="fas fa-fill-drip"></span>'));
@@ -42,5 +42,5 @@ SocialCalc.InitializeSpreadsheetToolBar = function(spreadsheet) {
 
    $tableTools.find('.style-input').change(function() {
       SocialCalc.HandleStyleButtonClicked(this);
-   });
+});
 }

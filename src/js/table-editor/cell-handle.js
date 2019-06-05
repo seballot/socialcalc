@@ -22,7 +22,7 @@ SocialCalc.CellHandles = function(editor) {
    this.draghandle.addEventListener("mousedown", SocialCalc.CellHandlesMouseDown, false);
    this.dragpalette.addEventListener("mousedown", SocialCalc.CellHandlesMouseDown, false);
    this.dragpalette.addEventListener("mousemove", SocialCalc.CellHandlesMouseMoveOnHandle, false);
-   }
+}
 
 // Methods:
 
@@ -60,7 +60,7 @@ SocialCalc.CellHandles.prototype.ShowCellHandles = function(show, showActions, a
       if (typeof cell != "undefined") {
          colinc += (cell.colspan || 1) - 1;
          rowinc += (cell.rowspan || 1) - 1;
-         }
+      }
 
       this.draghandle.style.left = (editor.colpositions[col+colinc]-3)+"px";
       this.draghandle.style.top = (editor.rowpositions[row+rowinc]-3)+"px";
@@ -70,11 +70,11 @@ SocialCalc.CellHandles.prototype.ShowCellHandles = function(show, showActions, a
          this.dragpalette.style.left = (editor.colpositions[col+colinc])+"px";
          this.dragpalette.style.top = (editor.rowpositions[row+rowinc])+"px";
          $(this.dragpalette).fadeIn(250);
-         }
+      }
 
       doshow = true;
 
-      }
+   }
    while (false); // only do once
 
    if (!doshow)
@@ -82,9 +82,9 @@ SocialCalc.CellHandles.prototype.ShowCellHandles = function(show, showActions, a
    if (!showActions) {
       if (animate) $(this.dragpalette).fadeOut(700);
       else this.dragpalette.style.display = "none";
-      }
-
    }
+
+}
 
 SocialCalc.CellHandles.prototype.DisplayTooltip = function(clientX, clientY) {
 
@@ -115,10 +115,10 @@ SocialCalc.CellHandlesMouseMoveOnHandle = function(e) {
 
       if (cellhandles.timer) window.clearTimeout(cellhandles.timer);
       cellhandles.timer = window.setTimeout(SocialCalc.CellHandlesHoverTimeout, 1500);
-      }
+   }
 
    return;
-   }
+}
 
 SocialCalc.CellHandlesHoverTimeout = function() {
 
@@ -128,7 +128,7 @@ SocialCalc.CellHandlesHoverTimeout = function() {
    if (cellhandles.timer) {
       window.clearTimeout(cellhandles.timer);
       cellhandles.timer = null;
-      }
+   }
    editor.cellhandles.ShowCellHandles(true, false, true); // hide action with animation
 
 }
@@ -195,17 +195,17 @@ SocialCalc.CellHandlesMouseDown = function(e) {
    if (document.addEventListener) { // DOM Level 2 -- Firefox, et al
       document.addEventListener("mousemove", SocialCalc.CellHandlesMouseMove, true); // capture everywhere
       document.addEventListener("mouseup", SocialCalc.CellHandlesMouseUp, true); // capture everywhere
-      }
+   }
    else if (cellhandles.draghandle.attachEvent) { // IE 5+
       cellhandles.draghandle.setCapture();
       cellhandles.draghandle.attachEvent("onmousemove", SocialCalc.CellHandlesMouseMove);
       cellhandles.draghandle.attachEvent("onmouseup", SocialCalc.CellHandlesMouseUp);
       cellhandles.draghandle.attachEvent("onlosecapture", SocialCalc.CellHandlesMouseUp);
-     }
+  }
    SocialCalc.StopPropagation(event);
    return;
 
-   }
+}
 
 SocialCalc.CellHandlesMouseMove = function(e) {
 
@@ -231,7 +231,7 @@ SocialCalc.CellHandlesMouseMove = function(e) {
    if (result && !result.coord) {
       SocialCalc.SetDragAutoRepeat(editor, result, SocialCalc.CellHandlesDragAutoRepeat);
       return;
-      }
+   }
 
    SocialCalc.SetDragAutoRepeat(editor, null); // stop repeating if it was
 
@@ -259,7 +259,7 @@ SocialCalc.CellHandlesMouseMove = function(e) {
          if (result.coord != mouseinfo.mouselastcoord) {
             editor.MoveECell(result.coord);
             editor.RangeExtend();
-            }
+         }
          break;
 
       case "Move":
@@ -270,7 +270,7 @@ SocialCalc.CellHandlesMouseMove = function(e) {
             r = editor.range2.bottom - editor.range2.top + result.row;
             editor.RangeAnchor(SocialCalc.crToCoord(c, r));
             editor.RangeExtend();
-            }
+         }
          break;
 
       case "MoveI":
@@ -284,13 +284,13 @@ SocialCalc.CellHandlesMouseMove = function(e) {
                editor.context.cursorsuffix = "insertup";
                crend.col = editor.range2.left;
                if (crend.row>=editor.range2.top && crend.row<=editor.range2.bottom+1) crend.row = editor.range2.bottom+2;
-               }
+            }
             else {
                editor.context.cursorsuffix = "insertleft";
                crend.row = editor.range2.top;
                if (crend.col>=editor.range2.left && crend.col<=editor.range2.right+1) crend.col = editor.range2.right+2;
-               }
             }
+         }
          result.coord = SocialCalc.crToCoord(crend.col, crend.row);
          if (result.coord != mouseinfo.mouselastcoord) {
             editor.MoveECell(result.coord);
@@ -300,11 +300,11 @@ SocialCalc.CellHandlesMouseMove = function(e) {
                r = editor.range2.bottom - editor.range2.top + crend.row;
                editor.RangeAnchor(SocialCalc.crToCoord(c, r));
                editor.RangeExtend();
-               }
             }
+         }
          break;
 
-      }
+   }
 
    cellhandles.DisplayTooltip(clientX, clientY);
    cellhandles.ShowCellHandles(false, false, false);
@@ -312,7 +312,7 @@ SocialCalc.CellHandlesMouseMove = function(e) {
    mouseinfo.mouselastcoord = result.coord;
    SocialCalc.StopPropagation(event);
    return;
-   }
+}
 
 
 SocialCalc.CellHandlesMouseUp = function(e) {
@@ -359,7 +359,7 @@ SocialCalc.CellHandlesMouseUp = function(e) {
       case "MoveIC":
          cmdtype2 = " formulas";
          break;
-      }
+   }
 
    if (!cellhandles.movedmouse) cellhandles.dragtype = "Nothing"; // didn't move: just leave one cell selected
 
@@ -377,7 +377,7 @@ SocialCalc.CellHandlesMouseUp = function(e) {
          if (cellhandles.filltype) {
             if (cellhandles.filltype == "Vertical") crend.col = crstart.col;
             else crend.row = crstart.row;
-            }
+         }
          result.coord = SocialCalc.crToCoord(crend.col, crend.row);
 
          editor.MoveECell(result.coord);
@@ -419,23 +419,23 @@ SocialCalc.CellHandlesMouseUp = function(e) {
          editor.RangeRemove();
          if (editor.cellhandles.filltype==" Horizontal" && deltac > 0) {
             editor.MoveECell(SocialCalc.crToCoord(editor.ecell.col-sizec-1, editor.ecell.row));
-            }
+         }
          else if (editor.cellhandles.filltype==" Vertical" && deltar > 0) {
             editor.MoveECell(SocialCalc.crToCoord(editor.ecell.col, editor.ecell.row-sizer-1));
-            }
+         }
          editor.RangeAnchor(SocialCalc.crToCoord(editor.ecell.col+sizec, editor.ecell.row+sizer));
          editor.RangeExtend();
 
          break;
 
-      }
+   }
     SocialCalc.RemoveMouseMoveUp(SocialCalc.CellHandlesMouseMove,
             SocialCalc.CellHandlesMouseUp,
             cellhandles.draghandle,
             event);
    mouseinfo.editor = null;
    return false;
-   }
+}
 
 
 // do not know what is it for
@@ -468,22 +468,22 @@ SocialCalc.CellHandlesDragAutoRepeat = function(coord, direction) {
             if (cellhandles.filltype=="Down") { // coerse to that
                crend.col = crstart.col;
                if (crend.row < crstart.row) crend.row = crstart.row;
-               }
+            }
             else {
                crend.row = crstart.row;
                if (crend.col < crstart.col) crend.col = crstart.col;
-               }
             }
+         }
          else {
             crend.col = crstart.col; // until decide, leave it at start
             crend.row = crstart.row;
-            }
+         }
 
          newcoord = SocialCalc.crToCoord(crend.col, crend.row);
          if (newcoord!=mouseinfo.mouselastcoord) {
             editor.MoveECell(coord);
             editor.RangeExtend();
-            }
+         }
          break;
 
       case "Move":
@@ -494,7 +494,7 @@ SocialCalc.CellHandlesDragAutoRepeat = function(coord, direction) {
             r = editor.range2.bottom - editor.range2.top + editor.ecell.row;
             editor.RangeAnchor(SocialCalc.crToCoord(c, r));
             editor.RangeExtend();
-            }
+         }
          break;
 
       case "MoveI":
@@ -503,16 +503,16 @@ SocialCalc.CellHandlesDragAutoRepeat = function(coord, direction) {
             if (cellhandles.filltype=="Vertical") { // coerse to that
                crend.col = editor.range2.left;
                if (crend.row>=editor.range2.top && crend.row<=editor.range2.bottom+1) crend.row = editor.range2.bottom+2;
-               }
+            }
             else {
                crend.row = editor.range2.top;
                if (crend.col>=editor.range2.left && crend.col<=editor.range2.right+1) crend.col = editor.range2.right+2;
-               }
             }
+         }
          else {
             crend.col = crstart.col; // until decide, leave it at start
             crend.row = crstart.row;
-            }
+         }
 
          newcoord = SocialCalc.crToCoord(crend.col, crend.row);
          if (newcoord!=mouseinfo.mouselastcoord) {
@@ -521,11 +521,11 @@ SocialCalc.CellHandlesDragAutoRepeat = function(coord, direction) {
             r = editor.range2.bottom - editor.range2.top + crend.row;
             editor.RangeAnchor(SocialCalc.crToCoord(c, r));
             editor.RangeExtend();
-            }
+         }
          break;
 
-      }
+   }
 
    mouseinfo.mouselastcoord = newcoord;
 
-   }
+}

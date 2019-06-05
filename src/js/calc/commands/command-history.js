@@ -8,11 +8,11 @@ SocialCalc.SheetUndo = function(sheet) {
    for (i=lastone; i>=0; i--) { // do them backwards
       if (cmdstr) cmdstr += "\n"; // concatenate with separate lines
       cmdstr += tos.undo[i];
-      }
+   }
    sheet.changes.Undo();
    sheet.ScheduleSheetCommands(cmdstr, false); // do undo operations
 
-   }
+}
 
 SocialCalc.SheetRedo = function(sheet) {
 
@@ -21,17 +21,17 @@ SocialCalc.SheetRedo = function(sheet) {
    if (!didredo) {
       sheet.ScheduleSheetCommands("", false); // schedule doing nothing
       return;
-      }
+   }
    tos = sheet.changes.TOS();
    var cmdstr = "";
 
    for (i=0; tos && i<tos.command.length; i++) {
       if (cmdstr) cmdstr += "\n"; // concatenate with separate lines
       cmdstr += tos.command[i];
-      }
+   }
    sheet.ScheduleSheetCommands(cmdstr, false); // do undo operations
 
-   }
+}
 
 SocialCalc.CreateAuditString = function(sheet) {
 
@@ -42,12 +42,12 @@ SocialCalc.CreateAuditString = function(sheet) {
    for (i=0; i<=tos; i++) {
       for (j=0; j<stack[i].command.length; j++) {
          result += stack[i].command[j] + "\n";
-         }
       }
+   }
 
    return result;
 
-   }
+}
 
 // *************************************
 //
@@ -84,63 +84,63 @@ SocialCalc.UndoStack = function() {
    this.maxRedo = 0; // Maximum size of redo stack (and audit trail which is this.stack[n].command) or zero if no limit
    this.maxUndo = 50; // Maximum number of steps kept for undo (usually the memory intensive part) or zero if no limit
 
-   }
+}
 
 SocialCalc.UndoStack.prototype.PushChange = function(type) { // adding a new thing to the stack
    while (this.stack.length > 0 && this.stack.length-1 > this.tos) { // pop off things not redone
       this.stack.pop();
-      }
+   }
    this.stack.push({command: [], type: type, undo: []});
    if (this.maxRedo && this.stack.length > this.maxRedo) { // limit number kept as audit trail
       this.stack.shift(); // remove the extra one
-      }
+   }
    if (this.maxUndo && this.stack.length > this.maxUndo) { // need to trim excess undo info
       this.stack[this.stack.length - this.maxUndo - 1].undo = []; // only need to remove one
-      }
-   this.tos = this.stack.length - 1;
    }
+   this.tos = this.stack.length - 1;
+}
 
 SocialCalc.UndoStack.prototype.AddDo = function() {
    if (!this.stack[this.stack.length-1]) { return; }
    var args = [];
    for (var i=0; i<arguments.length; i++) {
       if (arguments[i]!=null) args.push(arguments[i]); // ignore null or undefined
-      }
+   }
    var cmd = args.join(" ");
    this.stack[this.stack.length-1].command.push(cmd);
-   }
+}
 
 SocialCalc.UndoStack.prototype.AddUndo = function() {
    if (!this.stack[this.stack.length-1]) { return; }
    var args = [];
    for (var i=0; i<arguments.length; i++) {
       if (arguments[i]!=null) args.push(arguments[i]); // ignore null or undefined
-      }
+   }
    var cmd = args.join(" ");
    this.stack[this.stack.length-1].undo.push(cmd);
-   }
+}
 
 SocialCalc.UndoStack.prototype.TOS = function() {
    if (this.tos >= 0) return this.stack[this.tos];
    else return null;
-   }
+}
 
 SocialCalc.UndoStack.prototype.Undo = function() {
    if (this.tos >= 0 && (!this.maxUndo || this.tos > this.stack.length - this.maxUndo - 1)) {
       this.tos -= 1;
       return true;
-      }
+   }
    else {
       return false;
-      }
    }
+}
 
 SocialCalc.UndoStack.prototype.Redo = function() {
    if (this.tos < this.stack.length-1) {
       this.tos += 1;
       return true;
-      }
+   }
    else {
       return false;
-      }
    }
+}

@@ -24,9 +24,9 @@ SocialCalc.FitToEditTable = function(editor) {
             colwidth = sheetobj.colattribs.width[colname] || sheetobj.attribs.defaultcolwidth || SocialCalc.Constants.defaultColWidth;
             if (colwidth=="blank" || colwidth=="auto") colwidth="";
             totalwidth+=(colwidth && ((colwidth-0)>0)) ? (colwidth-0) : 10;
-            }
          }
       }
+   }
 
    for (colnum=context.colpanes[colpane].first; colnum<=10000; colnum++) { //!!! max for safety, but makes that col max!!!
       colname=SocialCalc.rcColname(colnum);
@@ -34,9 +34,9 @@ SocialCalc.FitToEditTable = function(editor) {
          colwidth = sheetobj.colattribs.width[colname] || sheetobj.attribs.defaultcolwidth || SocialCalc.Constants.defaultColWidth;
          if (colwidth=="blank" || colwidth=="auto") colwidth="";
          totalwidth+=(colwidth && ((colwidth-0)>0)) ? (colwidth-0) : 10;
-         }
-      if (totalwidth > editor.tablewidth) break;
       }
+      if (totalwidth > editor.tablewidth) break;
+   }
 
    context.colpanes[colpane].last = context.sheetobj.attribs.usermaxcol || colnum;
 
@@ -55,15 +55,15 @@ SocialCalc.FitToEditTable = function(editor) {
       for (rownum=context.rowpanes[rowpane].first; rownum<=context.rowpanes[rowpane].last; rownum++) {
          if (sheetobj.rowattribs.hide[rownum] == "yes") {
             totalrows--;
-            }
          }
       }
+   }
 
    needed = editor.tableheight - totalrows * context.pixelsPerRow; // estimate amount needed
 
    context.rowpanes[rowpane].last = context.sheetobj.attribs.usermaxrow || context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow) - 2;
 
-   }
+}
 
 //
 // CalculateEditorPositions(editor)
@@ -87,31 +87,31 @@ SocialCalc.CalculateEditorPositions = function(editor) {
    editor.rowpositions = [];
    for (rowpane=0; rowpane<editor.context.rowpanes.length; rowpane++) {
       editor.CalculateRowPositions(rowpane, editor.rowpositions, editor.rowheight);
-      }
+   }
    for (i=0; i<editor.rowpositions.length; i++) {
       if (editor.rowpositions[i]>editor.gridposition.top+editor.tableheight) break;
-      }
+   }
    editor.lastvisiblerow = i-1;
    editor.colpositions = [];
    for (colpane=0; colpane<editor.context.colpanes.length; colpane++) {
       editor.CalculateColPositions(colpane, editor.colpositions, editor.colwidth);
-      }
+   }
    for (i=0; i<editor.colpositions.length; i++) {
       if (editor.colpositions[i]>editor.gridposition.left+editor.tablewidth) break;
-      }
+   }
    editor.lastvisiblecol = i-1;
 
    editor.firstscrollingrow = editor.context.rowpanes[editor.context.rowpanes.length-1].first;
    while (editor.context.sheetobj.rowattribs.hide[editor.firstscrollingrow] == "yes") {
       editor.firstscrollingrow++;
-      }
+   }
    editor.firstscrollingrowtop = editor.rowpositions[editor.firstscrollingrow] || editor.headposition.top;
    editor.lastnonscrollingrow = editor.context.rowpanes.length-1 > 0 ?
          editor.context.rowpanes[editor.context.rowpanes.length-2].last : 0;
    editor.firstscrollingcol = editor.context.colpanes[editor.context.colpanes.length-1].first;
    while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(editor.firstscrollingcol)] == "yes") {
       editor.firstscrollingcol++;
-      }
+   }
    editor.firstscrollingcolleft = editor.colpositions[editor.firstscrollingcol] || editor.headposition.left;
    editor.lastnonscrollingcol = editor.context.colpanes.length-1 > 0 ?
          editor.context.colpanes[editor.context.colpanes.length-2].last : 0;
@@ -120,7 +120,7 @@ SocialCalc.CalculateEditorPositions = function(editor) {
 
    editor.verticaltablecontrol.ComputeTableControlPositions();
    editor.horizontaltablecontrol.ComputeTableControlPositions();
-   }
+}
 
 // LimitLastPanes(editor)
 //
@@ -144,4 +144,4 @@ SocialCalc.LimitLastPanes = function(editor) {
    if (context.sheetobj.attribs.usermaxcol && context.colpanes[plen-1].first > context.sheetobj.attribs.usermaxcol)
        context.colpanes[plen-1].first = context.sheetobj.attribs.usermaxcol;
 
-   }
+}

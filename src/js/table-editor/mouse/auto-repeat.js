@@ -26,10 +26,10 @@ SocialCalc.SetDragAutoRepeat = function(editor, mouseinfo, callback) {
       if (repeatinfo.timer) { // If was repeating, stop
          window.clearTimeout(repeatinfo.timer); // cancel timer
          repeatinfo.timer = null;
-         }
+      }
       repeatinfo.mouseinfo = null;
       return; // done
-      }
+   }
 
    repeatinfo.editor = editor;
 
@@ -40,46 +40,46 @@ SocialCalc.SetDragAutoRepeat = function(editor, mouseinfo, callback) {
             if (repeatinfo.repeatcallback) {
                if (mouseinfo.row < repeatinfo.mouseinfo.row) {
                   direction = "left";
-                  }
+               }
                else if (mouseinfo.row > repeatinfo.mouseinfo.row) {
                   direction = "right";
-                  }
+               }
                else {
                   direction = "";
-                  }
-               repeatinfo.repeatcallback(coord, direction);
                }
+               repeatinfo.repeatcallback(coord, direction);
+            }
             else {
                editor.MoveECell(coord);
                editor.MoveECell(coord);
                editor.RangeExtend();
                editor.EditorMouseRange(coord);
-               }
             }
          }
+      }
       else if (mouseinfo.colheader || mouseinfo.colfooter) {
          if (mouseinfo.col != repeatinfo.mouseinfo.col) { // changed col while dragging vertically
             coord = SocialCalc.crToCoord(mouseinfo.col, editor.ecell.row); // change to it
             if (repeatinfo.repeatcallback) {
                if (mouseinfo.row < repeatinfo.mouseinfo.row) {
                   direction = "left";
-                  }
+               }
                else if (mouseinfo.row > repeatinfo.mouseinfo.row) {
                   direction = "right";
-                  }
+               }
                else {
                   direction = "";
-                  }
-               repeatinfo.repeatcallback(coord, direction);
                }
+               repeatinfo.repeatcallback(coord, direction);
+            }
             else {
                editor.MoveECell(coord);
                editor.RangeExtend();
                editor.EditorMouseRange(coord);
-               }
             }
          }
       }
+   }
 
    repeatinfo.mouseinfo = mouseinfo;
 
@@ -91,17 +91,17 @@ SocialCalc.SetDragAutoRepeat = function(editor, mouseinfo, callback) {
       if (repeatinfo.timer) { // if repeating, cancel it
          window.clearTimeout(repeatinfo.timer); // cancel timer
          repeatinfo.timer = null;
-         }
-      return;
       }
+      return;
+   }
 
    if (!repeatinfo.timer) { // start if not already running
       repeatinfo.timer = window.setTimeout(SocialCalc.DragAutoRepeat, repeatinfo.repeatinterval);
-      }
+   }
 
    return;
 
-   }
+}
 
 //
 // DragAutoRepeat()
@@ -127,12 +127,12 @@ SocialCalc.DragAutoRepeat = function() {
       else if (direction == "down") cr.row++;
       coord = SocialCalc.crToCoord(cr.col, cr.row);
       repeatinfo.repeatcallback(coord, direction);
-      }
+   }
    else {
       coord = repeatinfo.editor.MoveECellWithKey("[a"+direction+"]shifted");
       if (coord) repeatinfo.editor.EditorMouseRange(coord);
-      }
+   }
 
    repeatinfo.timer = window.setTimeout(SocialCalc.DragAutoRepeat, repeatinfo.repeatinterval);
 
-   }
+}

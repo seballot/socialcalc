@@ -21,16 +21,16 @@ SocialCalc.EditorRenderSheet = function(editor) {
          cr = SocialCalc.coordToCr(coord);
          cell = SocialCalc.GetEditorCellElement(editor, cr.row, cr.col);
          if(cell!=null) editor.ReplaceCell(cell, cr.row, cr.col);
-       }
-     }
+    }
+  }
      sheetobj.reRenderCellList = [];
-   } else {
+} else {
       editor.fullgrid = editor.context.RenderSheet(editor.fullgrid);
       if (sheetobj.reRenderCellList != null && SocialCalc._app) {
         sheetobj.widgetsClean = true; // widgets have been rendered
         sheetobj.reRenderCellList = [];
-      }
    }
+}
 
    if (editor.ecell) editor.SetECellHeaders("selected");
 
@@ -40,4 +40,4 @@ SocialCalc.EditorRenderSheet = function(editor) {
    editor.EditorMouseRegister();
    // } EditorRenderSheet
 
-   }
+}

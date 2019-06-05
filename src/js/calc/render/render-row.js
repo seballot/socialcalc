@@ -30,14 +30,14 @@ SocialCalc.RenderRow = function(context, rownum, rowpane, linkstyle) {
          context.rowunhidetop[rownum] = unhide;
          container.appendChild(unhide);
          newcol.appendChild(container);
-         }
+      }
       if (rownum > 1 && sheetobj.rowattribs.hide[rownum-1] == "yes") {
          var unhide = document.createElement("div");
          if (context.classnames) unhide.className=context.classnames.unhidebottom;
          if (context.explicitStyles) unhide.style.cssText=context.explicitStyles.unhidebottom;
          context.rowunhidebottom[rownum] = unhide;
          newcol.appendChild(unhide);
-         }
+      }
 
       // add resize bar
       var resizeBar = document.createElement('div');
@@ -45,13 +45,13 @@ SocialCalc.RenderRow = function(context, rownum, rowpane, linkstyle) {
       newcol.appendChild(resizeBar);
 
       result.appendChild(newcol);
-      }
+   }
 
    for (colpane=0; colpane<context.colpanes.length; colpane++) {
       for (colnum=context.colpanes[colpane].first; colnum<=context.colpanes[colpane].last; colnum++) {
          newcol=context.RenderCell(rownum, colnum, rowpane, colpane, null, linkstyle);
          if (newcol) result.appendChild(newcol);
-         }
+      }
       if (colpane<context.colpanes.length-1) {
          newcol=document.createElement("td");
          newcol.width=context.defaultpanedividerwidth;
@@ -62,16 +62,16 @@ SocialCalc.RenderRow = function(context, rownum, rowpane, linkstyle) {
          newdiv.style.overflow="hidden";
          newcol.appendChild(newdiv);
          result.appendChild(newcol);
-         }
       }
+   }
 
    // If hidden row, display: none.
    if (sheetobj.rowattribs.hide[rownum] == "yes") {
       result.style.cssText += ";display:none";
-      }
+   }
 
    return result;
-   }
+}
 
 SocialCalc.RenderSpacingRow = function(context) {
 
@@ -88,7 +88,7 @@ SocialCalc.RenderSpacingRow = function(context) {
       if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
       if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
       result.appendChild(newcol);
-      }
+   }
 
    for (colpane=0; colpane<context.colpanes.length; colpane++) {
       for (colnum=context.colpanes[colpane].first; colnum<=context.colpanes[colpane].last; colnum++) {
@@ -99,7 +99,7 @@ SocialCalc.RenderSpacingRow = function(context) {
          if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
          if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
          if (newcol) result.appendChild(newcol);
-         }
+      }
       if (colpane<context.colpanes.length-1) {
          newcol=document.createElement("td");
          newcol.width=context.defaultpanedividerwidth;
@@ -107,10 +107,10 @@ SocialCalc.RenderSpacingRow = function(context) {
          if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
          if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
          result.appendChild(newcol);
-         }
       }
-   return result;
    }
+   return result;
+}
 
 SocialCalc.RenderSizingRow = function(context) {
 
@@ -124,27 +124,27 @@ SocialCalc.RenderSizingRow = function(context) {
       newcell.style.width=context.rownamewidth+"px";
       newcell.height="1";
       result.appendChild(newcell);
-      }
+   }
 
    for (colpane=0; colpane<context.colpanes.length; colpane++) {
       for (colnum=context.colpanes[colpane].first; colnum<=context.colpanes[colpane].last; colnum++) {
          newcell=document.createElement("td");
          if (sheetobj.colattribs.hide[SocialCalc.rcColname(colnum)] == "yes") {
             newcell.width="1";
-            }
+         }
          else {
             t = context.colwidth[colnum];
             if (t) newcell.width=t;
-            }
+         }
          newcell.height="1";
          result.appendChild(newcell);
-         }
+      }
       if (colpane<context.colpanes.length-1) {
          newcell=document.createElement("td");
          newcell.width=context.defaultpanedividerwidth;
          newcell.height="1";
          result.appendChild(newcell);
-         }
       }
-   return result;
    }
+   return result;
+}

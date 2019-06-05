@@ -9,7 +9,7 @@ SocialCalc.SpreadsheetControlNamesOnclick = function(s, t) {
    SocialCalc.SpreadsheetControlNamesRangeChange(s.editor);
    SocialCalc.SpreadsheetControlNamesFillNameList();
    SocialCalc.SpreadsheetControlNamesChangedName();
-   }
+}
 
 SocialCalc.SpreadsheetControlNamesFillNameList = function() {
    var SCLoc = SocialCalc.LocalizeString;
@@ -20,26 +20,26 @@ SocialCalc.SpreadsheetControlNamesFillNameList = function() {
    var currentname = document.getElementById(s.idPrefix+"namesname").value.toUpperCase().replace(/[^A-Z0-9_\.]/g, "");
    for (name in s.sheet.names) {
       namelist.push(name);
-      }
+   }
    namelist.sort();
    nl.length = 0;
    if (namelist.length > 0) {
       nl.options[0] = new Option(SCLoc("[New]"));
-      }
+   }
    else {
       nl.options[0] = new Option(SCLoc("[None]"));
-      }
+   }
    for (i=0; i<namelist.length; i++) {
       name = namelist[i];
       nl.options[i+1] = new Option(name, name);
       if (name == currentname) {
          nl.options[i+1].selected = true;
-         }
-      }
-   if (currentname == "") {
-      nl.options[0].selected = true;
       }
    }
+   if (currentname == "") {
+      nl.options[0].selected = true;
+   }
+}
 
 SocialCalc.SpreadsheetControlNamesChangedName = function() {
    var s=SocialCalc.GetSpreadsheetControlObject();
@@ -49,13 +49,13 @@ SocialCalc.SpreadsheetControlNamesChangedName = function() {
       document.getElementById(s.idPrefix+"namesname").value = name;
       document.getElementById(s.idPrefix+"namesdesc").value = s.sheet.names[name].desc || "";
       document.getElementById(s.idPrefix+"namesvalue").value = s.sheet.names[name].definition || "";
-      }
+   }
    else {
       document.getElementById(s.idPrefix+"namesname").value = "";
       document.getElementById(s.idPrefix+"namesdesc").value = "";
       document.getElementById(s.idPrefix+"namesvalue").value = "";
-      }
    }
+}
 
 SocialCalc.SpreadsheetControlNamesRangeChange = function(editor) {
    var s = SocialCalc.GetSpreadsheetControlObject();
@@ -63,22 +63,22 @@ SocialCalc.SpreadsheetControlNamesRangeChange = function(editor) {
    if (editor.range.hasrange) {
       ele.value = SocialCalc.crToCoord(editor.range.left, editor.range.top) + ":" +
                             SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-      }
+   }
    else {
       ele.value = editor.ecell.coord;
-      }
    }
+}
 
 SocialCalc.SpreadsheetControlNamesOnunclick = function(s, t) {
    delete s.editor.RangeChangeCallback.names;
    delete s.editor.MoveECellCallback.names;
-   }
+}
 
 SocialCalc.SpreadsheetControlNamesSetValue = function() {
    var s = SocialCalc.GetSpreadsheetControlObject();
    document.getElementById(s.idPrefix+"namesvalue").value = document.getElementById(s.idPrefix+"namesrangeproposal").value;
    SocialCalc.KeyboardFocus();
-   }
+}
 
 SocialCalc.SpreadsheetControlNamesSave = function() {
    var s = SocialCalc.GetSpreadsheetControlObject();
@@ -88,8 +88,8 @@ SocialCalc.SpreadsheetControlNamesSave = function() {
    if (name != "") {
       s.ExecuteCommand("name define "+name+" "+document.getElementById(s.idPrefix+"namesvalue").value+"\n"+
          "name desc "+name+" "+document.getElementById(s.idPrefix+"namesdesc").value);
-      }
    }
+}
 
 SocialCalc.SpreadsheetControlNamesDelete = function() {
    var s = SocialCalc.GetSpreadsheetControlObject();
@@ -102,6 +102,6 @@ SocialCalc.SpreadsheetControlNamesDelete = function() {
 //      document.getElementById(s.idPrefix+"namesvalue").value = "";
 //      document.getElementById(s.idPrefix+"namesdesc").value = "";
 //      SocialCalc.SpreadsheetControlNamesFillNameList();
-      }
-   SocialCalc.KeyboardFocus();
    }
+   SocialCalc.KeyboardFocus();
+}

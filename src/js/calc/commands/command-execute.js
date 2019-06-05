@@ -69,14 +69,14 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          cr2 = prange.cr2;
          if (cr2.col > attribs.lastcol) attribs.lastcol = cr2.col;
          if (cr2.row > attribs.lastrow) attribs.lastrow = cr2.row;
-         };
+      };
 
    errortext = "";
 
    cmdstr = cmd.RestOfStringNoMove();
    if (saveundo) {
       sheet.changes.AddDo(cmdstr);
-      }
+   }
 
    cmd1 = cmd.NextToken();
    switch (cmd1) {
@@ -119,7 +119,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   attribs[attrib] = sheet.GetStyleNum("valueformat", rest);
                   for (cr in sheet.cells) { // forget all cached display strings
                      delete sheet.cells[cr].displaystring;
-                     }
+                  }
                   break;
                case "lastcol":
                case "lastrow":
@@ -131,10 +131,10 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   if (saveundo) changes.AddUndo(undostart, attribs[attrib]);
                   if (rest == "off") {
                      attribs.recalc = rest; // manual recalc, not auto
-                     }
+                  }
                   else { // all values other than "off" mean "on"
                      delete attribs.recalc;
-                     }
+                  }
                   break;
                case "usermaxcol":
                case "usermaxrow":
@@ -145,8 +145,8 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                default:
                   errortext = scc.s_escUnknownSheetCmd+cmdstr;
                   break;
-               }
             }
+         }
 
          else if (/^[a-z]{1,2}(:[a-z]{1,2})?$/i.test(what)) { // col attributes
             sheet.renderneeded = true;
@@ -156,35 +156,35 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             if (pos>=0) {
                cr1 = SocialCalc.coordToCr(what.substring(0,pos)+"1");
                cr2 = SocialCalc.coordToCr(what.substring(pos+1)+"1");
-               }
+            }
             else {
                cr1 = SocialCalc.coordToCr(what+"1");
                cr2 = cr1;
-               }
+            }
             for (col=cr1.col; col <= cr2.col; col++) {
                if (attrib=="width") {
                   cr = SocialCalc.rcColname(col);
                   if (saveundo) changes.AddUndo("set "+cr+" width", sheet.colattribs.width[cr]);
                   if (rest.length > 0 ) {
                      sheet.colattribs.width[cr] = rest;
-                     }
+                  }
                   else {
                      delete sheet.colattribs.width[cr];
-                     }
                   }
+               }
                else if (attrib=="hide") {
                   sheet.hiddencolrow = "col";
                   cr = SocialCalc.rcColname(col);
                   if (saveundo) changes.AddUndo("set "+cr+" hide", sheet.colattribs.hide[cr]);
                   if (rest.length > 0) {
                      sheet.colattribs.hide[cr] = rest;
-                     }
+                  }
                   else {
                      delete sheet.colattribs.hide[cr];
-                     }
                   }
                }
             }
+         }
 
          else if (/^\d+(:\d+)?$/i.test(what)) { // row attributes
             sheet.renderneeded = true;
@@ -193,33 +193,33 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             if (pos>=0) {
                cr1 = SocialCalc.coordToCr("A"+what.substring(0,pos));
                cr2 = SocialCalc.coordToCr("A"+what.substring(pos+1));
-               }
+            }
             else {
                cr1 = SocialCalc.coordToCr("A"+what);
                cr2 = cr1;
-               }
+            }
             for (row=cr1.row; row <= cr2.row; row++) {
                if (attrib=="height") {
                   if (saveundo) changes.AddUndo("set "+row+" height", sheet.rowattribs.height[row]);
                   if (rest.length > 0 ) {
                      sheet.rowattribs.height[row] = rest;
-                     }
+                  }
                   else {
                      delete sheet.rowattribs.height[row];
-                     }
                   }
+               }
                else if (attrib=="hide") {
                   sheet.hiddencolrow = "row";
                   if (saveundo) changes.AddUndo("set "+row+" hide", sheet.rowattribs.hide[row]);
                   if (rest.length > 0) {
                      sheet.rowattribs.hide[row] = rest;
-                     }
+                  }
                   else {
                      delete sheet.rowattribs.hide[row];
-                     }
                   }
                }
             }
+         }
 
          else if (/^[a-z]{1,2}\d+(:[a-z]{1,2}\d+)?$/i.test(what)) { // cell attributes
            cellChanged = true;
@@ -227,10 +227,10 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             if (cr1.row!=cr2.row || cr1.col!=cr2.col || sheet.celldisplayneeded || sheet.renderneeded) { // not one cell
                sheet.renderneeded = true;
                sheet.celldisplayneeded = "";
-               }
+            }
             else {
                sheet.celldisplayneeded = SocialCalc.crToCoord(cr1.col, cr1.row);
-               }
+            }
             for (row=cr1.row; row <= cr2.row; row++) {
                for (col=cr1.col; col <= cr2.col; col++) {
                   cr = SocialCalc.crToCoord(col, row);
@@ -246,7 +246,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      delete cell.displaystring;
                      delete cell.parseinfo;
                      attribs.needsrecalc = "yes";
-                     }
+                  }
                   else if (attrib=="text") { // set coord text type text-value
                      pos = rest.indexOf(" ");
                      cell.datavalue = SocialCalc.decodeFromSave(rest.substring(pos+1));
@@ -256,7 +256,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      delete cell.displaystring;
                      delete cell.parseinfo;
                      attribs.needsrecalc = "yes";
-                     }
+                  }
                   else if (attrib=="formula") { // set coord formula formula-body-less-initial-=
                      cell.datavalue = 0; // until recalc
                      delete cell.errors;
@@ -267,7 +267,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      delete cell.displaystring;
                      delete cell.parseinfo;
                      attribs.needsrecalc = "yes";
-                     }
+                  }
                   else if (attrib=="constant") { // set coord constant type numeric-value source-text
                      pos = rest.indexOf(" ");
                      pos2 = rest.substring(pos+1).indexOf(" ");
@@ -275,16 +275,16 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      cell.valuetype = rest.substring(0,pos);
                      if (cell.valuetype.charAt(0)=="e") { // error
                         cell.errors = cell.valuetype.substring(1);
-                        }
+                     }
                      else {
                         delete cell.errors;
-                        }
+                     }
                      cell.datatype = "c";
                      cell.formula = rest.substring(pos+pos2+2);
                      delete cell.displaystring;
                      delete cell.parseinfo;
                      attribs.needsrecalc = "yes";
-                     }
+                  }
                   else if (attrib=="empty") { // erase value
                      cell.datavalue = "";
                      delete cell.errors;
@@ -294,61 +294,61 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      delete cell.displaystring;
                      delete cell.parseinfo;
                      attribs.needsrecalc = "yes";
-                     }
+                  }
                   else if (attrib=="all") { // set coord all :this:val1:that:val2...
                      if (rest.length>0) {
                         cell = new SocialCalc.Cell(cr);
                         sheet.CellFromStringParts(cell, rest.split(":"), 1);
                         sheet.cells[cr] = cell;
-                        }
+                     }
                      else {
                         delete sheet.cells[cr];
-                        }
-                     attribs.needsrecalc = "yes";
                      }
+                     attribs.needsrecalc = "yes";
+                  }
                   else if (/^b[trbl]$/.test(attrib)) { // set coord bt 1px solid black
                      cell[attrib] = sheet.GetStyleNum("borderstyle", rest);
                      sheet.renderneeded = true; // affects more than just one cell
-                     }
+                  }
                   else if (attrib=="color" || attrib=="bgcolor") {
                      cell[attrib] = sheet.GetStyleNum("color", rest);
-                     }
+                  }
                   else if (attrib=="layout" || attrib=="cellformat") {
                      cell[attrib] = sheet.GetStyleNum(attrib, rest);
-                     }
+                  }
                   else if (attrib=="textvalueformat" || attrib=="nontextvalueformat") {
                      cell[attrib] = sheet.GetStyleNum("valueformat", rest);
                      delete cell.displaystring;
-                     }
+                  }
                   else if (attrib=="cssc") {
                      rest = rest.replace(/[^a-zA-Z0-9\-]/g, "");
                      cell.cssc = rest;
-                     }
+                  }
                   else if (attrib=="csss") {
                      rest = rest.replace(/\n/g, "");
                      cell.csss = rest;
-                     }
+                  }
                   else if (attrib=="mod") {
                      rest = rest.replace(/[^yY]/g, "").toLowerCase();
                      cell.mod = rest;
-                     }
+                  }
                   else if (attrib=="comment") {
                      cell.comment = SocialCalc.decodeFromSave(rest);
-                     }
+                  }
                   else if (attrib=="readonly") {
                      cell.readonly = rest.toLowerCase()=="yes";
-                     }
+                  }
                   else if (attrib.split('.')[0] == 'style') { // exple: style.font-weight
                      if (rest) cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
                      else delete cell.style[attrib.split('.')[1]]
-                     }
+                  }
                   else {
                      errortext = scc.s_escUnknownSetCoordCmd+cmdstr;
-                     }
                   }
                }
-
             }
+
+         }
          break;
 
       case "merge":
@@ -368,9 +368,9 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                    // save quashed cell value for undo
                    if (saveundo) changes.AddUndo("set "+quashedCellCoord+" all", sheet.CellToString(quashedCell));
                    delete sheet.cells[quashedCellCoord]; // delete cell
-               }
             }
          }
+      }
 
 
          if (saveundo) changes.AddUndo("unmerge "+cr1.coord);
@@ -412,7 +412,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          if (cmd1=="cut") { // save copy of whole thing before erasing
             if (saveundo) changes.AddUndo("loadclipboard", SocialCalc.encodeForSave(SocialCalc.Clipboard.clipboard));
             SocialCalc.Clipboard.clipboard = SocialCalc.CreateSheetSave(sheet, what);
-            }
+         }
 
          for (row = cr1.row; row <= cr2.row; row++) {
             for (col = cr1.col; col <= cr2.col; col++) {
@@ -422,7 +422,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (saveundo) changes.AddUndo("set "+cr+" all", sheet.CellToString(cell));
                if (rest=="all") {
                   delete sheet.cells[cr];
-                  }
+               }
                else if (rest == "formulas") {
                   cell.datavalue = "";
                   cell.datatype = null;
@@ -433,8 +433,8 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   delete cell.parseinfo;
                   if (cell.comment) { // comments are considered content for erasing
                      delete cell.comment;
-                     }
                   }
+               }
                else if (rest == "formats") {
                   newcell = new SocialCalc.Cell(cr); // create a new cell without attributes
                   newcell.datavalue = cell.datavalue; // copy existing values
@@ -443,11 +443,11 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   newcell.valuetype = cell.valuetype;
                   if (cell.comment) {
                      newcell.comment = cell.comment;
-                     }
-                  sheet.cells[cr] = newcell; // replace
                   }
+                  sheet.cells[cr] = newcell; // replace
                }
             }
+         }
          attribs.needsrecalc = "yes";
          break;
 
@@ -465,7 +465,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          function increment_amount(horizontal, inverse) {
             function valid_datatype(type) {
               return type == "v" || type == "c";
-            }
+         }
             var editor = SocialCalc.GetSpreadsheetControlObject().editor;
             var range = editor.range2;
             var returnval = undefined;
@@ -480,10 +480,10 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
 
                if (valid_datatype(startcell.datatype) && valid_datatype(endcell.datatype))
                   returnval =  endcell.datavalue - startcell.datavalue;
-               }
+            }
             editor.Range2Remove();
             return returnval;
-         }
+      }
 
          var inc, horizontal, inverse, crStart, crEnd;
 
@@ -530,8 +530,8 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                         delete cell[attrib];
                      else
                         cell[attrib] = basecell[attrib];
-                     }
                   }
+               }
                if (rest == "all" || rest == "formulas") {
 
                   if (inc !== undefined)
@@ -547,11 +547,11 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      cell.formula = basecell.formula;
                   delete cell.parseinfo;
                   cell.errors = basecell.errors;
-                  }
+               }
                delete cell.displaystring;
 
-               } while (col != crEnd.col)
-            } while (row != crEnd.row)
+            } while (col != crEnd.col)
+         } while (row != crEnd.row)
 
          attribs.needsrecalc = "yes";
          break;
@@ -583,7 +583,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          ParseRange();
          if (!SocialCalc.Clipboard.clipboard) {
             break;
-            }
+         }
          clipsheet = new SocialCalc.Sheet(); // load clipboard contents as another sheet
          clipsheet.ParseSheetSave(SocialCalc.Clipboard.clipboard);
          cliprange = SocialCalc.ParseRange(clipsheet.copiedfrom);
@@ -614,13 +614,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      // if source col width exists
                      // set dest col width
                      sheet.colattribs.width[SocialCalc.rcColname(col)] = colWidth;
-                     }
+                  }
                    if (colHide != null) {
                      // if source col is hidden
                      // set dest col hidden
                      sheet.colattribs.hide[SocialCalc.rcColname(col)] = colHide;
-                     }
-                   }
+                  }
+                }
                  if(col == cr1.col) {  // only need 1st col or rows
                    // row attributes
                    sourceRow = cliprange.cr1.row + ((row-cr1.row) % (cliprange.cr2.row - cliprange.cr1.row + 1));
@@ -629,47 +629,47 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      // if source row is hidden
                      // set dest row hidden
                      sheet.rowattribs.hide[row] = rowHide;
-                     }
-                 }
+                  }
+              }
 
                  for (attrib in cellProperties) {
                      if (cellProperties[attrib] == 1) continue; // copy only format attributes
                      if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3) {
                         delete cell[attrib];
-                        }
+                     }
                      else {
                         attribtable = SocialCalc.CellPropertiesTable[attrib];
                         if (attribtable && basecell[attrib]) { // table indexes to expand to strings since other sheet may have diff indexes
                            cell[attrib] = sheet.GetStyleNum(attribtable, clipsheet.GetStyleString(attribtable, basecell[attrib]));
-                           }
+                        }
                         else { // these are not table indexes
                            cell[attrib] = basecell[attrib];
-                           }
                         }
                      }
                   }
+               }
                if (rest == "all" || rest == "formulas") {
                   cell.datavalue = basecell.datavalue;
                   cell.datatype = basecell.datatype;
                   cell.valuetype = basecell.valuetype;
                   if (cell.datatype == "f") { // offset relative coords, even in sheet references
                      cell.formula = SocialCalc.OffsetFormulaCoords(basecell.formula, col - currentClipCol, row - currentClipRow);
-                     }
+                  }
                   else {
                      cell.formula = basecell.formula;
-                     }
+                  }
                   delete cell.parseinfo;
                   cell.errors = basecell.errors;
                   if (basecell.comment) { // comments are pasted as part of content, though not filled, etc.
                      cell.comment = basecell.comment;
-                     }
+                  }
                   else if (cell.comment) {
                      delete cell.comment;
-                     }
                   }
-               delete cell.displaystring;
                }
+               delete cell.displaystring;
             }
+         }
 
          attribs.needsrecalc = "yes";
          break;
@@ -687,7 +687,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             cols[i] = cmd.NextToken();
             dirs[i] = cmd.NextToken();
             if (cols[i]) lastsortcol = i;
-            }
+         }
 
          sortcells = {}; // a copy of the data which will replace the original, but in the new order
          sortlist = []; // an array of 0, 1, ..., nrows-1 needed for sorting
@@ -701,11 +701,11 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (cell) { // only copy non-empty cells
                   sortcells[cr] = sheet.CellToString(cell);
                   if (saveundo) changes.AddUndo("set "+cr+" all", sortcells[cr]);
-                  }
+               }
                else {
                   if (saveundo) changes.AddUndo("set "+cr+" all");
-                  }
                }
+            }
             sortlist.push(sortlist.length);
             sortvalues.push([]);
             sorttypes.push([]);
@@ -718,18 +718,18 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (valtype == "t") val = val.toLowerCase();
                sortvalues[slast].push(val);
                sorttypes[slast].push(valtype);
-               }
             }
+         }
 
          sortfunction = function(a, b) { // a comparison function that can handle all the type variations
             var i, a1, b1, ta, cresult;
             for (i=0; i<=lastsortcol; i++) {
                if (dirs[i] == "up") { // handle sort direction
                   a1 = a; b1 = b;
-                  }
+               }
                else {
                   a1 = b; b1 = a;
-                  }
+               }
                ta = sorttypes[a1][i];
                tb = sorttypes[b1][i];
                if (ta == "t") { // numbers < text < errors, blank always last no matter what dir
@@ -737,61 +737,61 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      a1 = sortvalues[a1][i];
                      b1 = sortvalues[b1][i];
                      cresult = a1 > b1 ? 1 : (a1 < b1 ? -1 : 0);
-                     }
+                  }
                   else if (tb == "n") {
                      cresult = 1;
-                     }
+                  }
                   else if (tb == "b") {
                      cresult = dirs[i] == "up" ? -1 : 1;
-                     }
+                  }
                   else if (tb == "e") {
                      cresult = -1;
-                     }
                   }
+               }
                else if (ta == "n") {
                   if (tb == "t") {
                      cresult = -1;
-                     }
+                  }
                   else if (tb == "n") {
                      a1 = sortvalues[a1][i]-0; // force to numeric, just in case
                      b1 = sortvalues[b1][i]-0;
                      cresult = a1 > b1 ? 1 : (a1 < b1 ? -1 : 0);
-                     }
+                  }
                   else if (tb == "b") {
                      cresult = dirs[i] == "up" ? -1 : 1;
-                     }
+                  }
                   else if (tb == "e") {
                      cresult = -1;
-                     }
                   }
+               }
                else if (ta == "e") {
                   if (tb == "e") {
                      a1 = sortvalues[a1][i];
                      b1 = sortvalues[b1][i];
                      cresult = a1 > b1 ? 1 : (a1 < b1 ? -1 : 0);
-                     }
+                  }
                   else if (tb == "b") {
                      cresult = dirs[i] == "up" ? -1 : 1;
-                     }
+                  }
                   else {
                      cresult = 1;
-                     }
                   }
+               }
                else if (ta == "b") {
                   if (tb == "b") {
                      cresult = 0;
-                     }
+                  }
                   else {
                      cresult = dirs[i] == "up" ? 1 : -1;
-                     }
-                  }
-               if (cresult) { // return if tested not equal, otherwise do next column
-                  return cresult;
                   }
                }
+               if (cresult) { // return if tested not equal, otherwise do next column
+                  return cresult;
+               }
+            }
             cresult = a > b ? 1 : (a < b ? -1 : 0); // equal - return position in original to maintain it
             return cresult;
-            }
+         }
 
          sortlist.sort(sortfunction);
 
@@ -805,14 +805,14 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   sheet.CellFromStringParts(cell, sortcells[sortedcr].split(":"), 1);
                   if (cell.datatype == "f") { // offset coord refs, even to ***relative*** coords in other sheets
                      cell.formula = SocialCalc.OffsetFormulaCoords(cell.formula, 0, (row-cr1.row)-originalrow);
-                     }
-                  sheet.cells[cr] = cell;
                   }
+                  sheet.cells[cr] = cell;
+               }
                else {
                   delete sheet.cells[cr];
-                  }
                }
             }
+         }
 
          attribs.needsrecalc = "yes";
          break;
@@ -836,7 +836,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             newrowstart = 1;
             newrowend = attribs.lastrow;
             if (saveundo) changes.AddUndo("deletecol "+cr1.coord);
-            }
+         }
          else {
             coloffset = 0;
             colend = 1;
@@ -847,7 +847,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             newrowstart = cr1.row;
             newrowend = cr1.row;
             if (saveundo) changes.AddUndo("deleterow "+cr1.coord);
-            }
+         }
 
          for (row=attribs.lastrow; row >= rowend; row--) { // copy the cells forward
             for (col=attribs.lastcol; col >= colend; col--) {
@@ -855,12 +855,12 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                cr = SocialCalc.crToCoord(col+coloffset, row+rowoffset);
                if (!sheet.cells[crbase]) { // copying empty cell
                   delete sheet.cells[cr]; // delete anything that may have been there
-                  }
+               }
                else { // overwrite existing cell with moved contents
                   sheet.cells[cr] = sheet.cells[crbase];
-                  }
                }
             }
+         }
 
          for (row=newrowstart; row <= newrowend; row++) { // fill the "new" empty cells
             for (col=newcolstart; col <= newcolend; col++) {
@@ -872,20 +872,20 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                for (attrib in cellProperties) {
                   if (cellProperties[attrib] == 2) { // copy only format attributes
                      cell[attrib] = basecell[attrib];
-                     }
                   }
                }
             }
+         }
 
          for (cr in sheet.cells) { // update cell references to moved cells in calculated formulas
              cell = sheet.cells[cr];
              if (cell && cell.datatype == "f") {
                 cell.formula = SocialCalc.AdjustFormulaCoords(cell.formula, cr1.col, coloffset, cr1.row, rowoffset);
-                }
+             }
              if (cell) {
                 delete cell.parseinfo;
-                }
              }
+          }
 
          for (name in sheet.names) { // update cell references to moved cells in names
             if (sheet.names[name]) { // works with "A1", "A1:A20", and "=formula" forms
@@ -894,11 +894,11 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (v1.charAt(0) == "=") {
                   v2 = "=";
                   v1 = v1.substring(1);
-                  }
+               }
                sheet.names[name].definition = v2 +
                   SocialCalc.AdjustFormulaCoords(v1, cr1.col, coloffset, cr1.row, rowoffset);
-               }
             }
+         }
 
          for (row = attribs.lastrow; row >= rowend && cmd1 == "insertrow"; row--) { // copy the row attributes forward
             rownext = row + rowoffset;
@@ -907,13 +907,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (sheet.rowattribs[attrib][rownext] != val) { // make assignment only if different
                   if (val) {
                      sheet.rowattribs[attrib][rownext] = val;
-                     }
+                  }
                   else {
                      delete sheet.rowattribs[attrib][rownext];
-                     }
                   }
                }
             }
+         }
 
          for (col = attribs.lastcol; col >= colend && cmd1 == "insertcol"; col--) { // copy the column attributes forward
             colthis = SocialCalc.rcColname(col);
@@ -923,13 +923,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (sheet.colattribs[attrib][colnext] != val) { // make assignment only if different
                   if (val) {
                      sheet.colattribs[attrib][colnext] = val;
-                     }
+                  }
                   else {
                      delete sheet.colattribs[attrib][colnext];
-                     }
                   }
                }
             }
+         }
 
          // Expand merged cells if the new row/col is in between
 
@@ -947,17 +947,17 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
              if (cmd1 === "insertcol" && skipCellCR.col === newcolstart) {
                 if (!cellsToExpand[mergerCellCoords]) {
                     sheet.GetAssuredCell(mergerCellCoords).colspan += coloffset
-                    }
+                 }
                 cellsToExpand[mergerCellCoords] = true
-                }
+             }
              // for insertrow it's the same method
              if (cmd1 === "insertrow" && skipCellCR.row === newrowstart) {
                 if (!cellsToExpand[mergerCellCoords]) {
                     sheet.GetAssuredCell(mergerCellCoords).rowspan += rowoffset
-                    }
+                 }
                 cellsToExpand[mergerCellCoords] = true
-                }
-            }
+             }
+         }
 
          attribs.lastcol += coloffset;
          attribs.lastrow += rowoffset;
@@ -980,13 +980,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             rowoffset = 0;
             colstart = cr2.col + 1;
             rowstart = 1;
-            }
+         }
          else {
             coloffset = 0;
             rowoffset = cr1.row - cr2.row - 1;
             colstart = 1;
             rowstart = cr2.row + 1;
-            }
+         }
 
          for (row=rowstart; row <= lastrow - rowoffset; row++) { // check for readonly cells
             for (col=colstart; col <= lastcol - coloffset; col++) {
@@ -995,9 +995,9 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (cell && cell.readonly) {
                     errortext = "Unable to remove " + (cmd1 == "deletecol" ? "column" : "row") + ", because cell " + cell.coord + " is locked";
                     return errortext;
-               }
             }
          }
+      }
 
          for (row=rowstart; row <= lastrow - rowoffset; row++) { // copy the cells backwards - extra so no dup of last set
             for (col=colstart; col <= lastcol - coloffset; col++) {
@@ -1006,21 +1006,21 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   cell = sheet.cells[cr];
                   if (!cell) { // empty cell
                      changes.AddUndo("erase "+cr+" all");
-                     }
+                  }
                   else {
                      changes.AddUndo("set "+cr+" all", sheet.CellToString(cell));
-                     }
                   }
+               }
                crbase = SocialCalc.crToCoord(col, row);
                cell = sheet.cells[crbase];
                if (!cell) { // copying empty cell
                   delete sheet.cells[cr]; // delete anything that may have been there
-                  }
+               }
                else { // overwrite existing cell with moved contents
                   sheet.cells[cr] = cell;
-                  }
                }
             }
+         }
 
 //!!! multiple deletes isn't setting #REF!; need to fix up #REF!'s on undo but only those!
 
@@ -1036,14 +1036,14 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                          oldcr = SocialCalc.coordToCr(cr);
                          changes.AddUndo("set "+SocialCalc.rcColname(oldcr.col-coloffset)+(oldcr.row-rowoffset)+
                                          " formula "+oldformula);
-                         }
                       }
                    }
+                }
                 else {
                    delete cell.parseinfo;
-                   }
                 }
              }
+          }
 
          for (name in sheet.names) { // update cell references to moved cells in names
             if (sheet.names[name]) { // works with "A1", "A1:A20", and "=formula" forms
@@ -1052,11 +1052,11 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (v1.charAt(0) == "=") {
                   v2 = "=";
                   v1 = v1.substring(1);
-                  }
+               }
                sheet.names[name].definition = v2 +
                   SocialCalc.AdjustFormulaCoords(v1, cr1.col, coloffset, cr1.row, rowoffset);
-               }
             }
+         }
 
          for (row = rowstart; row <= lastrow - rowoffset && cmd1 == "deleterow"; row++) { // copy the row attributes backwards
             rowbefore = row + rowoffset;
@@ -1066,13 +1066,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   if (saveundo) changes.AddUndo("set "+rowbefore+" "+attrib, sheet.rowattribs[attrib][rowbefore]);
                   if (val) {
                      sheet.rowattribs[attrib][rowbefore] = val;
-                     }
+                  }
                   else {
                      delete sheet.rowattribs[attrib][rowbefore];
-                     }
                   }
                }
             }
+         }
 
          for (col = colstart; col <= lastcol - coloffset && cmd1 == "deletecol"; col++) { // copy the column attributes backwards
             colthis = SocialCalc.rcColname(col);
@@ -1083,13 +1083,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   if (saveundo) changes.AddUndo("set "+colbefore+" "+attrib, sheet.colattribs[attrib][colbefore]);
                   if (val) {
                      sheet.colattribs[attrib][colbefore] = val;
-                     }
+                  }
                   else {
                      delete sheet.colattribs[attrib][colbefore];
-                     }
                   }
                }
             }
+         }
 
          // Shrink merged cells if the new row/col was in between
 
@@ -1106,51 +1106,51 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
              if (cmd1 === "deletecol" && skipCellCR.col === colstart+coloffset && mergerCellCR.col < skipCellCR.col) {
                 if (!cellsToShrink[mergerCellCoords]) {
                     sheet.GetAssuredCell(mergerCellCoords).colspan += coloffset
-                    }
+                 }
                 cellsToShrink[mergerCellCoords] = true
-                }
+             }
              // for insertrow it's the same method
              if (cmd1 === "deleterow" && skipCellCR.row === rowstart+rowoffset && mergerCellCR.row < skipCellCR.row) {
                 if (!cellsToShrink[mergerCellCoords]) {
                     sheet.GetAssuredCell(mergerCellCoords).rowspan += rowoffset
-                    }
+                 }
                 cellsToShrink[mergerCellCoords] = true
-                }
-            }
+             }
+         }
 
          if (saveundo) {
             if (cmd1 == "deletecol") {
                for (col=cr1.col; col<=cr2.col; col++) {
                   changes.AddUndo("insertcol "+SocialCalc.rcColname(cr1.col));
-                  }
                }
+            }
             else {
                for (row=cr1.row; row<=cr2.row; row++) {
                   changes.AddUndo("insertrow "+cr1.row);
-                  }
                }
             }
+         }
 
          if (cmd1 == "deletecol") {
             if (cr1.col <= lastcol) { // shrink sheet unless deleted phantom cols off the end
                if (cr2.col <= lastcol) {
                   attribs.lastcol += coloffset;
-                  }
+               }
                else {
                   attribs.lastcol = cr1.col - 1;
-                  }
                }
             }
+         }
          else {
             if (cr1.row <= lastrow) { // shrink sheet unless deleted phantom rows off the end
                if (cr2.row <= lastrow) {
                   attribs.lastrow += rowoffset;
-                  }
+               }
                else {
                   attribs.lastrow = cr1.row - 1;
-                  }
                }
             }
+         }
          attribs.needsrecalc = "yes";
          break;
 
@@ -1190,41 +1190,41 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
 
                if (!sheet.cells[cr]) { // if had nothing
                   continue; // don't save anything
-                  }
+               }
                movingcells[cr] = new SocialCalc.Cell(cr); // create new cell to copy
 
                for (attrib in cellProperties) { // go through each property
                   if (typeof cell[attrib] === undefined) { // don't copy undefined things and no need to delete
                      continue;
-                     }
+                  }
                   else {
                      movingcells[cr][attrib] = cell[attrib]; // copy for potential moving
-                     }
+                  }
                   if (rest == "all") {
                      delete cell[attrib];
-                     }
+                  }
                   if (rest == "formulas") {
                      if (cellProperties[attrib] == 1 || cellProperties[attrib] == 3) {
                         delete cell[attrib];
-                        }
                      }
+                  }
                   if (rest == "formats") {
                      if (cellProperties[attrib] == 2) {
                         delete cell[attrib];
-                        }
                      }
                   }
+               }
                if (rest == "formulas") { // leave pristene deleted cell
                   cell.datavalue = "";
                   cell.datatype = null;
                   cell.formula = "";
                   cell.valuetype = "b";
-                  }
+               }
                if (rest == "all") { // leave nothing for move all
                   delete sheet.cells[cr];
-                  }
                }
             }
+         }
 
          // if moveinsert, check destination OK, and calculate pushing parameters
 
@@ -1235,30 +1235,30 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (destcr.col < cr1.col) { // moving left
                   pushamount = cr1.col - destcr.col;
                   inserthoriz = -1;
-                  }
+               }
                else {
                   destcr.col -= 1;
                   coloffset = destcr.col - cr2.col;
                   pushamount = destcr.col - cr2.col;
                   inserthoriz = 1;
-                  }
                }
+            }
             else if (coloffset==0 && (destcr.row < cr1.row || destcr.row > cr2.row)) {
                if (destcr.row < cr1.row) { // moving up
                   pushamount = cr1.row - destcr.row;
                   insertvert = -1;
-                  }
+               }
                else {
                   destcr.row -= 1;
                   rowoffset = destcr.row - cr2.row;
                   pushamount = destcr.row - cr2.row;
                   insertvert = 1;
-                  }
-               }
-            else {
-               cmd1 = "movepaste"; // not allowed right now - ignore
                }
             }
+            else {
+               cmd1 = "movepaste"; // not allowed right now - ignore
+            }
+         }
 
          // push any cells that need pushing
 
@@ -1270,11 +1270,11 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   if (insertvert < 0) {
                      crbase = SocialCalc.crToCoord(col, destcr.row+pushamount-row-1); // from cell
                      cr = SocialCalc.crToCoord(col, cr2.row-row); // to cell
-                     }
+                  }
                   else {
                      crbase = SocialCalc.crToCoord(col, destcr.row-pushamount+row+1); // from cell
                      cr = SocialCalc.crToCoord(col, cr1.row+row); // to cell
-                     }
+                  }
 
                   basecell = sheet.GetAssuredCell(crbase);
                   if (saveundo) changes.AddUndo("set "+crbase+" all", sheet.CellToString(basecell));
@@ -1285,12 +1285,12 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                         if (cellProperties[attrib] == 1) continue; // copy only format attributes
                         if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3) {
                            delete cell[attrib];
-                           }
+                        }
                         else {
                            cell[attrib] = basecell[attrib];
-                           }
                         }
                      }
+                  }
                   if (rest == "all" || rest == "formulas") {
                      cell.datavalue = basecell.datavalue;
                      cell.datatype = basecell.datatype;
@@ -1298,24 +1298,24 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      cell.formula = basecell.formula;
                      delete cell.parseinfo;
                      cell.errors = basecell.errors;
-                     }
+                  }
                   delete cell.displaystring;
 
                   movedto[crbase] = cr; // old crbase is now at cr
-                  }
                }
             }
+         }
          if (inserthoriz) {
             for (col = 0; col < pushamount; col++) {
                for (row = cr1.row; row <= cr2.row; row++) {
                   if (inserthoriz < 0) {
                      crbase = SocialCalc.crToCoord(destcr.col+pushamount-col-1, row);
                      cr = SocialCalc.crToCoord(cr2.col-col, row);
-                     }
+                  }
                   else {
                      crbase = SocialCalc.crToCoord(destcr.col-pushamount+col+1, row);
                      cr = SocialCalc.crToCoord(cr1.col+col, row);
-                     }
+                  }
 
                   basecell = sheet.GetAssuredCell(crbase);
                   if (saveundo) changes.AddUndo("set "+crbase+" all", sheet.CellToString(basecell));
@@ -1326,12 +1326,12 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                         if (cellProperties[attrib] == 1) continue; // copy only format attributes
                         if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3) {
                            delete cell[attrib];
-                           }
+                        }
                         else {
                            cell[attrib] = basecell[attrib];
-                           }
                         }
                      }
+                  }
                   if (rest == "all" || rest == "formulas") {
                      cell.datavalue = basecell.datavalue;
                      cell.datatype = basecell.datatype;
@@ -1339,13 +1339,13 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      cell.formula = basecell.formula;
                      delete cell.parseinfo;
                      cell.errors = basecell.errors;
-                     }
+                  }
                   delete cell.displaystring;
 
                   movedto[crbase] = cr; // old crbase is now at cr
-                  }
                }
             }
+         }
 
          // paste moved cells into new place
 
@@ -1366,7 +1366,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (rest == "all" && !movingcells[crbase]) { // moving an empty cell
                   delete sheet.cells[cr]; // make the cell empty
                   continue;
-                  }
+               }
 
                basecell = movingcells[crbase];
                if (!basecell) basecell = sheet.GetAssuredCell(crbase);
@@ -1376,12 +1376,12 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      if (cellProperties[attrib] == 1) continue; // copy only format attributes
                      if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3) {
                         delete cell[attrib];
-                        }
+                     }
                      else {
                         cell[attrib] = basecell[attrib];
-                        }
                      }
                   }
+               }
                if (rest == "all" || rest == "formulas") {
                   cell.datavalue = basecell.datavalue;
                   cell.datatype = basecell.datatype;
@@ -1391,14 +1391,14 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   cell.errors = basecell.errors;
                   if (basecell.comment) { // comments are pasted as part of content, though not filled, etc.
                      cell.comment = basecell.comment;
-                     }
+                  }
                   else if (cell.comment) {
                      delete cell.comment;
-                     }
                   }
-               delete cell.displaystring;
                }
+               delete cell.displaystring;
             }
+         }
 
          // do fixups
 
@@ -1412,14 +1412,14 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                       delete cell.parseinfo;
                       if (saveundo && !movedto[cr]) { // moved cells are already saved for undo
                          changes.AddUndo("set "+cr+" formula "+oldformula);
-                         }
                       }
                    }
+                }
                 else {
                    delete cell.parseinfo;
-                   }
                 }
              }
+          }
 
          for (name in sheet.names) { // update cell references to moved cells in names
             if (sheet.names[name]) { // works with "A1", "A1:A20", and "=formula" forms
@@ -1429,14 +1429,14 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                if (v1.charAt(0) == "=") {
                   v2 = "=";
                   v1 = v1.substring(1);
-                  }
+               }
                sheet.names[name].definition = v2 +
                   SocialCalc.ReplaceFormulaCoords(v1, movedto);
                if (saveundo && sheet.names[name].definition != oldformula) { // save changes
                   changes.AddUndo("name define "+name+" "+oldformula);
-                  }
                }
             }
+         }
 
          attribs.needsrecalc = "yes";
          break;
@@ -1454,25 +1454,25 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             if (sheet.names[name]) { // already exists
                if (saveundo) changes.AddUndo("name define "+name+" "+sheet.names[name].definition);
                sheet.names[name].definition = rest;
-               }
+            }
             else { // new
                if (saveundo) changes.AddUndo("name delete "+name);
                sheet.names[name] = {definition: rest, desc: ""};
-               }
             }
+         }
          else if (what == "desc") {
             if (sheet.names[name]) { // must already exist
                if (saveundo) changes.AddUndo("name desc "+name+" "+sheet.names[name].desc);
                sheet.names[name].desc = rest;
-               }
             }
+         }
          else if (what == "delete") {
             if (saveundo) {
                if (sheet.names[name].desc) changes.AddUndo("name desc "+name+" "+sheet.names[name].desc);
                changes.AddUndo("name define "+name+" "+sheet.names[name].definition);
-               }
-            delete sheet.names[name];
             }
+            delete sheet.names[name];
+         }
          attribs.needsrecalc = "yes";
 
          break;
@@ -1501,24 +1501,24 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
 
            if (typeof(editor.context.rowpanes[1]) !== 'undefined' && typeof(editor.context.rowpanes[1].first) === 'number') {
              undoNum = editor.context.rowpanes[1].first;
-           }
+        }
            if (saveundo) changes.AddUndo('pane row ' + undoNum);
 
            // Handle hidden row.
            while (editor.context.sheetobj.rowattribs.hide[row] == 'yes') {
              row++;
-           }
+        }
 
            if ((!row || row<=editor.context.rowpanes[0].first) && editor.context.rowpanes.length>1) { // set to no panes, leaving first pane settings
              editor.context.rowpanes.length = 1;
-           } else if (editor.context.rowpanes.length-1 && !editor.timeout) { // has 2 already
+        } else if (editor.context.rowpanes.length-1 && !editor.timeout) { // has 2 already
              // not waiting for position calc (so positions could be wrong)
              editor.context.SetRowPaneFirstLast(0, editor.context.rowpanes[0].first, row-1);
              editor.context.SetRowPaneFirstLast(1, row, row);
-           } else {
+        } else {
              editor.context.SetRowPaneFirstLast(0, editor.context.rowpanes[0].first, row-1);
              editor.context.SetRowPaneFirstLast(1, row, row);
-           }
+        }
 
            // remove tracklingine
            if (editor.griddiv) {
@@ -1527,33 +1527,33 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
              if (trackLine) {
                editor.griddiv.removeChild(trackLine);
                editor.FitToEditTable();
-             }
-           }
+          }
+        }
 
-         } else {
+      } else {
 
            col = parseInt(cmd.NextToken(), 10);
 
            if (typeof(editor.context.colpanes[1]) !== 'undefined' && typeof(editor.context.colpanes[1].first) === 'number') {
              undoNum = editor.context.colpanes[1].first;
-           }
+        }
            if (saveundo) changes.AddUndo('pane col ' + undoNum);
 
            // Handle hidden column.
            while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == 'yes') {
              col++;
-           }
+        }
 
            if ((!col || col<=editor.context.colpanes[0].first) && editor.context.colpanes.length > 1) { // set to no panes, leaving first pane settings
              editor.context.colpanes.length = 1;
-           } else if (editor.context.colpanes.length-1 && !editor.timeout) { // has 2 already
+        } else if (editor.context.colpanes.length-1 && !editor.timeout) { // has 2 already
              // not waiting for position calc (so positions could be wrong)
              editor.context.SetColPaneFirstLast(0, editor.context.colpanes[0].first, col-1);
              editor.context.SetColPaneFirstLast(1, col, col);
-           } else {
+        } else {
              editor.context.SetColPaneFirstLast(0, editor.context.colpanes[0].first, col-1);
              editor.context.SetColPaneFirstLast(1, col, col);
-           }
+        }
 
            // remove tracklingine
            if (editor.griddiv) {
@@ -1561,9 +1561,9 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
              if (trackLine) {
                editor.griddiv.removeChild(trackLine);
                editor.FitToEditTable();
-             }
-           }
-         }
+          }
+        }
+      }
 
          sheet.renderneeded = true;
 
@@ -1574,7 +1574,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          cmdextension = sheet.sci.CmdExtensionCallbacks[name];
          if (cmdextension) {
             cmdextension.func(name, cmdextension.data, sheet, cmd, saveundo);
-            }
+         }
          break;
 
       case "settimetrigger":
@@ -1587,5 +1587,5 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          errortext = scc.s_escUnknownCmd+cmdstr;
          break;
 
-      }
    }
+}

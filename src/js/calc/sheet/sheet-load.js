@@ -112,8 +112,8 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                   default:
                      throw scc.s_pssUnknownColType+" '"+t+"'";
                      break;
-                  }
                }
+            }
             break;
 
          case "row":
@@ -130,8 +130,8 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                   default:
                      throw scc.s_pssUnknownRowType+" '"+t+"'";
                      break;
-                  }
                }
+            }
             break;
 
          case "sheet":
@@ -193,8 +193,8 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                   default:
                      j+=1;
                      break;
-                  }
                }
+            }
             break;
 
          case "name":
@@ -254,8 +254,8 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
 alert(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
             throw scc.s_pssUnknownLineType+" '"+parts[0]+"'";
             break;
-         }
-      parts = null;
       }
-
+      parts = null;
    }
+
+}

@@ -9,14 +9,14 @@ if('undefined' === typeof document) {
         SocialCalc.EditorSheetStatusCallback(
             null, "doneposcalc", null, editor
         );
-    };
+ };
 }
 
 // Compatibility with webworker-threads
 if (typeof self !== 'undefined' && self.thread) {
     window.setTimeout = function (cb, ms) {
         if (ms <= 1) { self.thread.nextTick(cb); }
-    };
+ };
     window.clearTimeout = function () {};
 }
 

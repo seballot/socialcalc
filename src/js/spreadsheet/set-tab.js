@@ -35,10 +35,10 @@ SocialCalc.SetTab = function(obj) {
    if (onClickFocus) {
       element = $container.find('#' + $newTabLink.data('onclickFocus')).focus();
       SocialCalc.CmdGotFocus(element || onClickFocus);
-     }
+  }
    else
       SocialCalc.KeyboardFocus();
-   }
+}
 
  /**
  * Returns the function that you want to execute through its name.
@@ -51,10 +51,10 @@ SocialCalc.GetFunctionByName = function (functionName, context) {
     // If using Node.js, the context will be an empty object
     if(typeof(window) == "undefined") {
         context = context || global;
-    }else{
+ }else{
         // Use the window (from browser) as context if none providen.
         context = context || window;
-    }
+ }
 
     // Retrieve the namespaces of the function you want to execute
     // e.g Namespaces of "MyLib.UI.alerti" would be ["MyLib","UI"]
@@ -68,12 +68,12 @@ SocialCalc.GetFunctionByName = function (functionName, context) {
     // Loop until context will be equal to SomeSub
     for (var i = 0; i < namespaces.length; i++) {
         context = context[namespaces[i]];
-    }
+ }
 
     // If the context really exists (namespaces), return the function or property
     if(context){
         return context[functionToExecute];
-    }else{
+ }else{
         return undefined;
-    }
+ }
 }

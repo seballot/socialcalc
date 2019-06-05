@@ -11,13 +11,13 @@ SocialCalc.CtrlSEditor = function(whichpart) {
    var strtoedit, partname;
    if (whichpart.length > 0) {
       strtoedit = SocialCalc.special_chars(SocialCalc.OtherSaveParts[whichpart] || "");
-      }
+   }
    else {
       strtoedit = "Listing of Parts\n";
       for (partname in SocialCalc.OtherSaveParts) {
          strtoedit += SocialCalc.special_chars("\nPart: "+partname+"\n=====\n"+SocialCalc.OtherSaveParts[partname]+"\n");
-         }
       }
+   }
    var editbox = document.createElement("div");
    editbox.style.cssText = "position:absolute;z-index:500;width:300px;height:300px;left:100px;top:200px;border:1px solid black;background-color:#EEE;text-align:center;";
    editbox.id = "socialcalc-editbox";
@@ -30,7 +30,7 @@ SocialCalc.CtrlSEditor = function(whichpart) {
    ebta.focus();
    SocialCalc.CmdGotFocus(ebta);
 
-   }
+}
 
 SocialCalc.CtrlSEditorDone = function(idprefix, whichpart) {
 
@@ -39,14 +39,14 @@ SocialCalc.CtrlSEditorDone = function(idprefix, whichpart) {
    if (whichpart.length > 0) {
       if (text.length > 0) {
          SocialCalc.OtherSaveParts[whichpart] = text;
-         }
+      }
       else {
          delete SocialCalc.OtherSaveParts[whichpart];
-         }
       }
+   }
 
    var editbox = document.getElementById(idprefix);
    SocialCalc.KeyboardFocus();
    editbox.parentNode.removeChild(editbox);
 
-   }
+}

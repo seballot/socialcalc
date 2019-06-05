@@ -24,7 +24,7 @@ SocialCalc.default_expand_markup = function(displayvalue, sheetobj, linkstyle) {
 
    return result;
 
-   }
+}
 
 
 //
@@ -44,34 +44,34 @@ SocialCalc.expand_text_link = function(displayvalue, sheetobj, linkstyle, valuef
 
    if (parts.desc) {
       desc = SocialCalc.special_chars(parts.desc);
-      }
+   }
    else {
       desc = parts.pagename ? scc.defaultPageLinkFormatString : scc.defaultLinkFormatString;
-      }
+   }
 
    if (displayvalue.length > 7 && displayvalue.substring(0,7).toLowerCase()=="http://"
       && displayvalue.charAt(displayvalue.length-1)!=">") {
       desc = desc.substring(7); // remove http:// unless explicit
-      }
+   }
 
    tb = (parts.newwin || !linkstyle) ? ' target="_blank"' : "";
 
    if (parts.pagename) {
       if (SocialCalc.Callbacks.MakePageLink) {
          url = SocialCalc.Callbacks.MakePageLink(parts.pagename, parts.workspacename, linkstyle, valueformat);
-         }
+      }
 //      else if (parts.workspace) {
 //         url = "/" + encodeURI(parts.workspace) + "/" + encodeURI(parts.pagename);
-//         }
+//      }
 //      else {
 //         url = parts.pagename;
-//         }
-      }
+//      }
+   }
    else {
       url = encodeURI(parts.url);
-      }
+   }
    str = '<a href="' + url + '"' + tb + '>' + desc + '</a>';
 
    return str;
 
-   }
+}

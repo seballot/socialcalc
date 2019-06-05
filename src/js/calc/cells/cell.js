@@ -54,7 +54,7 @@ SocialCalc.Cell = function(coord) {
    // All style properties like "font-weight", "color" etc...
    this.style = {}
 
-   }
+}
 
 // The types of cell properties
 //
@@ -68,13 +68,13 @@ SocialCalc.CellProperties = {
    displaystring: 3, // used to cache rendered HTML of cell contents
    parseinfo: 3, // used to cache parsed formulas
    hcolspan: 3, hrowspan: 3 // spans taking hidden cols/rows into account (!!! NOT YET !!!)
-   };
+};
 
 SocialCalc.CellPropertiesTable = {
    bt: "borderstyle", br: "borderstyle", bb: "borderstyle", bl: "borderstyle",
    layout: "layout", font: "font", color: "color", bgcolor: "color",
    cellformat: "cellformat", nontextvalueformat: "valueformat", textvalueformat: "valueformat"
-   };
+};
 
 
 //
@@ -104,9 +104,9 @@ SocialCalc.GetCellContents = function(sheetobj, coord) {
             break;
          default:
             break;
-         }
       }
+   }
 
    return result;
 
-   }
+}

@@ -106,7 +106,7 @@ SocialCalc.GetSpreadsheetControlObject = function() {
 
 //   throw ("No current SpreadsheetControl object.");
 
-   }
+}
 
 //
 // SetSpreadsheetControlObject(spreadsheet)
@@ -118,9 +118,9 @@ SocialCalc.SetSpreadsheetControlObject = function(spreadsheet) {
 
    if (SocialCalc.Keyboard.focusTable && spreadsheet) {
       SocialCalc.Keyboard.focusTable = spreadsheet.editor;
-      }
-
    }
+
+}
 
 //
 // SocialCalc.SpreadsheetControlStatuslineCallback
@@ -144,6 +144,6 @@ SocialCalc.SpreadsheetControlStatuslineCallback = function(editor, status, arg, 
    //       break;
    //    default:
    //       break;
-   //    }
+   // }
 
-   }
+}

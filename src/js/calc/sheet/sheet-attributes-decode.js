@@ -20,15 +20,15 @@ SocialCalc.DecodeSheetAttributes = function(sheet, newattribs) {
       if (newattribs[attribname]) {
          if (newattribs[attribname].def) {
             val = "";
-            }
+         }
          else {
             val = newattribs[attribname].val;
-            }
+         }
          if (val != (oldval || "")) {
             DoCmd(cmdname+" "+val);
-            }
          }
       }
+   }
 
    var cmdstr = "";
 
@@ -36,7 +36,7 @@ SocialCalc.DecodeSheetAttributes = function(sheet, newattribs) {
       if (cmdstr) cmdstr += "\n";
       cmdstr += "set sheet "+str;
       changed = true;
-      }
+   }
 
    // sizes: colwidth, rowheight
 
@@ -61,14 +61,14 @@ SocialCalc.DecodeSheetAttributes = function(sheet, newattribs) {
          (newattribs.padleft.def ? "*" : newattribs.padleft.val) +
          ";vertical-align:" +
          (newattribs.alignvert.def ? "*;" : newattribs.alignvert.val+";");
-      }
+   }
    else {
       value = "";
-      }
+   }
 
    if (value != (sheet.layouts[attribs.defaultlayout] || "")) {
       DoCmd("defaultlayout "+value);
-      }
+   }
 
    // font: fontfamily, fontlook, fontsize
 
@@ -77,14 +77,14 @@ SocialCalc.DecodeSheetAttributes = function(sheet, newattribs) {
          (newattribs.fontlook.def ? "* " : newattribs.fontlook.val + " ") +
          (newattribs.fontsize.def ? "* " : newattribs.fontsize.val + " ") +
          (newattribs.fontfamily.def ? "*" : newattribs.fontfamily.val);
-      }
+   }
    else {
       value = "";
-      }
+   }
 
    if (value != (sheet.fonts[attribs.defaultfont] || "")) {
       DoCmd("defaultfont "+value);
-      }
+   }
 
    // color: textcolor
 
@@ -113,9 +113,9 @@ SocialCalc.DecodeSheetAttributes = function(sheet, newattribs) {
 
    if (changed) {
        return cmdstr;
-      }
+   }
    else {
       return null;
-      }
-
    }
+
+}

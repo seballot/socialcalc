@@ -95,7 +95,7 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
    var SocialCalc;
    if (!SocialCalc) { // created here, too, in case load order is wrong, but main routines are required
       SocialCalc = {};
-      }
+   }
 
 // *************************************
 //
@@ -180,9 +180,9 @@ SocialCalc.TableEditor = function(context) {
    this.recalcFunction = function(editor) {
       if (editor.context.sheetobj.RecalcSheet) {
          editor.context.sheetobj.RecalcSheet(SocialCalc.EditorSheetStatusCallback, editor);
-         }
+      }
       else return null;
-      };
+   };
 
    // ctrlkeyFunction: if present, function(editor, charname) {...}, called to handle ctrl-V, etc., at top level
    // Returns true (pass through for continued processing) or false (stop processing this key).
@@ -204,24 +204,24 @@ SocialCalc.TableEditor = function(context) {
             cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
             if (cell) {
                position = SocialCalc.GetElementPosition(cell.element);
-               }
+            }
             if (editor.range.hasrange) {
                sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
                   ":"+SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-               }
+            }
             else {
                sel = editor.ecell.coord;
-               }
+            }
 
             // get what to copy to clipboard
             cliptext = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.CreateSheetSave(editor.context.sheetobj, sel), "tab");
 
             if (charname == "[ctrl-c]" || editor.noEdit || editor.ECellReadonly()) { // if copy or cut but in no edit
                cmd = "copy "+sel+" formulas";
-               }
+            }
             else { // [ctrl-x]
                cmd = "cut "+sel+" formulas";
-               }
+            }
             editor.EditorScheduleSheetCommands(cmd, true, false); // queue up command to put on SocialCalc clipboard
 
             ta.style.display = "block";
@@ -233,7 +233,7 @@ SocialCalc.TableEditor = function(context) {
                ta.blur();
                ta.style.display = "none";
                SocialCalc.KeyboardFocus();
-               }, 200);
+            }, 200);
 
             return true;
 
@@ -244,7 +244,7 @@ SocialCalc.TableEditor = function(context) {
             cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
             if (cell) {
                position = SocialCalc.GetElementPosition(cell.element);
-               }
+            }
             ta.style.display = "block";
             ta.value = "";  // must follow "block" setting for Webkit
             ta.focus();
@@ -258,7 +258,7 @@ SocialCalc.TableEditor = function(context) {
                  // Clipboard loaded from "clipboard tab" - see  SpreadsheetControlClipboardLoad
                  // ignore windows clipboard contents
                  editor.pastescclipboard = false;
-                 }
+              }
                else {
                  // Use windows clipboard contents if value does not match last copy
                  var clipstr = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
@@ -268,8 +268,8 @@ SocialCalc.TableEditor = function(context) {
                  if (value != clipstr && (value.length-clipstr.length!=1 || value.substring(0,value.length-1)!=clipstr)) {
                     cmd = "loadclipboard "+
                     SocialCalc.encodeForSave(SocialCalc.ConvertOtherFormatToSave(value, "tab")) + "\n";
-                    }
                  }
+              }
                var cr;
                if (editor.range.hasrange) {
                   var clipsheet = new SocialCalc.Sheet();
@@ -279,17 +279,17 @@ SocialCalc.TableEditor = function(context) {
                     // copy one cell to selected range
                     cr = SocialCalc.crToCoord(editor.range.left, editor.range.top) +
                       ':' + SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-                  } else {
+               } else {
                     cr = SocialCalc.crToCoord(editor.range.left, editor.range.top);
-                  }
-                  }
+               }
+               }
                else {
                   cr = editor.ecell.coord;
-                  }
+               }
                cmd += "paste "+cr+" formulas";
                editor.EditorScheduleSheetCommands(cmd, true, false);
                SocialCalc.KeyboardFocus();
-               }, 200);
+            }, 200);
             return true;
 
          case "[ctrl-z]":
@@ -307,35 +307,35 @@ SocialCalc.TableEditor = function(context) {
                   if (newntvf != null) { // not cancelled
                      if (newntvf.match(/^cmd:/)) {
                         cmd = newntvf.substring(4); // execute as command
-                        }
+                     }
                      else if (newntvf.match(/^edit:/)) {
                         cmd = newntvf.substring(5); // execute as command
                         if (SocialCalc.CtrlSEditor) {
                            SocialCalc.CtrlSEditor(cmd);
-                           }
-                        return;
                         }
+                        return;
+                     }
                      else {
                         if (editor.range.hasrange) {
                            sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
                               ":"+SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-                           }
+                        }
                         else {
                           sel = editor.ecell.coord;
-                           }
-                        cmd = "set "+sel+" nontextvalueformat "+newntvf;
                         }
-                     editor.EditorScheduleSheetCommands(cmd, true, false);
+                        cmd = "set "+sel+" nontextvalueformat "+newntvf;
                      }
-                  },
+                     editor.EditorScheduleSheetCommands(cmd, true, false);
+                  }
+               },
                200);
             return false;
 
          default:
             break;
-            }
+         }
       return true;
-      };
+   };
 
    // Set sheet's status callback:
 
@@ -400,7 +400,7 @@ SocialCalc.TableEditor = function(context) {
    this.tableFullScrollableWidth = 0;
    this.firstVisibleColWidthToTopScrollableContainer = 0;
 
-   }
+}
 
 // Methods:
 
@@ -414,13 +414,13 @@ SocialCalc.TableEditor.prototype.EditorRenderSheet = function() {SocialCalc.Edit
 SocialCalc.TableEditor.prototype.EditorScheduleSheetCommands = function(cmdstr, saveundo, ignorebusy) {SocialCalc.EditorScheduleSheetCommands(this, cmdstr, saveundo, ignorebusy);};
 SocialCalc.TableEditor.prototype.ScheduleSheetCommands = function(cmdstr, saveundo) {
    this.context.sheetobj.ScheduleSheetCommands(cmdstr, saveundo);
-   };
+};
 SocialCalc.TableEditor.prototype.SheetUndo = function() {
    this.context.sheetobj.SheetUndo();
-   };
+};
 SocialCalc.TableEditor.prototype.SheetRedo = function() {
    this.context.sheetobj.SheetRedo();
-   };
+};
 SocialCalc.TableEditor.prototype.EditorStepSet = function(status, arg) {SocialCalc.EditorStepSet(this, status, arg);};
 SocialCalc.TableEditor.prototype.GetStatuslineString = function(status, arg, params) {return SocialCalc.EditorGetStatuslineString(this, status, arg, params);};
 
@@ -487,30 +487,30 @@ SocialCalc.TableEditor.prototype.ComputeTableSize = function(control) {
    if (this.rowheight.length < this.context.sheetobj.attribs.lastrow) {
       for(var i = this.rowheight.length; i < this.context.sheetobj.attribs.lastrow + 1; i++)
          this.rowheight[i] = this.context.pixelsPerRow;
-   }
+}
 
    this.tableFullScrollableHeight = 0;
    for(var i = this.lastnonscrollingrow + 1; i < this.rowheight.length + 1; i++) {
       if (this.rowheight[i]) this.tableFullScrollableHeight += this.rowheight[i];
-   }
+}
    this.firstVisibleRowHeightToTopScrollableContainer = 0;
    for(var i = this.lastnonscrollingrow + 1; i < this.firstscrollingrow; i++) {
       if (this.rowheight[i]) this.firstVisibleRowHeightToTopScrollableContainer += this.rowheight[i];
-   }
+}
 
 
    // filling the colwidth array is some col are missing
    if (this.colwidth.length < this.context.sheetobj.attribs.lastcol) {
       for(var i = this.colwidth.length; i < this.context.sheetobj.attribs.lastcol + 1; i++)
          this.colwidth[i] = this.context.rownamewidth;
-   }
+}
 
    this.tableFullScrollableWidth = 0;
    for(var i = this.lastnonscrollingcol + 1; i < this.colwidth.length + 1; i++) {
       if (this.colwidth[i]) this.tableFullScrollableWidth += this.colwidth[i];
-   }
+}
    this.firstVisibleColWidthToTopScrollableContainer = 0;
    for(var i = this.lastnonscrollingcol + 1; i < this.firstscrollingcol; i++) {
       if (this.colwidth[i]) this.firstVisibleColWidthToTopScrollableContainer += this.colwidth[i];
-   }
+}
 }

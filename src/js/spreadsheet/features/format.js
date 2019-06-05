@@ -13,15 +13,15 @@ SocialCalc.SpreadsheetControlSettingsSwitch = function(target) {
       sheettoolbar.style.display = "block";
       celltoolbar.style.display = "none";
       SocialCalc.SettingsControlSetCurrentPanel(s.views.settings.values.sheetspanel);
-      }
+   }
    else {
       sheettable.style.display = "none";
       celltable.style.display = "block";
       sheettoolbar.style.display = "none";
       celltoolbar.style.display = "block";
       SocialCalc.SettingsControlSetCurrentPanel(s.views.settings.values.cellspanel);
-      }
    }
+}
 
 SocialCalc.SettingsControlSave = function(target) {
    var range, cmdstr;
@@ -35,20 +35,20 @@ SocialCalc.SettingsControlSave = function(target) {
 
    if (target=="sheet") {
       cmdstr = s.sheet.DecodeSheetAttributes(attribs);
-      }
+   }
    else if (target=="cell") {
       if (s.editor.range.hasrange) {
          range = SocialCalc.crToCoord(s.editor.range.left, s.editor.range.top) + ":" +
             SocialCalc.crToCoord(s.editor.range.right, s.editor.range.bottom);
-         }
+      }
       cmdstr = s.sheet.DecodeCellAttributes(s.editor.ecell.coord, attribs, range);
-      }
+   }
    else { // Cancel
-      }
+   }
    if (cmdstr) {
       s.editor.EditorScheduleSheetCommands(cmdstr, true, false);
-      }
    }
+}
 
 
 SocialCalc.HandleStyleButtonClicked = function(button) {
@@ -61,16 +61,16 @@ SocialCalc.HandleStyleButtonClicked = function(button) {
       $(button).siblings('[data-command="'+$(button).data('command')+'"]').removeClass('active');
 
       cmdValue = $(button).hasClass('active') ? $(button).data('value') : null;
-   } else {
+} else {
       cmdValue = $(button).val();
-   }
+}
 
    if (editor.range.hasrange) {
       range = SocialCalc.crToCoord(editor.range.left, editor.range.top) + ":"
       range += SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-   } else {
+} else {
       range = editor.ecell.coord
-   }
+}
 
    // apply command reading button data attributes
    cmdstr = "set " + range + " " + $(button).data('command') + " " + cmdValue;

@@ -88,10 +88,10 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
    if (!SocialCalc) {
       alert("Main SocialCalc code module needed");
       SocialCalc = {};
-      }
+   }
    if (!SocialCalc.TableEditor) {
       alert("SocialCalc TableEditor code module needed");
-      }
+   }
 
 // *************************************
 //
@@ -157,10 +157,10 @@ SocialCalc.SpreadsheetViewer = function(idPrefix) {
      this.context.sheetobj.cells["A1"] = new SocialCalc.Cell("A1");
      this.context.sheetobj.cells["A1"].displaystring = "Loading ... "; // will display until recalc issues a render request - auto reset by recalc on load
 
-   } else {
+} else {
      this.context.showGrid= true;
      this.context.showRCHeaders= true;
-   }
+}
    // } SpreadsheetViewer
    this.editor = new SocialCalc.TableEditor(this.context);
    this.editor.noEdit = true;
@@ -184,7 +184,7 @@ SocialCalc.SpreadsheetViewer = function(idPrefix) {
 
    return;
 
-   }
+}
 
 // Methods:
 
@@ -241,7 +241,7 @@ SocialCalc.InitializeSpreadsheetViewer = function(spreadsheet, node, height, wid
 
    for (child=node.firstChild; child!=null; child=node.firstChild) {
       node.removeChild(child);
-      }
+   }
 
    node.appendChild(spreadsheet.spreadsheetDiv);
 
@@ -266,7 +266,7 @@ SocialCalc.InitializeSpreadsheetViewer = function(spreadsheet, node, height, wid
       spreadsheet.editor.StatusCallback.statusline =
          {func: SocialCalc.SpreadsheetViewerStatuslineCallback,
           params: {spreadsheetobj:spreadsheet}};
-      }
+   }
 
    // eddy InitializeSpreadsheetViewer {
    if(SocialCalc._app == true) {
@@ -275,13 +275,13 @@ SocialCalc.InitializeSpreadsheetViewer = function(spreadsheet, node, height, wid
      spreadsheet.formDataViewer.sheet.statuscallback = null;
      // setup app viewer object
      SocialCalc.CurrentSpreadsheetViewerObject = spreadsheet;
-   }
+}
 
    // done - refresh screen needed
 
    return;
 
-   }
+}
 
 SocialCalc.SpreadsheetViewerLoadSave = function(spreadsheet, savestr) {
 
@@ -292,13 +292,13 @@ SocialCalc.SpreadsheetViewerLoadSave = function(spreadsheet, savestr) {
       if (parts.sheet) {
          spreadsheet.sheet.ResetSheet();
          spreadsheet.sheet.ParseSheetSave(savestr.substring(parts.sheet.start, parts.sheet.end));
-         }
+      }
       if (parts.edit) {
          spreadsheet.editor.LoadEditorSettings(savestr.substring(parts.edit.start, parts.edit.end));
-         }
+      }
       if (parts.startupmacro) { // executed now
          spreadsheet.editor.EditorScheduleSheetCommands(savestr.substring(parts.startupmacro.start, parts.startupmacro.end), false, true);
-         }
+      }
       if (parts.repeatingmacro) { // first line tells how many seconds before first execution. Last cmd must be "cmdextension repeatmacro delay" to continue repeating.
          rmstr = savestr.substring(parts.repeatingmacro.start, parts.repeatingmacro.end);
          rmstr = rmstr.replace("\r", ""); // make sure no CR, only LF
@@ -311,17 +311,17 @@ SocialCalc.SpreadsheetViewerLoadSave = function(spreadsheet, savestr) {
             spreadsheet.repeatingMacroCommands = rmstr.substring(pos+1);
             if (t2 > 0) { // zero means don't start yet
                spreadsheet.repeatingMacroTimer = window.setTimeout(SocialCalc.SpreadsheetViewerDoRepeatingMacro, spreadsheet.repeatingMacroInterval * 1000);
-               }
             }
          }
       }
+   }
    if (spreadsheet.editor.context.sheetobj.attribs.recalc=="off" || spreadsheet.noRecalc) {
       spreadsheet.editor.ScheduleRender();
-      }
+   }
    else {
       spreadsheet.editor.EditorScheduleSheetCommands("recalc");
-      }
    }
+}
 
 //
 // SocialCalc.SpreadsheetViewerDoRepeatingMacro
@@ -363,7 +363,7 @@ SocialCalc.SpreadsheetViewerStopRepeatingMacro = function() {
    if (spreadsheet.repeatingMacroTimer) {
       window.clearTimeout(spreadsheet.repeatingMacroTimer);
       spreadsheet.repeatingMacroTimer = null;
-      }
+   }
 }
 
 //
@@ -387,12 +387,12 @@ SocialCalc.SpreadsheetViewerDoButtonCmd = function(e, buttoninfo, bobj) {
 
       default:
          break;
-      }
+   }
 
    if (obj && obj.blur) obj.blur();
    SocialCalc.KeyboardFocus();
 
-   }
+}
 
 
 //
@@ -412,9 +412,9 @@ SocialCalc.LocalizeString = function(str) {
    if (!cstr) { // no - look up
       cstr = SocialCalc.Constants["s_loc_"+str.toLowerCase().replace(/\s/g, "_").replace(/\W/g, "X")] || str;
       SocialCalc.LocalizeStringList[str] = cstr;
-      }
-   return cstr;
    }
+   return cstr;
+}
 
 SocialCalc.LocalizeStringList = {}; // a list of strings to localize accumulated by the routine
 
@@ -445,13 +445,13 @@ SocialCalc.LocalizeSubstrings = function(str) {
    return str.replace(/%(loc|ssc)!(.*?)!/g, function(a, t, c) {
       if (t=="ssc") {
          return SocialCalc.Constants[c] || alert("Missing constant: "+c);
-         }
+      }
       else {
          return SCLoc(c);
-         }
-      });
+      }
+   });
 
-   }
+}
 
 //
 // obj = GetSpreadsheetViewerObject()
@@ -466,7 +466,7 @@ SocialCalc.GetSpreadsheetViewerObject = function() {
 
    throw ("No current SpreadsheetViewer object.");
 
-   }
+}
 
 
 //
@@ -481,13 +481,13 @@ SocialCalc.SpreadsheetViewerStatuslineCallback = function(editor, status, arg, p
    if (spreadsheet && spreadsheet.statuslineDiv) {
       if (spreadsheet.statuslineFull) {
          slstr = editor.GetStatuslineString(status, arg, params);
-         }
+      }
       else {
          slstr = editor.ecell.coord;
-         }
+      }
       slstr = spreadsheet.statuslineHTML.replace(/\{status\}/, slstr);
       spreadsheet.statuslineDiv.innerHTML = slstr;
-      }
+   }
 
    switch (status) {
       case "cmdendnorender":
@@ -497,9 +497,9 @@ SocialCalc.SpreadsheetViewerStatuslineCallback = function(editor, status, arg, p
 
       default:
          break;
-      }
-
    }
+
+}
 
 
 //
@@ -512,7 +512,7 @@ SocialCalc.CmdGotFocus = function(obj) {
 
    SocialCalc.Keyboard.passThru = obj;
 
-   }
+}
 
 
 //
@@ -537,7 +537,7 @@ SocialCalc.SpreadsheetViewerCreateSheetHTML = function(spreadsheet) {
    delete div;
    return result;
 
-   }
+}
 
 
 ///////////////////////
@@ -598,8 +598,8 @@ SocialCalc.SpreadsheetViewerDecodeSpreadsheetSave = function(spreadsheet, str) {
          case "part":
             partlist.push(p[1]);
             break;
-         }
       }
+   }
 
    for (pnum=0; pnum<partlist.length; pnum++) { // get each part
       blanklineregex.lastIndex = ending;
@@ -608,17 +608,17 @@ SocialCalc.SpreadsheetViewerDecodeSpreadsheetSave = function(spreadsheet, str) {
       start = blanklineregex.lastIndex;
       if (pnum==partlist.length-1) { // last one has different boundary
          boundaryregex = new RegExp("^--"+boundary+"--$", "mg");
-         }
+      }
       boundaryregex.lastIndex = start;
       searchinfo = boundaryregex.exec(str); // find ending boundary
       if (!searchinfo) return parts;
       ending = searchinfo.index;
       parts[partlist[pnum]] = {start: start, end: ending}; // return position within full string
-      }
+   }
 
    return parts;
 
-   }
+}
 
 
 // END OF FILE

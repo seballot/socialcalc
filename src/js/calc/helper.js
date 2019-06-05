@@ -13,7 +13,7 @@ SocialCalc.rcColname = function(c) {
       return String.fromCharCode(colhigh + 64) + String.fromCharCode(collow);
    else
       return String.fromCharCode(collow);
-   }
+}
 
 SocialCalc.letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M",
                       "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -30,7 +30,7 @@ SocialCalc.crToCoord = function(c, r) {
    else
       result = SocialCalc.letters[collow] + r;
    return result;
-   }
+}
 
 SocialCalc.coordToCol = {}; // too expensive to set in crToCoord since that is called so many times
 SocialCalc.coordToRow = {};
@@ -46,12 +46,12 @@ SocialCalc.coordToCr = function(cr) {
       else if (ch<=57) r = 10*r + ch-48;
       else if (ch>=97) c = 26*c + ch-96;
       else if (ch>=65) c = 26*c + ch-64;
-      }
+   }
    SocialCalc.coordToCol[cr] = c;
    SocialCalc.coordToRow[cr] = r;
    return {row: r, col: c};
 
-   }
+}
 
 SocialCalc.ParseRange = function(range) {
    var pos, cr, cr1, cr2;
@@ -65,15 +65,15 @@ SocialCalc.ParseRange = function(range) {
       cr = range.substring(pos+1);
       cr2 = SocialCalc.coordToCr(cr);
       cr2.coord = cr;
-      }
+   }
    else {
       cr1 = SocialCalc.coordToCr(range);
       cr1.coord = range;
       cr2 = SocialCalc.coordToCr(range);
       cr2.coord = range;
-      }
-   return {cr1: cr1, cr2: cr2};
    }
+   return {cr1: cr1, cr2: cr2};
+}
 
 SocialCalc.decodeFromSave = function(s) {
    if (typeof s != "string") return s;
@@ -81,7 +81,7 @@ SocialCalc.decodeFromSave = function(s) {
    var r=s.replace(/\\c/g,":");
    r=r.replace(/\\n/g,"\n");
    return r.replace(/\\b/g,"\\");
-   }
+}
 
 SocialCalc.decodeFromAjax = function(s) {
    if (typeof s != "string") return s;
@@ -90,7 +90,7 @@ SocialCalc.decodeFromAjax = function(s) {
    r=r.replace(/\\n/g,"\n");
    r=r.replace(/\\e/g,"]]");
    return r.replace(/\\b/g,"\\");
-   }
+}
 
 SocialCalc.encodeForSave = function(s) {
    if (typeof s != "string") return s;
@@ -101,7 +101,7 @@ SocialCalc.encodeForSave = function(s) {
    if (s.indexOf("\n")!=-1)
       s=s.replace(/\n/g,"\\n");
    return s;
-   }
+}
 
 //
 // Returns estring where &, <, >, " are HTML escaped
@@ -113,10 +113,10 @@ SocialCalc.special_chars = function(string) {
       string = string.replace(/</g, "&lt;");
       string = string.replace(/>/g, "&gt;");
       string = string.replace(/"/g, "&quot;");
-      }
+   }
    return string;
 
-   }
+}
 
 SocialCalc.Lookup = function(value, list) {
 
@@ -124,8 +124,8 @@ SocialCalc.Lookup = function(value, list) {
       if (list[i] > value) {
          if (i>0) return i-1;
          else return null;
-         }
       }
+   }
    return list.length-1; // if all smaller, matches last
 
-   }
+}

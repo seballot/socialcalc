@@ -14,11 +14,11 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
 
    for (mobj=null; !mobj && ele; ele=ele.parentNode) { // go up tree looking for one of our elements
       mobj = SocialCalc.LookupElement(ele, mouseinfo.registeredElements);
-      }
+   }
    if (!mobj) {
       mouseinfo.editor = null;
       return; // not one of our elements
-      }
+   }
 
    editor = mobj.editor;
    mouseinfo.element = ele;
@@ -35,33 +35,33 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
    if (result.rowheader) {
      if (result.rowselect)  {
          SocialCalc.ProcessEditorRowselectMouseDown(e, ele, result);
-     } else {
+  } else {
          SocialCalc.ProcessEditorRowsizeMouseDown(e, ele, result);
-     }
+  }
      return;
-   }
+}
 
    if (result.colheader) {
      if (result.colselect)  {
          SocialCalc.ProcessEditorColselectMouseDown(e, ele, result);
-     } else {
+  } else {
          SocialCalc.ProcessEditorColsizeMouseDown(e, ele, result);
-     }
+  }
      return;
-   }
+}
 
    if (!result.coord) return; // not us
 
    if (!range.hasrange) {
       if (e.shiftKey)
         editor.RangeAnchor();
-      }
+   }
    coord = editor.MoveECell(result.coord);
 
    if(SocialCalc._app == true) { // "app" wigets need to keep focus - needed because "coord" always equals A1
       SocialCalc.CmdGotFocus(true); // cell widgets need to keep focus
       return;
-   }
+}
 
    var clickedCell = editor.context.sheetobj.cells[coord];
    if(clickedCell) {
@@ -71,17 +71,17 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
       if(target && widget_id == target.id) { // if widget was clicked (rather than cell containing widget)
         var cell_widget=document.getElementById(widget_id);
         SocialCalc.CmdGotFocus(cell_widget); // cell widgets need to keep focus
-      }
+   }
    return; // let ioWidget keep the focus
-   }
-   }
+}
+}
 
    if (range.hasrange) {
      if (e.shiftKey)
         editor.RangeExtend();
      else
         editor.RangeRemove();
-     }
+  }
 
    mouseinfo.mousedowncoord = coord; // remember if starting drag range select
    mouseinfo.mouselastcoord = coord;
@@ -110,19 +110,19 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
          if (("(+-*/,:!&<>=^".indexOf(inputtext.slice(-1))>=0 && inputtext.slice(0,1)=="=") ||
              (inputtext == "=")) {
             wval.partialexpr = inputtext;
-            }
+         }
 
          if (wval.partialexpr) { // if in pointing operation
             if (coord) {
                if (range.hasrange) {
                   editor.inputBox.SetText(wval.partialexpr + SocialCalc.crToCoord(range.left, range.top) + ":" +
                      SocialCalc.crToCoord(range.right, range.bottom));
-                  }
+               }
                else {
                   editor.inputBox.SetText(wval.partialexpr + coord);
-                  }
                }
             }
+         }
          else { // not in point -- done editing
             editor.inputBox.Blur();
             editor.inputBox.ShowInputBox(false);
@@ -130,7 +130,7 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
             editor.cellhandles.ShowCellHandles(true);
             editor.EditorSaveEdit();
             editor.inputBox.DisplayCellContents(null);
-            }
+         }
          break;
 
       case "inputboxdirect":
@@ -141,8 +141,8 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
          editor.EditorSaveEdit();
          editor.inputBox.DisplayCellContents(null);
          break;
-      }
    }
+}
 
 SocialCalc.ProcessEditorMouseMove = function(e) {
 
@@ -166,7 +166,7 @@ SocialCalc.ProcessEditorMouseMove = function(e) {
    if (result && !result.coord) {
       SocialCalc.SetDragAutoRepeat(editor, result);
       return;
-      }
+   }
 
    SocialCalc.SetDragAutoRepeat(editor, null); // stop repeating if it was
 
@@ -175,16 +175,16 @@ SocialCalc.ProcessEditorMouseMove = function(e) {
    if (result.coord!=mouseinfo.mouselastcoord) {
       if (!e.shiftKey && !editor.range.hasrange) {
          editor.RangeAnchor(mouseinfo.mousedowncoord);
-         }
+      }
       editor.MoveECell(result.coord);
       editor.RangeExtend();
-      }
+   }
    mouseinfo.mouselastcoord = result.coord;
 
    editor.EditorMouseRange(result.coord);
    SocialCalc.StopPropagation(event);
    return;
-   }
+}
 
 
 SocialCalc.ProcessEditorMouseUp = function(e) {
@@ -213,12 +213,12 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
    if (editor.range.hasrange) {
       editor.MoveECell(result.coord);
       editor.RangeExtend();
-      }
+   }
    else if (result.coord && result.coord!=mouseinfo.mousedowncoord) {
       editor.RangeAnchor(mouseinfo.mousedowncoord);
       editor.MoveECell(result.coord);
       editor.RangeExtend();
-      }
+   }
 
    editor.EditorMouseRange(result.coord);
    mouseinfo.editor = null;
@@ -237,13 +237,13 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
    for(var property in cell.style) {
       $('.style-btn[data-command="style.'+ property +'"]').each(function() {
          $(this).toggleClass('active', $(this).data('value') == cell.style[property]);
-      })
+   })
       $('input[type=color][data-command="style.'+ property +'"]').spectrum("set", cell.style[property]);
-   }
+}
 
    return false;
 
-   }
+}
 
 //
 // Handling Clicking
@@ -263,11 +263,11 @@ SocialCalc.ProcessEditorDblClick = function(e) {
 
    for (mobj=null; !mobj && ele; ele=ele.parentNode) { // go up tree looking for one of our elements
       mobj = SocialCalc.LookupElement(ele, mouseinfo.registeredElements);
-      }
+   }
    if (!mobj) {
       mouseinfo.editor = null;
       return; // not one of our elements
-      }
+   }
 
    editor = mobj.editor;
 
@@ -293,11 +293,11 @@ SocialCalc.ProcessEditorDblClick = function(e) {
 
       default:
          break;
-      }
+   }
    SocialCalc.StopPropagation(event);
    return;
 
-   }
+}
 
 SocialCalc.EditorProcessMouseWheel = function(event, delta, mousewheelinfo, wobj) {
 
@@ -305,9 +305,9 @@ SocialCalc.EditorProcessMouseWheel = function(event, delta, mousewheelinfo, wobj
 
    if (delta > 0) {
       wobj.functionobj.editor.ScrollRelative(true, Math.floor(-delta * 1.5));
-      }
+   }
    if (delta < 0) {
       wobj.functionobj.editor.ScrollRelative(true, Math.ceil(-delta * 1.5));
-      }
-
    }
+
+}
