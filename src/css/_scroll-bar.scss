@@ -100,3 +100,18 @@ $scrollbar-thickness: 12px;
     left: 4px;
   }
 }
+
+
+.custom-scroll-bar::-webkit-scrollbar-track {
+    background-color: #f6f6f6;;
+    border: 1px solid #f0f0f0;
+}
+
+.custom-scroll-bar::-webkit-scrollbar {
+    width: 7px;
+}
+
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #b2bfc6;
+}

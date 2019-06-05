@@ -16,8 +16,6 @@ SocialCalc.SpreadsheetControlDoFunctionList = function() {
    ele = document.getElementById(idp+"dialog");
    if (ele) return; // already have one
 
-   scf.FillFunctionInfo();
-
    str = '<table><tr><td><span style="font-size:x-small;font-weight:bold">%loc!Category!</span><br>'+
       '<select id="'+idp+'class" size="'+fcl.length+'" style="width:120px;" onchange="SocialCalc.SpreadsheetControl.FunctionClassChosen(this.options[this.selectedIndex].value);">';
    for (i=0; i<fcl.length; i++) {
@@ -111,8 +109,12 @@ SocialCalc.SpreadsheetControl.GetFunctionInfoStr = function(fname) {
    var f = scf.FunctionList[fname];
    var scsc = SocialCalc.special_chars;
 
-   var str = "<b>"+fname+"("+scsc(scf.FunctionArgString(fname))+")</b><br>";
-   str += scsc(f[3]);
+   var str = ""
+   str += "<div class='function-title'>"
+   str += "   <span class='function-name'>"+fname+"</span>";
+   str += "   <span class='function-args'>("+scsc(scf.FunctionArgString(fname))+")</span>";
+   str += "</div>";
+   str += '<div class="function-description">' + scsc(f[3]) + '</div>';
 
    return str;
 

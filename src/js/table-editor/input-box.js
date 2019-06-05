@@ -40,12 +40,12 @@ SocialCalc.InputBox = function(element, editor) {
 // Methods:
 
 SocialCalc.InputBox.prototype.DisplayCellContents = function(coord) {SocialCalc.InputBoxDisplayCellContents(this, coord);};
-SocialCalc.InputBox.prototype.ShowInputBox = function(show) {this.editor.inputEcho.ShowInputEcho(show);};
+SocialCalc.InputBox.prototype.ShowInputBox = function(show) {this.editor.inputEcho.Show(show);};
 SocialCalc.InputBox.prototype.GetText = function() {return this.element.value;};
 SocialCalc.InputBox.prototype.SetText = function(newtext) {
    if (!this.element) return;
    this.element.value=newtext;
-   this.editor.inputEcho.SetText(newtext+"_");
+   this.editor.inputEcho.SetText(newtext);
 };
 SocialCalc.InputBox.prototype.Focus = function() {SocialCalc.InputBoxFocus(this);};
 SocialCalc.InputBox.prototype.Blur = function() {return this.element.blur();};
@@ -149,7 +149,7 @@ SocialCalc.InputBoxOnMouseDown = function(e) {
          wval.ecoord = editor.ecell.coord;
          wval.erow = editor.ecell.row;
          wval.ecol = editor.ecell.col;
-         editor.inputEcho.ShowInputEcho(true);
+         editor.inputEcho.Show(true);
          break;
 
       case "input":

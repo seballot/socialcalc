@@ -54,6 +54,8 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    spreadsheet.InitializeToolBar();
 
+   SocialCalc.Formula.FillFunctionInfo();
+
    // Initialize formula bar
 
    spreadsheet.formulabarDiv = spreadsheet.$container.find(".formula-bar");

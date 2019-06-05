@@ -39,9 +39,6 @@ SocialCalc.MouseWheelRegister = function(element, functionobj) {
    else { // don't handle this
       throw SocialCalc.Constants.s_BrowserNotSupported;
    }
-
-   return;
-
 }
 
 SocialCalc.ProcessMouseWheel = function(e) {
@@ -65,7 +62,7 @@ SocialCalc.ProcessMouseWheel = function(e) {
    if (!delta) delta = 0;
 
    if (wobj.functionobj && wobj.functionobj.WheelMove) wobj.functionobj.WheelMove(event, delta, mousewheelinfo, wobj);
-
+   if (wobj.functionobj == "donothing") return true;
    if (event.preventDefault) event.preventDefault();
    event.returnValue = false;
 

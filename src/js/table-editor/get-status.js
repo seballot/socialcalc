@@ -44,16 +44,13 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
       case "doneposcalc":
          document.body.style.cursor = "default";
          editor.griddiv.style.cursor = "default";
-         // eddy EditorGetStatuslineString {
          // all updates done, So let future event clear the "sent" message in the status bar
          if(params.emailing == "sent") {
            progress = params.emailreponse;
            params.emailreponse = "";
            params.emailing = "done";
-      }
-         // } eddy EditorGetStatuslineString
+         }
          break;
-
       case "calcorder":
          progress = scc.s_statusline_ordering+Math.floor(100*arg.count/(arg.total||1))+"%";
          break;
@@ -77,7 +74,6 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
       case "calcfinished":
          params.calculating = false;
          break;
-      // eddy EditorGetStatuslineString {
       case "emailing":
        params.emailing = "sending";
        params.emailreponse ="";
@@ -87,22 +83,18 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
         if(typeof params.emailreponse === 'undefined') params.emailreponse ="";
         params.emailreponse += arg;
          break;
-      // } eddy EditorGetStatuslineString
-
       default:
          progress = status;
          break;
    }
 
-   // eddy EditorGetStatuslineString {
    // if send email then update status bar with "sending" and then "sent"
    if(params.emailing == "sending") {
      progress += scc.s_statusline_sendemail;
-}
+   }
    if(params.emailing == "sent") {
      progress += params.emailreponse;
-}
-   // } eddy EditorGetStatuslineString
+   }
 
    if (!progress && params.calculating) {
       progress = scc.s_statusline_calculating;
@@ -141,9 +133,6 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
       circ = circ.replace(/\|/, " referenced by ");
       sstr += ' &nbsp; '+scc.s_statusline_circref + circ + '</span>';
    }
-   // eddy EditorGetStatuslineString {
    sstr += "";
-   // } eddy EditorGetStatuslineString
    return sstr;
-
 }

@@ -24,92 +24,135 @@ SocialCalc.InputEcho = function(editor) {
    this.main.className = "input-echo-text";
    this.container.appendChild(this.main);
    this.prompt = document.createElement("div");
-   this.prompt.className = "input-echo-prompt";
+   this.prompt.className = "input-echo-prompt custom-scroll-bar";
    this.container.appendChild(this.prompt);
 
    $(editor.toplevel).find('#te_griddiv').append(this.container);
+   var that = this;
+   $(this.main).click(function(e) { that.HandleInputEchoMouseDown(e); });
+
+   SocialCalc.MouseWheelRegister(this.prompt, "donothing"); // handle scrolling prompt results
+
+   // variable to make make the _ blink
+   this.showCursor = true;
+   this.count = 0;
 }
-
-// Methods:
-
-SocialCalc.InputEcho.prototype.ShowInputEcho = function(show) {return SocialCalc.ShowInputEcho(this, show);};
-SocialCalc.InputEcho.prototype.SetText = function(str) {return SocialCalc.SetInputEchoText(this, str);};
 
 // Functions:
 
-SocialCalc.ShowInputEcho = function(inputecho, show) {
+SocialCalc.InputEcho.prototype.Show = function(show) {
 
    var cell, position;
-   var editor = inputecho.editor;
-
-   if (!editor) return;
+   if (!this.editor) return;
 
    if (show) {
-      editor.cellhandles.ShowCellHandles(false);
-      cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
-      inputecho.container.style.left = $(cell.element).position().left + "px";
-      inputecho.container.style.top = $(cell.element).position().top + "px";
-      inputecho.container.style['min-width'] = $(cell.element).outerWidth(true) + 1 + "px";
-      inputecho.container.style['min-height'] = $(cell.element).outerHeight(true) + 1 + "px";
-      inputecho.container.style.display = "block";
-      if (inputecho.interval) window.clearInterval(inputecho.interval); // just in case
-      inputecho.interval = window.setInterval(SocialCalc.InputEchoHeartbeat, 50);
+      this.editor.cellhandles.ShowCellHandles(false);
+      cell = SocialCalc.GetEditorCellElement(this.editor, this.editor.ecell.row, this.editor.ecell.col);
+      var isFirefox = typeof InstallTrigger !== 'undefined';
+      var offset = isFirefox ? 1 : 0;
+      this.container.style.left = $(cell.element).position().left - offset + "px";
+      this.container.style.top = $(cell.element).position().top - offset + "px";
+      this.container.style['min-width'] = $(cell.element).outerWidth(true) + 1 + "px";
+      this.container.style['min-height'] = $(cell.element).outerHeight(true) + 1 + "px";
+      this.container.style.display = "block";
+
+      // reduce the size and change position of prompt when close to the bottom right border
+      var leftOffset = this.editor.verticaltablecontrol.$main.offset().left - $(this.container).offset().left - $(this.prompt).width() - 20;
+      var bottomOffset = this.editor.horizontaltablecontrol.$main.offset().top - $(this.container).offset().top - 40;
+      this.prompt.style.left = Math.min(leftOffset, 0) + "px";
+      $(this.prompt).css('max-height', Math.min(bottomOffset, 400) + "px");
+
+      if (this.interval) window.clearInterval(this.interval); // just in case
+      var that = this;
+      this.interval = window.setInterval(function() { that.HandleInputEchoHeartbeat() }, 50);
    }
    else {
-      if (inputecho.interval) window.clearInterval(inputecho.interval);
-      inputecho.container.style.display = "none";
+      if (this.interval) window.clearInterval(this.interval);
+      this.container.style.display = "none";
    }
 
 }
 
-SocialCalc.SetInputEchoText = function(inputecho, str) {
+// Do not call that method directly, this is just a mirror of the input value
+// call instead editor.inputBox.SetText
+SocialCalc.InputEcho.prototype.SetText  = function(str) {
 
    var scc = SocialCalc.Constants;
-   var fname, fstr;
-   var newstr = SocialCalc.special_chars(str);
-   newstr = newstr.replace(/\n/g,"<br>");
+   var fname, fstr = "";
+   var newstr = SocialCalc.special_chars(str).replace(/\n/g,"<br>");
+   var newstrWithoutUnderscore = newstr.replace('_','');
 
-   if (inputecho.text != newstr) {
-      inputecho.main.innerHTML = newstr;
-      inputecho.text = newstr;
-   }
+   if (this.text != newstrWithoutUnderscore) {
+      this.main.innerHTML = newstr;
+      this.text = newstrWithoutUnderscore;
 
-   var parts = str.match(/.*[\+\-\*\/\&\^\<\>\=\,\(]([A-Za-z][A-Za-z][\w\.]*?)\([^\)]*$/);
-   if (str.charAt(0)=="=" && parts) {
-      fname = parts[1].toUpperCase();
-      if (SocialCalc.Formula.FunctionList[fname]) {
-         SocialCalc.Formula.FillFunctionInfo(); //  make sure filled
-         fstr = SocialCalc.special_chars(fname+"("+SocialCalc.Formula.FunctionArgString(fname)+")");
+      if (str.charAt(0) == "=") {
+         var fullFunctionName = str.indexOf('(') > -1;
+         fname = str.slice(1).split('_')[0].split('(')[0].toUpperCase();
+         if (fullFunctionName) {
+            fstr = '<div class="function-container">';
+            if (SocialCalc.Formula.FunctionList[fname])
+               fstr += SocialCalc.SpreadsheetControl.GetFunctionInfoStr(fname);
+            else
+               fstr += scc.ietUnknownFunction+fname;
+            fstr += '</div>'
+         }
+         else {
+            if (fname.length > 1) {
+               var funcToDisplay = []
+               // Search function by name
+               for(var func in SocialCalc.Formula.FunctionList)
+                  if (func.indexOf(fname) > -1) funcToDisplay.push(func);
+
+               fname = fname.toLowerCase();
+               // Search by function group
+               for(var groupName in SocialCalc.Formula.FunctionClasses) {
+                  var group = SocialCalc.Formula.FunctionClasses[groupName];
+                  if (groupName.toLowerCase().indexOf(fname) > -1 || group.name.toLowerCase().indexOf(fname) > -1)
+                     funcToDisplay = funcToDisplay.concat(group.items)
+               }
+               // Search by function description
+               for(var funcName in SocialCalc.Formula.FunctionList) {
+                  var func = SocialCalc.Formula.FunctionList[funcName];
+                  if (func[3].toLowerCase().indexOf(fname) > -1) funcToDisplay.push(funcName)
+               }
+               // Create html
+               funcToDisplay = funcToDisplay.filter(function(value, index, self) { return self.indexOf(value) === index; });
+               for(var i = 0; i < funcToDisplay.length; i++) {
+                  var func = funcToDisplay[i];
+                  fstr += '<div class="function-container" data-function="' + func + '">';
+                  fstr += SocialCalc.SpreadsheetControl.GetFunctionInfoStr(func) + '</div>';
+               }
+            }
+         }
+      }
+      if (fstr) {
+         this.prompt.innerHTML = fstr;
+         this.prompt.style.display = "block";
+         var that = this;
+         $(this.prompt).find('.function-container').click(function(e) { that.HandlePromptMouseDown(e); });
+         $(this.prompt).animate({scrollTop: 0}, 0);
       }
       else {
-         fstr = scc.ietUnknownFunction+fname;
-      }
-      if (inputecho.prompt.innerHTML != fstr) {
-         inputecho.prompt.innerHTML = fstr;
-         inputecho.prompt.style.display = "block";
+         this.prompt.innerHTML = "";
+         this.prompt.style.display = "none";
       }
    }
-   else if (inputecho.prompt.style.display != "none") {
-      inputecho.prompt.innerHTML = "";
-      inputecho.prompt.style.display = "none";
-   }
-
 }
 
-SocialCalc.InputEchoHeartbeat = function() {
-
-   var editor = SocialCalc.Keyboard.focusTable; // get TableEditor doing keyboard stuff
-   if (!editor) return true; // we're not handling it -- let browser do default
-
-   editor.inputEcho.SetText(editor.inputBox.GetText()+"_");
-
+SocialCalc.InputEcho.prototype.HandleInputEchoHeartbeat = function() {
+   this.SetText(this.editor.inputBox.GetText() + (this.showCursor ? '_' : ''));
+   if (this.count++ % 15 == 0) this.showCursor = !this.showCursor;
 }
 
-SocialCalc.InputEchoMouseDown = function(e) {
-   var event = e || window.event;
-
-   var editor = SocialCalc.Keyboard.focusTable; // get TableEditor doing keyboard stuff
-   if (!editor) return true; // we're not handling it -- let browser do default
-
-   editor.inputBox.element.focus();
+SocialCalc.InputEcho.prototype.HandleInputEchoMouseDown = function(e) {
+   this.editor.inputBox.element.focus();
 };
+
+SocialCalc.InputEcho.prototype.HandlePromptMouseDown = function(e) {
+   var event = e || window.event;
+   var ele = event.target || event.srcElement;
+   var fname = $(ele).data('function') || $(ele).closest('.function-container').data('function');
+   if (fname) this.editor.inputBox.SetText('=' + fname + '(');
+   this.editor.inputBox.element.focus();
+}

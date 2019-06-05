@@ -7,7 +7,6 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
    var range = editor.range;
 
    if (typeof ch != "string") ch = "";
-
    switch (editor.state) {
       case "start":
          if (e.shiftKey && ch.substr(0,2)=="[a") {
@@ -68,6 +67,45 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
          break;
 
       case "input":
+         // handle navigating in input function prompt with arrow
+         var $prompt = $(editor.inputEcho.prompt);
+         var inputEchoPromptVisible = $prompt.is(':visible');
+         var selectedPrompt = $prompt.find('.function-container.selected').first();
+         var newSelectedPrompt;
+         var topPos = selectedPrompt.length ? selectedPrompt[0].offsetTop : 0;
+         if (inputEchoPromptVisible && ch == "[adown]") {
+            $prompt.find('.function-container.selected').removeClass('selected');
+            if (!selectedPrompt.length || !selectedPrompt.next().length) {
+               newSelectedPrompt = $prompt.find('.function-container').first().addClass('selected');
+               $prompt.scrollTop(0);
+            }
+            else {
+               newSelectedPrompt = selectedPrompt.next().addClass('selected');
+               if (topPos - $prompt.scrollTop() + selectedPrompt.outerHeight() > $prompt.outerHeight() - 50)
+                  $prompt.scrollTop(topPos);
+            }
+            return false;
+         }
+         if (inputEchoPromptVisible && $prompt.is(':visible') && ch == "[aup]") {
+            $prompt.find('.function-container.selected').removeClass('selected');
+            if (!selectedPrompt.length || !selectedPrompt.prev().length) {
+               newSelectedPrompt = $prompt.find('.function-container').last().addClass('selected');
+               $prompt.scrollTop($prompt[0].scrollHeight);
+            }
+            else {
+               newSelectedPrompt = selectedPrompt.prev().addClass('selected');
+               if (topPos - $prompt.scrollTop() <= 30)
+                  $prompt.scrollTop(topPos - selectedPrompt.outerHeight());
+            }
+
+            return false;
+         }
+         if (selectedPrompt.length > 0 && ch == "[enter]") {
+            selectedPrompt.click(); // simulate click
+            return false;
+         }
+         // end of navigating prompt
+
          inputtext = editor.inputBox.GetText(); // should not get here if no inputBox
          if (editor.inputBox.skipOne) return false; // ignore a key already handled
          if (ch=="[esc]" || ch=="[enter]" || ch=="[tab]" || (ch && ch.substr(0,2)=="[a")) {
@@ -124,7 +162,7 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
          if (ch=="[f2]") {
            editor.state = "inputboxdirect";
            return false;
-        }
+         }
          if (range.hasrange) {
             editor.RangeRemove();
          }
