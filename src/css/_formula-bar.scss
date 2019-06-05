@@ -1,4 +1,4 @@
-.SC-formula-bar {
+.formula-bar {
   border-top: 1px solid #dadce0;
   height: 30px;
   display: flex;
@@ -15,9 +15,10 @@
     padding: 4px;
   }
 
-  #SC-formulafunctions {
+  #formula-functions-icon {
     height: 28px;
     padding: 6px 4px 2px 4px;
+    &:hover { cursor: pointer; }
   }
 
   .divider {
@@ -29,13 +30,13 @@
     flex: 1 auto;
     display: flex;
 
-    #SC-formula-input {
+    #formula-input {
       flex: 1 auto;
     }
   }
 
   .search-group {
-    #searchbarinput {
+    #search-input {
       float: left;
       width: 200px;
       margin-left: 5px;
@@ -46,7 +47,7 @@
       font-size: 15px;
     }
 
-    #searchbarinput:hover ~ .search-icon { opacity: 1; }
+    #search-input:hover ~ .search-icon { opacity: 1; }
 
     .search-icon {
       float: left;

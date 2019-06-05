@@ -56,9 +56,9 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    // Initialize formula bar
 
-   spreadsheet.formulabarDiv = spreadsheet.$container.find(".SC-formula-bar");
+   spreadsheet.formulabarDiv = spreadsheet.$container.find(".formula-bar");
 
-   new SocialCalc.InputBox(spreadsheet.$container.find("#SC-formula-input")[0], spreadsheet.editor);
+   new SocialCalc.InputBox(spreadsheet.$container.find("#formula-input")[0], spreadsheet.editor);
    // input.on('input', SocialCalc.SpreadsheetControl.FindInSheet);
    // input.on('focus', function() {
    //      SocialCalc.Keyboard.passThru = true;

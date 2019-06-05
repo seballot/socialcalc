@@ -78,8 +78,11 @@
    <span id="SC-link" class="action-btn fas fa-link" title="%loc!Link Input Box!"
          onclick="SocialCalc.SpreadsheetControlDoLink()"/></span>
 
-   <img id="SC-sum" class="action-btn" src="assets/images/sigma.svg" title="%loc!Auto Sum!"
+   <img id="SC-sum" class="action-btn" src="{{ imagePrefix}}sigma.svg" title="%loc!Auto Sum!"
          onclick="SocialCalc.SpreadsheetControlDoSum()"/>
+
+   <img id="SC-multilineinput" class="action-btn" src="{{ imagePrefix}}multiline.svg" title="Multi-line Input Box"
+         onclick="SocialCalc.SpreadsheetControlDoMultiline()"/>
 
    {{ divider() }}
 
