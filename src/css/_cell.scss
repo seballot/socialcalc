@@ -39,3 +39,16 @@
   font-size: 10px;
   &.selected { background-color: #e8eaed; }
 }
+
+.spacing-cell {
+  background-color: $cell-default-border-color;
+
+  &.header {
+    background-color: $text-color;
+    border-color: $text-color !important;
+    &.col { border-right: 1px solid; }
+    &.row { border-bottom: 1px solid; }
+  }
+  &.col { height: 5px; }
+  &.row { width: 5px; height: 1px }
+}

@@ -1,5 +1,6 @@
 $primary-color: #43a5f5;
 $text-color: #617c8b;
 $icon-color: $text-color;
-// cell background when selected
-$cell-selected-range-bg: rgba(46, 168, 255, 0.12);
+
+$cell-default-border-color: #e2e3e3;
+$cell-selected-range-bg: rgba(46, 168, 255, 0.12); // cell background when selected

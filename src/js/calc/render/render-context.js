@@ -15,8 +15,8 @@ SocialCalc.RenderContext = function(sheetobj) {
    this.sheetobj = sheetobj;
    this.hideRowsCols = false; // Rendering with panes only works with "false"
                               // !!!! Note: not implemented yet in rendering, just saved as an attribute
-   this.showGrid = false;
-   this.showRCHeaders = false;
+   this.showGrid = true; // If set to false table do not work anymore... do we still need this?
+   this.showRCHeaders = true; // Row Column Headers. If set to false table do not work anymore... do we still need this?
    this.rownamewidth = scc.defaultRowNameWidth;
    this.pixelsPerRow = scc.defaultAssumedRowHeight;
 
@@ -61,9 +61,6 @@ SocialCalc.RenderContext = function(sheetobj) {
    this.defaultfontfamily = scc.defaultCellFontFamily;
 
    this.defaultlayout = scc.defaultCellLayout;
-
-   this.defaultpanedividerwidth = scc.defaultPaneDividerWidth;
-   this.defaultpanedividerheight = scc.defaultPaneDividerHeight;
 
    this.gridCSS = scc.defaultGridCSS;
 

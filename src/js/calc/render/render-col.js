@@ -52,9 +52,7 @@ SocialCalc.RenderColHeaders = function(context) {
       }
       if (colpane<context.colpanes.length-1) {
          newcol=document.createElement("td");
-         newcol.width=context.defaultpanedividerwidth;
-         if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
-         if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
+         newcol.className = "spacing-cell row header";
          result.appendChild(newcol);
       }
    }
@@ -96,7 +94,7 @@ SocialCalc.RenderColGroup = function(context) {
       }
       if (colpane<context.colpanes.length-1) {
          newcol=document.createElement("col");
-         newcol.width=context.defaultpanedividerwidth;
+         newcol.className = "spacing-cell row"
          result.appendChild(newcol);
       }
    }

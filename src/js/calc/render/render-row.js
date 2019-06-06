@@ -54,13 +54,7 @@ SocialCalc.RenderRow = function(context, rownum, rowpane, linkstyle) {
       }
       if (colpane<context.colpanes.length-1) {
          newcol=document.createElement("td");
-         newcol.width=context.defaultpanedividerwidth;
-         if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
-         if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
-         newdiv=document.createElement("div"); // for Firefox to avoid squishing
-         newdiv.style.width=context.defaultpanedividerwidth+"px";
-         newdiv.style.overflow="hidden";
-         newcol.appendChild(newdiv);
+         newcol.className= "spacing-cell col";
          result.appendChild(newcol);
       }
    }
@@ -82,11 +76,9 @@ SocialCalc.RenderSpacingRow = function(context) {
    var result=document.createElement("tr");
 
    if (context.showRCHeaders) {
-      newcol=document.createElement("td");
-      newcol.width=context.rownamewidth;
-      newcol.height=context.defaultpanedividerheight;
-      if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
-      if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
+      newcol = document.createElement("td");
+      newcol.width = context.rownamewidth;
+      newcol.className = "spacing-cell col header";
       result.appendChild(newcol);
    }
 
@@ -94,18 +86,13 @@ SocialCalc.RenderSpacingRow = function(context) {
       for (colnum=context.colpanes[colpane].first; colnum<=context.colpanes[colpane].last; colnum++) {
          newcol=document.createElement("td");
          w = context.colwidth[colnum];
-         if (w) newcol.width=w;
-         newcol.height=context.defaultpanedividerheight;
-         if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
-         if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
+         if (w) newcol.width = w;
+         newcol.className = "spacing-cell col";
          if (newcol) result.appendChild(newcol);
       }
-      if (colpane<context.colpanes.length-1) {
-         newcol=document.createElement("td");
-         newcol.width=context.defaultpanedividerwidth;
-         newcol.height=context.defaultpanedividerheight;
-         if (context.classnames.panedivider) newcol.className=context.classnames.panedivider;
-         if (context.explicitStyles.panedivider) newcol.style.cssText=context.explicitStyles.panedivider;
+      if (colpane < context.colpanes.length-1) {
+         newcol = document.createElement("td");
+         newcol.className= "spacing-cell col other"
          result.appendChild(newcol);
       }
    }
@@ -141,7 +128,7 @@ SocialCalc.RenderSizingRow = function(context) {
       }
       if (colpane<context.colpanes.length-1) {
          newcell=document.createElement("td");
-         newcell.width=context.defaultpanedividerwidth;
+         newcell.className = "spacing-cell row col";
          newcell.height="1";
          result.appendChild(newcell);
       }
