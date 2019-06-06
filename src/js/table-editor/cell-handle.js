@@ -22,6 +22,9 @@ SocialCalc.CellHandles = function(editor) {
    this.draghandle.addEventListener("mousedown", SocialCalc.CellHandlesMouseDown, false);
    this.dragpalette.addEventListener("mousedown", SocialCalc.CellHandlesMouseDown, false);
    this.dragpalette.addEventListener("mousemove", SocialCalc.CellHandlesMouseMoveOnHandle, false);
+   var that = this;
+   this.draghandle.addEventListener('mouseout', function() { that.OnMouseOut() });
+   this.dragpalette.addEventListener('mouseout', function() { that.OnMouseOut() });
 }
 
 // Methods:
@@ -80,7 +83,7 @@ SocialCalc.CellHandles.prototype.ShowCellHandles = function(show, showActions, a
    if (!doshow)
       this.draghandle.style.display = "none";
    if (!showActions) {
-      if (animate) $(this.dragpalette).fadeOut(700);
+      if (animate) $(this.dragpalette).fadeOut(500);
       else this.dragpalette.style.display = "none";
    }
 
@@ -92,6 +95,12 @@ SocialCalc.CellHandles.prototype.DisplayTooltip = function(clientX, clientY) {
    this.dragtooltip.style.top = (clientY)+"px";
    this.dragtooltip.innerHTML = SocialCalc.Constants.s_CHindicatorOperationLookup[this.dragtype];
    this.dragtooltip.style.display = "block";
+}
+
+SocialCalc.CellHandles.prototype.OnMouseOut = function() {
+   // hide cell handles after X time
+   var that = this;
+   this.timer = window.setTimeout(function() { that.ShowCellHandles(true, false, true); }, 200);
 }
 
 SocialCalc.CellHandlesMouseMoveOnHandle = function(e) {
@@ -112,25 +121,10 @@ SocialCalc.CellHandlesMouseMoveOnHandle = function(e) {
 
    if (!editor.cellhandles.mouseDown) {
       editor.cellhandles.ShowCellHandles(true, true); // show actions
-
-      if (cellhandles.timer) window.clearTimeout(cellhandles.timer);
-      cellhandles.timer = window.setTimeout(SocialCalc.CellHandlesHoverTimeout, 1500);
+      if (cellhandles.timer) { window.clearTimeout(cellhandles.timer); cellhandles.timer = null; }
    }
 
    return;
-}
-
-SocialCalc.CellHandlesHoverTimeout = function() {
-
-   editor = SocialCalc.Keyboard.focusTable; // get TableEditor doing keyboard stuff
-   if (!editor) return true; // we're not handling it -- let browser do default
-   var cellhandles = editor.cellhandles;
-   if (cellhandles.timer) {
-      window.clearTimeout(cellhandles.timer);
-      cellhandles.timer = null;
-   }
-   editor.cellhandles.ShowCellHandles(true, false, true); // hide action with animation
-
 }
 
 SocialCalc.CellHandlesMouseDown = function(e) {
