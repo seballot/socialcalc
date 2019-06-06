@@ -39,11 +39,6 @@ SocialCalc.RenderRow = function(context, rownum, rowpane, linkstyle) {
          newcol.appendChild(unhide);
       }
 
-      // add resize bar
-      var resizeBar = document.createElement('div');
-      resizeBar.className = context.classnames.rowresizebar;
-      newcol.appendChild(resizeBar);
-
       result.appendChild(newcol);
    }
 

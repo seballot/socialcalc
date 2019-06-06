@@ -33,7 +33,6 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
       draginfo.clientX = Math.min(draginfo.clientX, control.scrollareasize - draginfo.offsetX - control.thumbthickness)
    }
 
-
    // make the thumb follow the mouse
    SocialCalc.DragFunctionPosition(event, draginfo, dobj);
 
@@ -56,9 +55,8 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
       while(heightToTop <= firstVisibleRowHeightToTopScrollableContainer) {
          heightToTop += editor.rowheight[i];
          i++;
-   }
-      first = i;
-
+      }
+      first = i - 1;
       if (first <= editor.lastnonscrollingrow) first = editor.lastnonscrollingrow + 1;
       if (first > editor.context.sheetobj.attribs.lastrow) first = editor.context.sheetobj.attribs.lastrow;
       editor.context.SetRowPaneFirstLast(editor.context.rowpanes.length-1, first, first+1);
@@ -75,8 +73,8 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
       while(widthToLeft <= firstVisibleColWidthLeftScrollableContainer) {
          widthToLeft += editor.colwidth[i];
          i++;
-   }
-      first = i;
+      }
+      first = i - 1;
 
       if (first <= editor.lastnonscrollingcol) first = editor.lastnonscrollingcol + 1;
       if (first > editor.context.sheetobj.attribs.lastcol) first = editor.context.sheetobj.attribs.lastcol;

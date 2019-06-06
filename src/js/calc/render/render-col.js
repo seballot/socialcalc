@@ -24,7 +24,7 @@ SocialCalc.RenderColHeaders = function(context) {
             newcol.style.cssText += ";display:none";
          }
 
-         newcol.innerHTML=SocialCalc.rcColname(colnum);
+         newcol.innerHTML = SocialCalc.rcColname(colnum);
 
          // If neighbour is hidden, show an icon in this column.
          if (colnum < context.colpanes[context.colpanes.length-1].last && sheetobj.colattribs.hide[SocialCalc.rcColname(colnum+1)] == "yes") {
@@ -33,37 +33,24 @@ SocialCalc.RenderColHeaders = function(context) {
             if (context.explicitStyles) unhide.style.cssText=context.explicitStyles.unhideleft;
             context.colunhideleft[colnum] = unhide;
             newcol.appendChild(unhide);
-      }
+         }
          if (colnum > 1 && sheetobj.colattribs.hide[SocialCalc.rcColname(colnum-1)] == "yes") {
             unhide = document.createElement("div");
             if (context.classnames) unhide.className=context.classnames.unhideright;
             if (context.explicitStyles) unhide.style.cssText=context.explicitStyles.unhideright;
             context.colunhideright[colnum] = unhide;
             newcol.appendChild(unhide);
-      }
-
-         // add resize bar
-         var resizeBar = document.createElement('span');
-         resizeBar.style.height = SocialCalc.Constants.defaultAssumedRowHeight + 'px';
-         resizeBar.className = context.classnames.colresizebar;
-         newcol.appendChild(resizeBar);
+         }
 
          result.appendChild(newcol);
       }
+
       if (colpane<context.colpanes.length-1) {
          newcol=document.createElement("td");
          newcol.className = "spacing-cell row header";
          result.appendChild(newcol);
       }
    }
-   // eddy {
-//   if(context.formColNames != null) {
-//     for(var nodeIndex = 0;  nodeIndex < result.childNodes.length;  nodeIndex++ ) {
-//       var currentCol = result.childNodes[nodeIndex];
-//       if(context.formColNames[currentCol.innerText] != null) currentCol.innerText = context.formColNames[currentCol.innerText];
-//  }
-//}
-   // }
    return result;
 }
 

@@ -150,7 +150,7 @@ SocialCalc.PositionTableControlElements = function(control) {
    var editor = control.editor;
    if (control.vertical) {
       control.paneslider.style.top = control.panesliderstart +"px";
-      control.fixedpane.style.height = editor.firstscrollingrowtop + "px";
+      control.fixedpane.style.height = editor.firstscrollingrowtop + 1 + "px";
 
       // Calculate scrollbar Thumb position depending on first visible row
       // This calculation must be the same than in thumb.js TCTDragFunctionMove
@@ -166,7 +166,7 @@ SocialCalc.PositionTableControlElements = function(control) {
    }
    else {
       control.paneslider.style.left = control.panesliderstart +"px";
-      control.fixedpane.style.width = editor.firstscrollingcolleft + "px";
+      control.fixedpane.style.width = editor.firstscrollingcolleft + 1 + "px";
 
       // Calculate scrollbar Thumb position depending on first visible col
       // This calculation must be the same than in thumb.js TCTDragFunctionMove

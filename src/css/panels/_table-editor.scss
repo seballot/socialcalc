@@ -21,6 +21,8 @@
     table {
       border-collapse: collapse;
       border-spacing: 0;
+
+      tbody > tr:first-child { display: none; }
     }
   }
 
@@ -28,8 +30,24 @@
     position: absolute;
     display: none;
     background-color: grey;
-    &.vertical { width: 100%; height: 2px; }
-    &.horizontal { width: 2px;  height: 100%; }
+    &.horizontal { width: 100%; height: 2px; }
+    &.vertical { width: 2px;  height: 100%; }
+  }
+
+  .tracking-box-resize {
+    position: absolute;
+    display: none;
+    background-color: $cell-selected-range-bg;
+    &.vertical {
+      border-right: 2px dashed $primary-color;
+      border-left: 2px solid grey;
+      top: 0; bottom: 12px;
+    }
+    &.horizontal {
+      border-bottom: 2px dashed $primary-color;
+      border-top: 2px solid grey;
+      left: 0; right: 12px;
+    }
   }
 
   // don't know why, for clipboard to work this textarea need to be displayed

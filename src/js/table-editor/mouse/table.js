@@ -31,7 +31,7 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
 
    if (!result) return; // not on a cell or col header
    mouseinfo.editor = editor; // remember for later
-   console.log("mouve douwn", result.colheader, result.colselect);
+
    if (result.rowheader) {
      if (result.rowselect)
          SocialCalc.ProcessEditorRowselectMouseDown(e, ele, result);

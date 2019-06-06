@@ -11,7 +11,8 @@ $scrollbar-thickness: 12px;
     height: calc(100% - 13px);
     box-shadow: -1px 3px 4px 0px #00000038;
 
-    .tc-panes-slider { height: 8px; width: 100%; }
+    .tc-panes-slider { height: 8px; width: 100%; right: 0; transition: width .2s;}
+    .tc-panes-slider:not(.dragging):hover { width: 200%; box-shadow: 0px 1px 5px 0px rgba(97, 123, 139, 0.5)}
     .tc-thumb { left: 1px; right: 1px; }
 
   }
@@ -27,7 +28,8 @@ $scrollbar-thickness: 12px;
     border-top: 1px solid #c6c7c6;
     box-shadow: 0px 1px 6px 0px #00000036;
 
-    .tc-panes-slider { width: 8px; height: 100%; }
+    .tc-panes-slider { width: 8px; height: 100%; bottom: 0; transition: height .2s;}
+    .tc-panes-slider:not(.dragging):hover { height: 200%; box-shadow: 1px 0px 5px 0px rgba(97, 123, 139, 0.5)}
     .tc-thumb { bottom: 1px; top: 1px; }
   }
 

@@ -87,9 +87,7 @@ SocialCalc.RenderContext = function(sheetobj) {
          unhideleft: scc.defaultUnhideLeftClass,
          unhideright: scc.defaultUnhideRightClass,
          unhidetop: scc.defaultUnhideTopClass,
-         unhidebottom: scc.defaultUnhideBottomClass,
-         colresizebar: scc.defaultColResizeBarClass,
-         rowresizebar: scc.defaultRowResizeBarClass
+         unhidebottom: scc.defaultUnhideBottomClass
    };
 
    this.explicitStyles = // these may be used so you won't need a stylesheet with the classnames

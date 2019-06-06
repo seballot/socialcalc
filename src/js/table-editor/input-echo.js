@@ -49,9 +49,10 @@ SocialCalc.InputEcho.prototype.Show = function(show) {
       this.editor.cellhandles.ShowCellHandles(false);
       cell = SocialCalc.GetEditorCellElement(this.editor, this.editor.ecell.row, this.editor.ecell.col);
       var isFirefox = typeof InstallTrigger !== 'undefined';
-      var offset = isFirefox ? 1 : 0;
-      this.container.style.left = $(cell.element).position().left - offset + "px";
-      this.container.style.top = $(cell.element).position().top - offset + "px";
+      var offsetLeft = isFirefox ? 1 : 0;
+      var offsetTop = isFirefox ? 2 : 1;
+      this.container.style.left = $(cell.element).position().left - offsetLeft + "px";
+      this.container.style.top = $(cell.element).position().top - offsetTop + "px";
       this.container.style['min-width'] = $(cell.element).outerWidth(true) + 1 + "px";
       this.container.style['min-height'] = $(cell.element).outerHeight(true) + 1 + "px";
       this.container.style.display = "block";

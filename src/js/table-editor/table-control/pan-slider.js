@@ -14,8 +14,9 @@ SocialCalc.TCPSDragFunctionStart = function(event, draginfo, dobj) {
 
    SocialCalc.DragFunctionStart(event, draginfo, dobj);
 
+   $(dobj.element).addClass('dragging');
    var selector = ".tracking-line.";
-   selector += dobj.vertical ? 'vertical' : 'horizontal';
+   selector += dobj.vertical ? 'horizontal' : 'vertical';
    draginfo.trackingline = control.editor.$appContainer.find(selector).clone()[0];
    draginfo.trackingline.style.display = "block";
 
@@ -33,7 +34,6 @@ SocialCalc.TCPSDragFunctionStart = function(event, draginfo, dobj) {
       col = SocialCalc.Lookup(draginfo.clientX+dobj.functionobj.control.sliderthickness, editor.colpositions);
       draginfo.trackingline.style.top = editor.headposition.top+"px";
       draginfo.trackingline.style.left = (editor.colpositions[col] || editor.headposition.left)+"px";
-      draginfo.trackingline.id = 'trackingline-horizon';
       if (editor.context.colpanes.length-1) { // has 2 already
          editor.context.SetColPaneFirstLast(1, editor.context.colpanes[0].last+1, editor.context.colpanes[0].last+1);
          editor.FitToEditTable();
@@ -100,7 +100,7 @@ SocialCalc.TCPSDragFunctionStop = function(event, draginfo, dobj) {
       while (editor.context.sheetobj.rowattribs.hide[row] == "yes") row++;
 
      editor.EditorScheduleSheetCommands('pane row ' + row, true, false);
-}
+   }
    else {
       col = SocialCalc.Lookup(draginfo.clientX+sliderthickness, editor.colpositions);
       if (col>editor.context.sheetobj.attribs.lastcol) col=editor.context.sheetobj.attribs.lastcol; // can't extend sheet here
@@ -109,8 +109,8 @@ SocialCalc.TCPSDragFunctionStop = function(event, draginfo, dobj) {
       while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == "yes") col++;
 
       editor.EditorScheduleSheetCommands('pane col ' + col, true, false);
-}
+   }
 
+   $(dobj.element).removeClass('dragging');
    draginfo.trackingline.style.display = "none";
-
 }
