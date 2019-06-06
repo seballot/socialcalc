@@ -31,57 +31,52 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
 
    if (!result) return; // not on a cell or col header
    mouseinfo.editor = editor; // remember for later
-
+   console.log("mouve douwn", result.colheader, result.colselect);
    if (result.rowheader) {
-     if (result.rowselect)  {
+     if (result.rowselect)
          SocialCalc.ProcessEditorRowselectMouseDown(e, ele, result);
-  } else {
+      else
          SocialCalc.ProcessEditorRowsizeMouseDown(e, ele, result);
-  }
-     return;
-}
+      return;
+   }
 
    if (result.colheader) {
-     if (result.colselect)  {
+      if (result.colselect)
          SocialCalc.ProcessEditorColselectMouseDown(e, ele, result);
-  } else {
+      else
          SocialCalc.ProcessEditorColsizeMouseDown(e, ele, result);
-  }
-     return;
-}
+      return;
+   }
 
    if (!result.coord) return; // not us
 
    if (!range.hasrange) {
-      if (e.shiftKey)
-        editor.RangeAnchor();
+      if (e.shiftKey) editor.RangeAnchor();
    }
    coord = editor.MoveECell(result.coord);
 
    if(SocialCalc._app == true) { // "app" wigets need to keep focus - needed because "coord" always equals A1
       SocialCalc.CmdGotFocus(true); // cell widgets need to keep focus
       return;
-}
+   }
 
    var clickedCell = editor.context.sheetobj.cells[coord];
-   if(clickedCell) {
-    if(clickedCell.valuetype.charAt(1) == 'i') { // IF cell contains ioWidget
+   if(clickedCell && clickedCell.valuetype.charAt(1) == 'i') { // If cell contains ioWidget
       var formula_name= clickedCell.valuetype.substring(2);
       var widget_id = formula_name+'_'+coord;
       if(target && widget_id == target.id) { // if widget was clicked (rather than cell containing widget)
         var cell_widget=document.getElementById(widget_id);
         SocialCalc.CmdGotFocus(cell_widget); // cell widgets need to keep focus
+      }
+      return; // let ioWidget keep the focus
    }
-   return; // let ioWidget keep the focus
-}
-}
 
    if (range.hasrange) {
      if (e.shiftKey)
         editor.RangeExtend();
      else
         editor.RangeRemove();
-  }
+   }
 
    mouseinfo.mousedowncoord = coord; // remember if starting drag range select
    mouseinfo.mouselastcoord = coord;

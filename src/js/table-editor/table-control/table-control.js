@@ -4,30 +4,6 @@
 //
 // This class deals with the horizontal and verical scrollbars and pane sliders.
 //
-// +--------------+
-// | Endcap       |
-// +- - - - - - - +
-// |              |
-// +--------------+
-// | Pane Slider  |
-// +--------------+
-// |              |
-// | Less Button  |
-// |              |
-// +--------------+
-// | Scroll Area  |
-// |              |
-// |              |
-// +--------------+
-// | Thumb        |
-// +--------------+
-// |              |
-// +--------------+
-// |              |
-// | More Button  |
-// |              |
-// +--------------+
-//
 // *************************************
 
 SocialCalc.TableControl = function(editor, vertical, size) {

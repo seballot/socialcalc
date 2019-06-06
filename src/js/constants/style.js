@@ -35,8 +35,6 @@ SocialCalc.Css = {
 
    defaultSkippedCellClass: "", // used if present for spanned cells peeking into a pane (at least one of class/style needed)
    defaultSkippedCellStyle: "font-size:small;background-color:#CCC", // used if present
-   defaultPaneDividerClass: "", // used if present for the look of the space between panes (at least one of class/style needed)
-   defaultPaneDividerStyle: "font-size:small;background-color:#C0C0C0;padding:0px;", // used if present
    defaultUnhideLeftClass: "",
    defaultUnhideLeftStyle: "float:right;width:9px;height:12px;cursor:pointer;background-image:url(images/sc-unhideleft.gif);padding:0;", // used if present
    defaultUnhideRightClass: "",
@@ -46,22 +44,6 @@ SocialCalc.Css = {
    defaultUnhideBottomClass: "",
    defaultUnhideBottomStyle: "float:left;width:12px;height:9px;cursor:pointer;background-image:url(images/sc-unhidebottom.gif);padding:0;",
 
-   defaultColResizeBarClass: "col-resize-bar",
-   defaultRowResizeBarClass: "row-resize-bar",
-
-   //** SocialCalc.InputEcho
-
-   defaultInputEchoClass: "", // if present, the class of the popup inputEcho div
-   defaultInputEchoStyle: "filter:alpha(opacity=90);opacity:.9;backgroundColor:#FFD;border:1px solid #884;"+
-      "fontSize:small;padding:2px 10px 1px 2px;cursor:default;", // if present, pseudo style
-   defaultInputEchoPromptClass: "", // if present, the class of the popup inputEcho div
-   defaultInputEchoPromptStyle: "filter:alpha(opacity=90);opacity:.9;backgroundColor:#FFD;"+
-      "borderLeft:1px solid #884;borderRight:1px solid #884;borderBottom:1px solid #884;"+
-      "fontSize:small;fontStyle:italic;padding:2px 10px 1px 2px;cursor:default;", // if present, pseudo style
-   defaultInputEchoHintClass: "", // if present, the class of the popup inputEcho div
-   defaultInputEchoHintStyle: "filter:alpha(opacity=80);opacity:.8;backgroundColor:#884;border:1px solid #884;"+
-      "fontSize:small;fontWeight:bold;padding:2px 2px 2px 2px;color:#FFF;position:absolute;top:-20px;cursor:default;",
-
    //*** SocialCalc.CreateTableControl
 
    TClessbuttonRepeatWait: 300, // in milliseconds
@@ -70,22 +52,6 @@ SocialCalc.Css = {
    TCmorebuttonRepeatInterval: 20,//100, // in milliseconds
    TCscrollareaRepeatWait: 500, // in milliseconds
    TCscrollareaRepeatInterval: 500, // in milliseconds
-
-   //*** SocialCalc.TCPSDragFunctionStart
-
-   TCPStrackinglineClass: "tracklingine", // at least one of class/style for pane slider tracking line display in table control
-   TCPStrackinglineStyle: "overflow:hidden;position:absolute;zIndex:100;",
-                           // if present, pseudo style (text-align is textAlign)
-   TCPStrackinglineThickness: "2px", // narrow dimension of trackling line (string with units)
-
-   //*** SocialCalc.TooltipInfo
-
-   // Note: These two values are used to set the TooltipInfo initial values when the code is first read in.
-   // Modifying them here after loading has no effect -- you need to modify SocialCalc.TooltipInfo directly
-   // to dynamically set them. This is different than most other constants which may be modified until use.
-
-   TooltipOffsetX: 2, // offset in pixels from mouse position (to right on left side of screen, to left on right)
-   TooltipOffsetY: 10, // offset in pixels above mouse position for lower edge
 
    //*** SocialCalc.TooltipDisplay
 

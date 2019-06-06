@@ -19,9 +19,6 @@
 // They may be modified before the first use of the routines that use them,
 // e.g., before creating SocialCalc objects.
 //
-// The exceptions are:
-//    TooltipOffsetX and TooltipOffsetY, as described with their definitions.
-//
 // SocialCalc IS NOT DESIGNED FOR USE WITH A TRANSLATION FUNCTION each time a string
 // is used. Instead, language translations may be done by modifying this object.
 //
