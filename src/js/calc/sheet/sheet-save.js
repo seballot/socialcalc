@@ -26,7 +26,7 @@ SocialCalc.CreateSheetSave = function(sheetobj, range, canonicalize) {
    cr1 = prange.cr1;
    cr2 = prange.cr2;
 
-   result.push("version:1.5");
+   result.push("version:1.6");
 
    for (row=cr1.row; row <= cr2.row; row++) {
       for (col=cr1.col; col <= cr2.col; col++) {
@@ -68,24 +68,8 @@ SocialCalc.CreateSheetSave = function(sheetobj, range, canonicalize) {
 
    result.push(line);
 
-   for (i=1;i<xlt.newborderstyles.length;i++) {
-      result.push("border:"+i+":"+xlt.newborderstyles[i]);
-   }
-
-   for (i=1;i<xlt.newcellformats.length;i++) {
-      result.push("cellformat:"+i+":"+SocialCalc.encodeForSave(xlt.newcellformats[i]));
-   }
-
-   for (i=1;i<xlt.newcolors.length;i++) {
-      result.push("color:"+i+":"+xlt.newcolors[i]);
-   }
-
-   for (i=1;i<xlt.newfonts.length;i++) {
-      result.push("font:"+i+":"+xlt.newfonts[i]);
-   }
-
-   for (i=1;i<xlt.newlayouts.length;i++) {
-      result.push("layout:"+i+":"+xlt.newlayouts[i]);
+   for (i=1;i<xlt.newstyles.length;i++) {
+      result.push("style:"+i+":"+SocialCalc.encodeForSave(xlt.newstyles[i]));
    }
 
    for (i=1;i<xlt.newvalueformats.length;i++) {
@@ -107,6 +91,8 @@ SocialCalc.CreateSheetSave = function(sheetobj, range, canonicalize) {
    result.push(""); // one extra to get extra \n
 
    delete sheetobj.xlt; // clean up
+   console.log(xlt);
+   console.log(result.join("\n"));
 
    return result.join("\n");
 }

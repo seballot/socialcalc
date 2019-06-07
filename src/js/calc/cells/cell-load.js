@@ -64,6 +64,8 @@ SocialCalc.CellFromStringParts = function(sheet, cell, parts, j) {
          case "e":
             cell.errors=SocialCalc.decodeFromSave(parts[j++]);
             break;
+
+         // Begin of backward compatibilty
          case "b":
             cell.bt=parts[j++]-0;
             cell.br=parts[j++]-0;
@@ -84,6 +86,11 @@ SocialCalc.CellFromStringParts = function(sheet, cell, parts, j) {
             break;
          case "cf":
             cell.cellformat=parts[j++]-0;
+            break;
+         // end of backward compatibilty
+
+         case "s":
+            cell.styleId=parts[j++]-0;
             break;
          case "ntvf":
             cell.nontextvalueformat=parts[j++]-0;

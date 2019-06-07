@@ -19,7 +19,7 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
    var l, coord, cr, cell, filled, an, a, newa, newxlat, used, ahash, i, v;
    var maxrow = 0;
    var maxcol = 0;
-   var alist = ["borderstyle", "cellformat", "color", "font", "layout", "valueformat"];
+   var alist = ["borderstyle", "cellformat", "color", "font", "layout", "valueformat", "style"];
 
    var xlt = {};
 
@@ -61,6 +61,7 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
    var layoutsUsed = xlt.layoutsUsed;
    var cellformatsUsed = xlt.cellformatsUsed;
    var valueformatsUsed = xlt.valueformatsUsed;
+   var stylesUsed = xlt.stylesUsed;
 
    for (coord in sheetobj.cells) { // check all cells to see which values are used
       cr = SocialCalc.coordToCr(coord);
@@ -98,6 +99,11 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
 
       if (cell.layout) {
          layoutsUsed[cell.layout] = 1;
+         filled = true;
+      }
+
+      if (cell.styleId) {
+         stylesUsed[cell.styleId] = 1;
          filled = true;
       }
 
@@ -154,7 +160,9 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
       newa = [];
       used = xlt[a+"sUsed"];
       for (v in used) {
-         newa.push(sheetobj[a+"s"][v]);
+         var value = sheetobj[a+"s"][v];
+         if (typeof value === 'object') value = JSON.stringify(value);
+         newa.push(value);
       }
       newa.sort();
       newa.unshift("");
@@ -168,7 +176,6 @@ SocialCalc.CanonicalizeSheet = function(sheetobj, full) {
 
       xlt[a+"sxlat"] = newxlat;
       xlt["new"+a+"s"] = newa;
-
    }
 
    xlt.maxrow = maxrow || 1;

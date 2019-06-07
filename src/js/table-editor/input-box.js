@@ -93,7 +93,7 @@ SocialCalc.InputBoxDisplayCellContents = function(inputbox, coord) {
      if (!inputbox.editor.ecell) return; // not initialized yet
      coord = inputbox.editor.ecell.coord;
 }
-   var text = SocialCalc.GetCellContents(inputbox.editor.context.sheetobj, coord);
+   var text = inputbox.editor.context.sheetobj.GetCellContents(coord);
    if (text.indexOf("\n")!=-1) {
       text = scc.s_inputboxdisplaymultilinetext;
       inputbox.element.disabled = true;

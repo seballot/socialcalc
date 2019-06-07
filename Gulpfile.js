@@ -22,6 +22,7 @@ var js_files = [
     js_folder + 'constants/translations.js',
     js_folder + 'constants/style.js',
     js_folder + 'constants/settings.js',
+    js_folder + 'helpers/**/*.js',
 
     js_folder + 'calc/socialcalc.js',
     js_folder + 'calc/**/!(socialcalc)*.js',

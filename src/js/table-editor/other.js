@@ -85,7 +85,7 @@ SocialCalc.EditorSaveEdit = function(editor, text) {
    type = "text t";
    value = typeof text == "string" ? text : editor.inputBox.GetText(); // either explicit or from input box
 
-   oldvalue = SocialCalc.GetCellContents(sheetobj, wval.ecoord)+"";
+   oldvalue = sheetobj.GetCellContents(wval.ecoord)+"";
    if (value == oldvalue) { // no change
       return;
    }

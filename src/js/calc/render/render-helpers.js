@@ -17,44 +17,6 @@ SocialCalc.PrecomputeSheetFontsAndLayouts = function(context) {
       context.defaultfontfamily = parts[3];
    }
 
-   for (num=1; num<sheetobj.fonts.length; num++) { // precompute fonts by filling in the *'s
-      s=sheetobj.fonts[num];
-      s=s.replace(/^\*/,context.defaultfontstyle);
-      s=s.replace(/(.+)\*(.+)/,"$1"+context.defaultfontsize+"$2");
-      s=s.replace(/\*$/,context.defaultfontfamily);
-      parts=s.match(/^(\S+?) (\S+?) (\S+?) (\S.*)$/);
-
-      if (!parts) continue
-
-      context.fonts[num] = {style: parts[1], weight: parts[2], size: parts[3], family: parts[4]};
-
-   }
-
-   layoutre = /^padding:\s*(\S+)\s+(\S+)\s+(\S+)\s+(\S+);vertical-align:\s*(\S+);/;
-   dparts = SocialCalc.Constants.defaultCellLayout.match(layoutre); // get built-in defaults
-
-   if (attribs.defaultlayout) {
-      sparts = sheetobj.layouts[attribs.defaultlayout].match(layoutre); // get sheet defaults, if set
-   }
-   else {
-      sparts = ["", "*", "*", "*", "*", "*"];
-   }
-
-   for (num=1; num<sheetobj.layouts.length; num++) { // precompute layouts by filling in the *'s
-      s=sheetobj.layouts[num];
-      parts = s.match(layoutre);
-
-      if (!parts) continue
-
-      for (i=1; i<=5; i++) {
-         if (parts[i]=="*") {
-            parts[i] = (sparts[i] != "*" ? sparts[i] : dparts[i]); // if *, sheet default or built-in
-         }
-      }
-      context.layouts[num] = "padding:"+parts[1]+" "+parts[2]+" "+parts[3]+" "+parts[4]+
-         ";vertical-align:"+parts[5]+";";
-   }
-
    context.needprecompute = false;
 
 }

@@ -11,7 +11,7 @@
     top: 0; right: 0; left: 0; bottom: 0;
   }
   &.selected-range-initial:after {
-    background-color: rgba(97, 124, 139, 0.12);
+    background-color: rgba(97, 124, 139, 0.3);
   }
 
   &.selected-cell:after {

@@ -157,17 +157,19 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                   case "ntf":
                      attribs.defaultnontextformat=parts[j++]-0;
                      break;
-                  case "layout":
-                     attribs.defaultlayout=parts[j++]-0;
-                     break;
-                  case "font":
-                     attribs.defaultfont=parts[j++]-0;
-                     break;
                   case "tvf":
                      attribs.defaulttextvalueformat=parts[j++]-0;
                      break;
                   case "ntvf":
                      attribs.defaultnontextvalueformat=parts[j++]-0;
+                     break;
+
+                  // TODO use a style object property instead just like for cells
+                  case "layout":
+                     attribs.defaultlayout=parts[j++]-0;
+                     break;
+                  case "font":
+                     attribs.defaultfont=parts[j++]-0;
                      break;
                   case "color":
                      attribs.defaultcolor=parts[j++]-0;
@@ -175,6 +177,7 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                   case "bgcolor":
                      attribs.defaultbgcolor=parts[j++]-0;
                      break;
+
                   case "circularreferencecell":
                      attribs.circularreferencecell=parts[j++];
                      break;
@@ -203,6 +206,7 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
             sheetobj.names[name].definition = SocialCalc.decodeFromSave(parts[3]);
             break;
 
+         // Following are no more used for saving since 1.6. We are still using them for backward compatibility
          case "layout":
             parts=lines[i].match(/^layout\:(\d+)\:(.+)$/); // layouts can have ":" in them
             sheetobj.layouts[parts[1]-0]=parts[2];
@@ -229,6 +233,12 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
             sheetobj.cellformats[parts[1]-0]=v;
             sheetobj.cellformathash[v]=parts[1]-0;
             break;
+         // end of backward compatibility
+
+         case "style":
+            sheetobj.styles[parts[1]-0] = JSON.parse(SocialCalc.decodeFromSave(parts[2]));
+            sheetobj.stylehash[parts[2]] = parts[1]-0;
+            break;
 
          case "valueformat":
             v=SocialCalc.decodeFromSave(parts[2]);
@@ -251,11 +261,34 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
             break;
 
          default:
-alert(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
+            alert(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
             throw scc.s_pssUnknownLineType+" '"+parts[0]+"'";
             break;
       }
       parts = null;
+   }
+
+   // Update cell styles, using backward compatibilty with old way of saving styling
+   for(var cellCoord in sheetobj.cells) {
+      var cell = sheetobj.cells[cellCoord];
+      cell.style = sheetobj.styles[cell.styleId]
+      if (cell.bt) cell.style['border-top']    = sheetobj.borderstyles[cell.bt];
+      if (cell.br) cell.style['border-right']  = sheetobj.borderstyles[cell.br];
+      if (cell.bb) cell.style['border-bottom'] = sheetobj.borderstyles[cell.bb];
+      if (cell.bl) cell.style['border-left']   = sheetobj.borderstyles[cell.bl];
+      if (cell.color) cell.styles['color']     = sheetobj.colors[cell.color];
+      if (cell.bgcolor) cell.styles['background-color'] = sheetobj.colors[cell.color];
+      if (cell.cellformat) cell.styles['text-align']    = sheetobj.colors[cell.cellformat];
+      if (cell.font) {
+         var fontParts = sheetobj.fonts[cell.font].split(' ');
+         if (fontParts[2] != "*") cell.styles['font-size'] = fontParts[2];
+         if (font.search('bold')) cell.styles['font-weight'] = "bold";
+         if (font.search('italic')) cell.styles['font-style'] = "italic";
+      }
+      if (cell.layout) {
+         var result = /vertical-align:(\w+);/g.exec(sheetobj.layouts[cell.layout]);
+         if (result) cell.style["vertical-align"] = result[1];
+      }
    }
 
 }

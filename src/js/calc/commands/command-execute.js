@@ -74,9 +74,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
    errortext = "";
 
    cmdstr = cmd.RestOfStringNoMove();
-   if (saveundo) {
-      sheet.changes.AddDo(cmdstr);
-   }
+   if (saveundo) sheet.changes.AddDo(cmdstr);
 
    cmd1 = cmd.NextToken();
    switch (cmd1) {
@@ -96,27 +94,27 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   break;
                case "defaultcolor":
                case "defaultbgcolor":
-                  if (saveundo) changes.AddUndo(undostart, sheet.GetStyleString("color", attribs[attrib]));
-                  attribs[attrib] = sheet.GetStyleNum("color", rest);
+                  if (saveundo) changes.AddUndo(undostart, sheet.GetAttributeString("color", attribs[attrib]));
+                  attribs[attrib] = sheet.MapAttributeToId("color", rest);
                   break;
                case "defaultlayout":
-                  if (saveundo) changes.AddUndo(undostart, sheet.GetStyleString("layout", attribs[attrib]));
-                  attribs[attrib] = sheet.GetStyleNum("layout", rest);
+                  if (saveundo) changes.AddUndo(undostart, sheet.GetAttributeString("layout", attribs[attrib]));
+                  attribs[attrib] = sheet.MapAttributeToId("layout", rest);
                   break;
                case "defaultfont":
-                  if (saveundo) changes.AddUndo(undostart, sheet.GetStyleString("font", attribs[attrib]));
+                  if (saveundo) changes.AddUndo(undostart, sheet.GetAttributeString("font", attribs[attrib]));
                   if (rest=="* * *") rest = ""; // all default
-                  attribs[attrib] = sheet.GetStyleNum("font", rest);
+                  attribs[attrib] = sheet.MapAttributeToId("font", rest);
                   break;
                case "defaulttextformat":
                case "defaultnontextformat":
-                  if (saveundo) changes.AddUndo(undostart, sheet.GetStyleString("cellformat", attribs[attrib]));
-                  attribs[attrib] = sheet.GetStyleNum("cellformat", rest);
+                  if (saveundo) changes.AddUndo(undostart, sheet.GetAttributeString("cellformat", attribs[attrib]));
+                  attribs[attrib] = sheet.MapAttributeToId("cellformat", rest);
                   break;
                case "defaulttextvalueformat":
                case "defaultnontextvalueformat":
-                  if (saveundo) changes.AddUndo(undostart, sheet.GetStyleString("valueformat", attribs[attrib]));
-                  attribs[attrib] = sheet.GetStyleNum("valueformat", rest);
+                  if (saveundo) changes.AddUndo(undostart, sheet.GetAttributeString("valueformat", attribs[attrib]));
+                  attribs[attrib] = sheet.MapAttributeToId("valueformat", rest);
                   for (cr in sheet.cells) { // forget all cached display strings
                      delete sheet.cells[cr].displaystring;
                   }
@@ -222,7 +220,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          }
 
          else if (/^[a-z]{1,2}\d+(:[a-z]{1,2}\d+)?$/i.test(what)) { // cell attributes
-           cellChanged = true;
+            cellChanged = true;
             ParseRange();
             if (cr1.row!=cr2.row || cr1.col!=cr2.col || sheet.celldisplayneeded || sheet.renderneeded) { // not one cell
                sheet.renderneeded = true;
@@ -306,18 +304,8 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      }
                      attribs.needsrecalc = "yes";
                   }
-                  else if (/^b[trbl]$/.test(attrib)) { // set coord bt 1px solid black
-                     cell[attrib] = sheet.GetStyleNum("borderstyle", rest);
-                     sheet.renderneeded = true; // affects more than just one cell
-                  }
-                  else if (attrib=="color" || attrib=="bgcolor") {
-                     cell[attrib] = sheet.GetStyleNum("color", rest);
-                  }
-                  else if (attrib=="layout" || attrib=="cellformat") {
-                     cell[attrib] = sheet.GetStyleNum(attrib, rest);
-                  }
                   else if (attrib=="textvalueformat" || attrib=="nontextvalueformat") {
-                     cell[attrib] = sheet.GetStyleNum("valueformat", rest);
+                     cell[attrib] = sheet.MapAttributeToId("valueformat", rest);
                      delete cell.displaystring;
                   }
                   else if (attrib=="cssc") {
@@ -340,7 +328,8 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   }
                   else if (attrib.split('.')[0] == 'style') { // exple: style.font-weight
                      if (rest) cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
-                     else delete cell.style[attrib.split('.')[1]]
+                     else delete cell.style[attrib.split('.')[1]];
+                     cell.styleId = sheet.MapAttributeToId("style", cell.style);
                   }
                   else {
                      errortext = scc.s_escUnknownSetCoordCmd+cmdstr;
@@ -368,9 +357,9 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                    // save quashed cell value for undo
                    if (saveundo) changes.AddUndo("set "+quashedCellCoord+" all", sheet.CellToString(quashedCell));
                    delete sheet.cells[quashedCellCoord]; // delete cell
+               }
             }
          }
-      }
 
 
          if (saveundo) changes.AddUndo("unmerge "+cr1.coord);
@@ -483,7 +472,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             }
             editor.Range2Remove();
             return returnval;
-      }
+         }
 
          var inc, horizontal, inverse, crStart, crEnd;
 
@@ -585,6 +574,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             break;
          }
          clipsheet = new SocialCalc.Sheet(); // load clipboard contents as another sheet
+         console.log("sheet save", SocialCalc.Clipboard.clipboard);
          clipsheet.ParseSheetSave(SocialCalc.Clipboard.clipboard);
          cliprange = SocialCalc.ParseRange(clipsheet.copiedfrom);
          numcols = Math.max(cr2.col - cr1.col + 1, cliprange.cr2.col - cliprange.cr1.col + 1);
@@ -602,49 +592,39 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                var currentClipRow = cliprange.cr1.row + ((row-cr1.row) % (cliprange.cr2.row - cliprange.cr1.row + 1));
                crbase = SocialCalc.crToCoord(currentClipCol, currentClipRow);
                basecell = clipsheet.GetAssuredCell(crbase);
-               if (rest == "all" || rest == "formats") {
-                 // get source width and hidden attribute
-                 // and copy to sheet
-                 if(row == cr1.row) { // only need 1st row of cols
-                   // col attributes
-                   sourceColname = SocialCalc.rcColname(cliprange.cr1.col + ((col-cr1.col) % (cliprange.cr2.col - cliprange.cr1.col + 1)));
-                   colWidth = clipsheet.colattribs.width[ sourceColname];
-                   colHide = clipsheet.colattribs.hide[sourceColname];
-                   if (colWidth != null) {
-                     // if source col width exists
-                     // set dest col width
-                     sheet.colattribs.width[SocialCalc.rcColname(col)] = colWidth;
-                  }
-                   if (colHide != null) {
-                     // if source col is hidden
-                     // set dest col hidden
-                     sheet.colattribs.hide[SocialCalc.rcColname(col)] = colHide;
-                  }
-                }
-                 if(col == cr1.col) {  // only need 1st col or rows
-                   // row attributes
-                   sourceRow = cliprange.cr1.row + ((row-cr1.row) % (cliprange.cr2.row - cliprange.cr1.row + 1));
-                   rowHide = clipsheet.rowattribs.hide[sourceRow];
-                   if (rowHide != null) {
-                     // if source row is hidden
-                     // set dest row hidden
-                     sheet.rowattribs.hide[row] = rowHide;
-                  }
-              }
 
-                 for (attrib in cellProperties) {
-                     if (cellProperties[attrib] == 1) continue; // copy only format attributes
-                     if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3) {
-                        delete cell[attrib];
+               if (rest == "all" || rest == "formats") {
+                  // get source width and hidden attribute and copy to sheet
+                  if (row == cr1.row) { // only need 1st row of cols
+                     // col attributes
+                     sourceColname = SocialCalc.rcColname(cliprange.cr1.col + ((col-cr1.col) % (cliprange.cr2.col - cliprange.cr1.col + 1)));
+                     colWidth = clipsheet.colattribs.width[sourceColname];
+                     colHide = clipsheet.colattribs.hide[sourceColname];
+                     if (colWidth != null) sheet.colattribs.width[SocialCalc.rcColname(col)] = colWidth;
+                     if (colHide != null) sheet.colattribs.hide[SocialCalc.rcColname(col)] = colHide;
+                  }
+                  if (col == cr1.col) {  // only need 1st col or rows
+                     // row attributes
+                     sourceRow = cliprange.cr1.row + ((row-cr1.row) % (cliprange.cr2.row - cliprange.cr1.row + 1));
+                     rowHide = clipsheet.rowattribs.hide[sourceRow];
+                     if (rowHide != null) {
+                        // if source row is hidden
+                        // set dest row hidden
+                        sheet.rowattribs.hide[row] = rowHide;
                      }
+                  }
+                  for (attrib in cellProperties) {
+                     if (cellProperties[attrib] == 1) continue; // copy only format attributes
+                     if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3) delete cell[attrib];
                      else {
-                        attribtable = SocialCalc.CellPropertiesTable[attrib];
-                        if (attribtable && basecell[attrib]) { // table indexes to expand to strings since other sheet may have diff indexes
-                           cell[attrib] = sheet.GetStyleNum(attribtable, clipsheet.GetStyleString(attribtable, basecell[attrib]));
-                        }
-                        else { // these are not table indexes
-                           cell[attrib] = basecell[attrib];
-                        }
+                        cell[attrib] = basecell[attrib];
+                        // attribtable = SocialCalc.CellPropertiesTable[attrib];
+                        // if (attribtable && basecell[attrib]) { // table indexes to expand to strings since other sheet may have diff indexes
+                        //    cell[attrib] = sheet.MapAttributeToId(attribtable, clipsheet.GetAttributeString(attribtable, basecell[attrib]));
+                        // }
+                        // else { // these are not table indexes
+                        //    cell[attrib] = basecell[attrib];
+                        // }
                      }
                   }
                }
@@ -997,7 +977,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                     return errortext;
             }
          }
-      }
+         }
 
          for (row=rowstart; row <= lastrow - rowoffset; row++) { // copy the cells backwards - extra so no dup of last set
             for (col=colstart; col <= lastcol - coloffset; col++) {
@@ -1022,7 +1002,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
             }
          }
 
-//!!! multiple deletes isn't setting #REF!; need to fix up #REF!'s on undo but only those!
+         //!!! multiple deletes isn't setting #REF!; need to fix up #REF!'s on undo but only those!
 
          for (cr in sheet.cells) { // update cell references to moved cells in calculated formulas
              cell = sheet.cells[cr];
@@ -1153,7 +1133,6 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          }
          attribs.needsrecalc = "yes";
          break;
-
 
       case "movepaste":
       case "moveinsert":
@@ -1497,73 +1476,73 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          editor = SocialCalc.GetSpreadsheetControlObject().editor;
 
          if (name.toUpperCase() === 'ROW') {
-           row = parseInt(cmd.NextToken(), 10);
+            row = parseInt(cmd.NextToken(), 10);
 
-           if (typeof(editor.context.rowpanes[1]) !== 'undefined' && typeof(editor.context.rowpanes[1].first) === 'number') {
+            if (typeof(editor.context.rowpanes[1]) !== 'undefined' && typeof(editor.context.rowpanes[1].first) === 'number') {
              undoNum = editor.context.rowpanes[1].first;
-        }
-           if (saveundo) changes.AddUndo('pane row ' + undoNum);
+            }
+            if (saveundo) changes.AddUndo('pane row ' + undoNum);
 
-           // Handle hidden row.
-           while (editor.context.sheetobj.rowattribs.hide[row] == 'yes') {
-             row++;
-        }
+            // Handle hidden row.
+            while (editor.context.sheetobj.rowattribs.hide[row] == 'yes') {
+               row++;
+            }
 
-           if ((!row || row<=editor.context.rowpanes[0].first) && editor.context.rowpanes.length>1) { // set to no panes, leaving first pane settings
-             editor.context.rowpanes.length = 1;
-        } else if (editor.context.rowpanes.length-1 && !editor.timeout) { // has 2 already
-             // not waiting for position calc (so positions could be wrong)
-             editor.context.SetRowPaneFirstLast(0, editor.context.rowpanes[0].first, row-1);
-             editor.context.SetRowPaneFirstLast(1, row, row);
-        } else {
-             editor.context.SetRowPaneFirstLast(0, editor.context.rowpanes[0].first, row-1);
-             editor.context.SetRowPaneFirstLast(1, row, row);
-        }
+            if ((!row || row<=editor.context.rowpanes[0].first) && editor.context.rowpanes.length>1) { // set to no panes, leaving first pane settings
+               editor.context.rowpanes.length = 1;
+            } else if (editor.context.rowpanes.length-1 && !editor.timeout) { // has 2 already
+               // not waiting for position calc (so positions could be wrong)
+               editor.context.SetRowPaneFirstLast(0, editor.context.rowpanes[0].first, row-1);
+               editor.context.SetRowPaneFirstLast(1, row, row);
+            } else {
+               editor.context.SetRowPaneFirstLast(0, editor.context.rowpanes[0].first, row-1);
+               editor.context.SetRowPaneFirstLast(1, row, row);
+            }
 
-           // remove tracklingine
-           if (editor.griddiv) {
-             //trackingline-horizon
-             trackLine = document.getElementById('trackingline-vertical');
-             if (trackLine) {
-               editor.griddiv.removeChild(trackLine);
-               editor.FitToEditTable();
-          }
-        }
+            // remove tracklingine
+            if (editor.griddiv) {
+               //trackingline-horizon
+               trackLine = document.getElementById('trackingline-vertical');
+               if (trackLine) {
+                  editor.griddiv.removeChild(trackLine);
+                  editor.FitToEditTable();
+               }
+            }
 
-      } else {
+         } else {
 
-           col = parseInt(cmd.NextToken(), 10);
+            col = parseInt(cmd.NextToken(), 10);
 
-           if (typeof(editor.context.colpanes[1]) !== 'undefined' && typeof(editor.context.colpanes[1].first) === 'number') {
-             undoNum = editor.context.colpanes[1].first;
-        }
-           if (saveundo) changes.AddUndo('pane col ' + undoNum);
+            if (typeof(editor.context.colpanes[1]) !== 'undefined' && typeof(editor.context.colpanes[1].first) === 'number') {
+                 undoNum = editor.context.colpanes[1].first;
+            }
+               if (saveundo) changes.AddUndo('pane col ' + undoNum);
 
-           // Handle hidden column.
-           while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == 'yes') {
-             col++;
-        }
+               // Handle hidden column.
+               while (editor.context.sheetobj.colattribs.hide[SocialCalc.rcColname(col)] == 'yes') {
+                 col++;
+            }
 
-           if ((!col || col<=editor.context.colpanes[0].first) && editor.context.colpanes.length > 1) { // set to no panes, leaving first pane settings
-             editor.context.colpanes.length = 1;
-        } else if (editor.context.colpanes.length-1 && !editor.timeout) { // has 2 already
-             // not waiting for position calc (so positions could be wrong)
-             editor.context.SetColPaneFirstLast(0, editor.context.colpanes[0].first, col-1);
-             editor.context.SetColPaneFirstLast(1, col, col);
-        } else {
-             editor.context.SetColPaneFirstLast(0, editor.context.colpanes[0].first, col-1);
-             editor.context.SetColPaneFirstLast(1, col, col);
-        }
+               if ((!col || col<=editor.context.colpanes[0].first) && editor.context.colpanes.length > 1) { // set to no panes, leaving first pane settings
+                 editor.context.colpanes.length = 1;
+            } else if (editor.context.colpanes.length-1 && !editor.timeout) { // has 2 already
+                 // not waiting for position calc (so positions could be wrong)
+                 editor.context.SetColPaneFirstLast(0, editor.context.colpanes[0].first, col-1);
+                 editor.context.SetColPaneFirstLast(1, col, col);
+            } else {
+                 editor.context.SetColPaneFirstLast(0, editor.context.colpanes[0].first, col-1);
+                 editor.context.SetColPaneFirstLast(1, col, col);
+            }
 
-           // remove tracklingine
-           if (editor.griddiv) {
-             trackLine = document.getElementById('trackingline-horizon');
-             if (trackLine) {
-               editor.griddiv.removeChild(trackLine);
-               editor.FitToEditTable();
-          }
-        }
-      }
+               // remove tracklingine
+               if (editor.griddiv) {
+                 trackLine = document.getElementById('trackingline-horizon');
+                 if (trackLine) {
+                   editor.griddiv.removeChild(trackLine);
+                   editor.FitToEditTable();
+              }
+            }
+         }
 
          sheet.renderneeded = true;
 

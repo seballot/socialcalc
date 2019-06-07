@@ -21,7 +21,7 @@ SocialCalc.SpreadsheetControlDoLink = function() {
          wval.erow = editor.ecell.row;
          wval.ecol = editor.ecell.col;
          editor.RangeRemove();
-         text = SocialCalc.GetCellContents(editor.context.sheetobj, wval.ecoord);
+         text = editor.context.sheetobj.GetCellContents(wval.ecoord);
          break;
 
       case "input":

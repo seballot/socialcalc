@@ -73,16 +73,9 @@ SocialCalc.ResetSheet = function(sheet, reload) {
          hide: {}
    };
    sheet.names={}; // Each is: {desc: "optional description", definition: "B5, A1:B7, or =formula"}
-   sheet.layouts=[];
-   sheet.layouthash={};
-   sheet.fonts=[];
-   sheet.fonthash={};
-   sheet.colors=[];
-   sheet.colorhash={};
-   sheet.borderstyles=[];
-   sheet.borderstylehash={};
-   sheet.cellformats=[];
-   sheet.cellformathash={};
+
+   sheet.styles=[];
+   sheet.stylehash={};
    sheet.valueformats=[];
    sheet.valueformathash={};
    sheet.matched_cells=[];
@@ -148,6 +141,42 @@ SocialCalc.Sheet.prototype.ScheduleSheetCommands = function(cmd, saveundo) {retu
 SocialCalc.Sheet.prototype.SheetUndo = function() {return SocialCalc.SheetUndo(this);};
 SocialCalc.Sheet.prototype.SheetRedo = function() {return SocialCalc.SheetRedo(this);};
 SocialCalc.Sheet.prototype.CreateAuditString = function() {return SocialCalc.CreateAuditString(this);};
-SocialCalc.Sheet.prototype.GetStyleNum = function(atype, style) {return SocialCalc.GetStyleNum(this, atype, style);};
-SocialCalc.Sheet.prototype.GetStyleString = function(atype, num) {return SocialCalc.GetStyleString(this, atype, num);};
 SocialCalc.Sheet.prototype.RecalcSheet = function() {return SocialCalc.RecalcSheet(this);};
+
+SocialCalc.Sheet.prototype.GetCellContents = function(coord) {
+  return this.cells[coord] ? this.cells[coord].GetContents() : "";
+};
+
+// When saving the sheet into a text file, to save space we do not right any styles twice
+// Instead of
+//    cell:A1:style:{text-align:center; color: blue}
+//    cell:A2:style:{text-align:center; color: blue}
+// We gonna save
+//    cell:A1:style:1
+//    cell:A1:style:1
+//    style:1:{text-align:center; color: blue}
+SocialCalc.Sheet.prototype.MapAttributeToId = function(attrName, value) {
+
+   var num, valueString;
+
+   if (typeof value === "object") valueString = JSON.stringify(value);
+   else valueString = value;
+   console.log("map attribute", attrName, value, valueString);
+   if (valueString.length == 0) return 0; // null means use zero, which means default or global default
+
+   num = this[attrName+"hash"][valueString];
+   if (!num) {
+      if (this[attrName+"s"].length<1) this[attrName+"s"].push("");
+      num = this[attrName+"s"].push(value) - 1;
+      this[attrName+"hash"][valueString] = num;
+      this.changedrendervalues = true;
+   }
+   return num;
+}
+
+SocialCalc.Sheet.prototype.GetAttributeString = function(sheet, atype, num) {
+
+   if (!num) return null; // zero, null, and undefined return null
+
+   return sheet[atype+"s"][num];
+}

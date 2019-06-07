@@ -121,8 +121,8 @@ SocialCalc.FormatValueForDisplay = function(sheetobj, value, cr, linkstyle) {
      var parameters = sheetobj.ioParameterList[cr];
 
      var formula_details = SocialCalc.Formula.FunctionList[formula_name];
-//   var ecell = SocialCalc.GetSpreadsheetControlObject().editor.ecell; // check if widget has focus
-//   SocialCalc.GetSpreadsheetControlObject().debug.push({formula_name:formula_name});
+      //   var ecell = SocialCalc.GetSpreadsheetControlObject().editor.ecell; // check if widget has focus
+      //   SocialCalc.GetSpreadsheetControlObject().debug.push({formula_name:formula_name});
      if( formula_details) {
        var cell_html = formula_details[5];
        // var cell_html = "<button type='button' onclick=\"SocialCalc.TriggerIoAction('<%=cell_reference%>');\"><%=display_value%></button>";

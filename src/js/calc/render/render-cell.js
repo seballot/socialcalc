@@ -76,7 +76,7 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
    // All style properties (font-weight, color etc...)
    for(var property in cell.style) {
       stylestr += property + ":" + cell.style[property] + ";";
-}
+   }
 
    // get the end cell for border styling
    if (cell.colspan > 1 || cell.rowspan > 1) {

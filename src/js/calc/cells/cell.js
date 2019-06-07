@@ -26,13 +26,9 @@
 //
 //    The following optional values, if present, are mainly used in rendering, overriding defaults:
 //
-//    bt, br, bb, bl: number of border's definition
-//    layout: layout (vertical alignment, padding) definition number
-//    font: font definition number
-//    color: text color definition number
-//    bgcolor: background color definition number
-//    cellformat: cell format (horizontal alignment) definition number
-//    nontextvalueformat: custom format definition number for non-text values, e.g., numbers
+//
+//    style: all css properties (alignment, color, border...)
+//    nontextvalueformatnontextvalueformat: custom format definition number for non-text values, e.g., numbers
 //    textvalueformat: custom format definition number for text values
 //    colspan, rowspan: number of cells to span for merged cells (only on main cell)
 //    cssc: custom css classname for cell, as text (no special chars)
@@ -52,18 +48,18 @@ SocialCalc.Cell = function(coord) {
    this.valuetype = "b";
    this.readonly = false;
    // All style properties like "font-weight", "color" etc...
-   this.style = {}
+   this.style = {};
 
 }
 
 // The types of cell properties
 //
-// Type 1: Base, Type 2: Attribute, Type 3: Special (e.g., displaystring, parseinfo)
+// Type 1: Base, Type 2: Format Attribute, Type 3: Special (e.g., displaystring, parseinfo)
 
 SocialCalc.CellProperties = {
    coord: 1, datavalue: 1, datatype: 1, formula: 1, valuetype: 1, errors: 1, comment: 1, readonly: 1,
-   bt: 2, br: 2, bb: 2, bl: 2, layout: 2, font: 2, color: 2, bgcolor: 2,
-   cellformat: 2, nontextvalueformat: 2, textvalueformat: 2, colspan: 2, rowspan: 2,
+   style: 2, colspan: 2, rowspan: 2,
+   nontextvalueformat: 2, textvalueformat: 2,
    cssc: 2, csss: 2, mod: 2,
    displaystring: 3, // used to cache rendered HTML of cell contents
    parseinfo: 3, // used to cache parsed formulas
@@ -71,42 +67,23 @@ SocialCalc.CellProperties = {
 };
 
 SocialCalc.CellPropertiesTable = {
-   bt: "borderstyle", br: "borderstyle", bb: "borderstyle", bl: "borderstyle",
-   layout: "layout", font: "font", color: "color", bgcolor: "color",
-   cellformat: "cellformat", nontextvalueformat: "valueformat", textvalueformat: "valueformat"
+   style: "style", nontextvalueformat: "valueformat", textvalueformat: "valueformat"
 };
 
-
 //
-// SocialCalc.GetCellContents(sheetobj, coord)
+// SocialCalc.GetContents()
 //
 // Returns the contents (value, formula, constant, etc.) of a cell
 // with appropriate prefix ("'", "=", etc.)
 //
 
-SocialCalc.GetCellContents = function(sheetobj, coord) {
+SocialCalc.Cell.prototype.GetContents = function() {
 
-   var result = "";
-   var cellobj = sheetobj.cells[coord];
-   if (cellobj) {
-      switch (cellobj.datatype) {
-         case "v":
-            result = cellobj.datavalue+"";
-            break;
-         case "t":
-            result = "'"+cellobj.datavalue;
-            break;
-         case "f":
-            result = "="+cellobj.formula;
-            break;
-         case "c":
-            result = cellobj.formula;
-            break;
-         default:
-            break;
-      }
+   switch (this.datatype) {
+      case "v": return this.datavalue + "";  break;
+      case "t": return "'" + this.datavalue; break;
+      case "f": return "=" + this.formula;   break;
+      case "c": return this.formula;         break;
    }
-
-   return result;
-
+   return "";
 }
