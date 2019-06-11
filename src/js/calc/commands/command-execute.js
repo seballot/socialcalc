@@ -326,8 +326,18 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                   else if (attrib=="readonly") {
                      cell.readonly = rest.toLowerCase()=="yes";
                   }
+                  else if (attrib=="style.border") {
+                     if (rest && rest != "null") {
+                        cell.style.border = rest;
+                        if (!cell.style['border-width']) cell.style['border-width'] = '1px';
+                        if (!cell.style['border-style']) cell.style['border-style'] = 'solid';
+                        if (!cell.style['border-color']) cell.style['border-color'] = scc.defaultCellBorderOnColor;
+                     } else {
+                        delete cell.style.border;
+                     }
+                  }
                   else if (attrib.split('.')[0] == 'style') { // exple: style.font-weight
-                     if (rest) cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
+                     if (rest && rest != "null") cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
                      else delete cell.style[attrib.split('.')[1]];
                      cell.styleId = sheet.MapAttributeToId("style", cell.style);
                   }

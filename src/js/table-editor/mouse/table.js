@@ -89,6 +89,10 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
            SocialCalc.ProcessEditorMouseUp,
            ele,
            event);
+
+   // close selector popups
+   $('.sel').removeClass('active');
+
    return;
 
  }
@@ -222,22 +226,26 @@ SocialCalc.ProcessEditorMouseUp = function(e) {
           element,
           event);
 
+
    // Update style button state according to selected row style
    cell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
    // reset
    $('.style-btn').removeClass('active');
-   $('input[data-command="style.color"]').spectrum("set", '#3c4042');
-   $('input[data-command="style.background-color"]').spectrum("set", 'white');
+   $('input[data-command="style.color"]').spectrum("set", scc.defaultCellColor);
+   $('input[data-command="style.background-color"]').spectrum("set", scc.defaultCellBackgroundColor);
+   $('input[data-command="style.border-color"]').spectrum("set", scc.defaultCellBorderOnColor);
+   $('select[data-command="style.border-width"]').setSelectedValue('1px');
+
    // apply cell style
    for(var property in cell.style) {
       $('.style-btn[data-command="style.'+ property +'"]').each(function() {
          $(this).toggleClass('active', $(this).data('value') == cell.style[property]);
-   })
+      })
       $('input[type=color][data-command="style.'+ property +'"]').spectrum("set", cell.style[property]);
-}
+      $('select[data-command="style.'+ property +'"]').setSelectedValue(cell.style[property]);
+   }
 
    return false;
-
 }
 
 //

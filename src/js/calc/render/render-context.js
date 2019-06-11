@@ -62,8 +62,6 @@ SocialCalc.RenderContext = function(sheetobj) {
 
    this.defaultlayout = scc.defaultCellLayout;
 
-   this.gridCSS = scc.defaultGridCSS;
-
    this.commentClassName = scc.defaultCommentClass; // for cells with non-blank comments when this.showGrid is true
    this.commentCSS = scc.defaultCommentStyle; // any combination of classnames and styles may be used
    this.commentNoGridClassName = scc.defaultCommentNoGridClass; // for cells when this.showGrid is false

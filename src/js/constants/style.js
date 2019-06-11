@@ -7,7 +7,9 @@ SocialCalc.Css = {
    defaultCellFontSize: "13px",
    defaultCellFontFamily: "Arial,Helvetica,sans-serif",
 
-   defaultGridCSS: "1px solid #e2e3e3;", // used as style to set each border when grid enabled (was #ECECEC)
+   defaultCellColor: "#3c4042",
+   defaultCellBackgroundColor: "white",
+   defaultCellBorderOnColor: "#617b8b", // color when border are active, not for grid. Grid color is defined in cell.scss
 
    defaultCommentClass: "", // class added to cells with non-null comments when grid enabled
    defaultCommentStyle: "background-repeat:no-repeat;background-position:top right;background-image:url(images/sc-commentbg.gif);", // style added to cells with non-null comments when grid enabled

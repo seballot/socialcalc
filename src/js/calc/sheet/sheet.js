@@ -161,7 +161,6 @@ SocialCalc.Sheet.prototype.MapAttributeToId = function(attrName, value) {
 
    if (typeof value === "object") valueString = JSON.stringify(value);
    else valueString = value;
-   console.log("map attribute", attrName, value, valueString);
    if (valueString.length == 0) return 0; // null means use zero, which means default or global default
 
    num = this[attrName+"hash"][valueString];

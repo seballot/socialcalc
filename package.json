@@ -44,5 +44,8 @@
     "jshint": "^2.9.5",
     "jshint-stylish": "^2.2.1",
     "nunjucks": "^3.2.0"
+  },
+  "dependencies": {
+    "tinycolor2": "^1.4.1"
   }
 }

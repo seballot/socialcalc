@@ -80,7 +80,8 @@ gulp.task('default', ['build'], function () {});
 gulp.task('move_assets', function() {
    gulp.src([assets_folder + 'images/*']).pipe(gulp.dest(dist_folder + 'images/'));
    gulp.src([assets_folder + '**/*.css']).pipe(concat('SocialCalc.css')).pipe(gulp.dest(dist_folder));
-   gulp.src([assets_folder + '**/*.js', 'node_modules/nunjucks/browser/nunjucks-slim.js']).pipe(concat('SocialCalc.js')).pipe(gulp.dest(dist_folder));
+   gulp.src([assets_folder + '**/*.js', 'node_modules/nunjucks/browser/nunjucks-slim.js', "node_modules/tinycolor2/tinycolor.js"])
+       .pipe(concat('SocialCalc.js')).pipe(gulp.dest(dist_folder));
 });
 
 gulp.task('minify_js', function() {

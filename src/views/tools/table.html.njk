@@ -53,8 +53,23 @@
    {{ divider() }}
 
    <input type="color" class="style-input" data-command="style.background-color"/>
-   <img class="action-btn" src="assets/images/border-all.svg" title="Borders On" data-command="borderon">
-   <img class="action-btn " src="assets/images/border-none.svg" title="Borders Off" data-command="borderoff">
+   <img class="style-btn" src="assets/images/border-all.svg" title="%loc!Borders On!" data-command="style.border" data-value="on">
+
+   <div class="sel">
+     <select class="style-select" data-command="style.border-width">
+       <option value="" disabled>1px</option>
+       <option value="1px">1px</option>
+       <option value="2px">2px</option>
+       <option value="3px">3px</option>
+       <option value="4px">4px</option>
+     </select>
+   </div>
+
+   {#<span class="style-btn" data-command="style.border-style" data-value="solid">solid</span>
+   <span class="style-btn" data-command="style.border-style" data-value="dashed">dashed</span>
+   <span class="style-btn" data-command="style.border-style" data-value="dotted">dotted</span>#}
+
+   <input type="color" class="style-input" data-command="style.border-color"/>
 
    {{ divider() }}
 
@@ -88,11 +103,6 @@
 
    {{ button('lock', title="Lock Cell", fa="lock") }}
    {{ button('unlock', title="Unlock Cell", fa="unlock") }}
-
-   {{ divider() }}
-
-   {{ button('filldown', title="Fill Down") }}
-   {{ button('fillright', title="Fill Right") }}
 
    <!-- {{ button('recalc', title="Recalculate") }} -->
 

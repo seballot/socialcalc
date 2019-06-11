@@ -61,16 +61,16 @@ SocialCalc.HandleStyleButtonClicked = function(button) {
       $(button).siblings('[data-command="'+$(button).data('command')+'"]').removeClass('active');
 
       cmdValue = $(button).hasClass('active') ? $(button).data('value') : null;
-} else {
+   } else {
       cmdValue = $(button).val();
-}
+   }
 
    if (editor.range.hasrange) {
       range = SocialCalc.crToCoord(editor.range.left, editor.range.top) + ":"
       range += SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-} else {
+   } else {
       range = editor.ecell.coord
-}
+   }
 
    // apply command reading button data attributes
    cmdstr = "set " + range + " " + $(button).data('command') + " " + cmdValue;

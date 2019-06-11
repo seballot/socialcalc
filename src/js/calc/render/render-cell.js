@@ -65,52 +65,26 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
    result.innerHTML = cell.displaystring;
    result.className += "cell"
 
-   // num=cell.layout || sheetattribs.defaultlayout;
-   // if (num && typeof(context.layouts[num]) !== "undefined") {
-   //    stylestr+=context.layouts[num]; // use precomputed layout with "*"'s filled in
-   // }
-   // else {
-   //    stylestr+=scc.defaultCellLayout;
-   // }
-
-   // All style properties (font-weight, color etc...)
+   // ALL STYLE PROPERTIES (font-weight, color etc...)
    for(var property in cell.style) {
-      stylestr += property + ":" + cell.style[property] + ";";
+      if (property.indexOf('border') == -1)
+         stylestr += property + ":" + cell.style[property] + ";";
    }
 
-   // get the end cell for border styling
-   if (cell.colspan > 1 || cell.rowspan > 1) {
-      endcell = sheetobj.cells[SocialCalc.crToCoord(colnum+(cell.colspan || 1)-1, rownum+(cell.rowspan || 1)-1)];
+   // BORDER
+   if (cell.style["background-color"] && !cell.style["border"]) {
+      var color = tinycolor(cell.style["background-color"]);
+      if (color.getBrightness() < 230) stylestr += "border-color: " + color.lighten(5).toString() + ";";
+   }
+   if (cell.style['border']) {
+      // result.className += " bordered";
+      ['border-width', 'border-style', 'border-color'].forEach(function(property) {
+         stylestr += property + ":" + cell.style[property] + ";";
+      });
+
    }
 
-   num=cell.bt;
-   if (num && typeof(sheetobj.borderstyles[num]) !== "undefined") stylestr+="border-top:"+sheetobj.borderstyles[num]+";";
-
-   num=typeof(endcell) != "undefined" ? endcell.br : cell.br;
-   if (num && typeof(sheetobj.borderstyles[num]) !== "undefined") stylestr+="border-right:"+sheetobj.borderstyles[num]+";";
-   else if (context.showGrid) {
-      if (context.CellInPane(rownum, colnum+(cell.colspan || 1), rowpane, colpane))
-         t=SocialCalc.crToCoord(colnum+(cell.colspan || 1), rownum);
-      else t="nomatch";
-      if (context.cellskip[t]) t=context.cellskip[t];
-      if (!sheetobj.cells[t] || !sheetobj.cells[t].bl)
-         stylestr+="border-right:"+context.gridCSS;
-   }
-
-   num=typeof(endcell) != "undefined" ? endcell.bb : cell.bb;
-   if (num && typeof(sheetobj.borderstyles[num]) !== "undefined") stylestr+="border-bottom:"+sheetobj.borderstyles[num]+";";
-   else if (context.showGrid) {
-      if (context.CellInPane(rownum+(cell.rowspan || 1), colnum, rowpane, colpane))
-         t=SocialCalc.crToCoord(colnum, rownum+(cell.rowspan || 1));
-      else t="nomatch";
-      if (context.cellskip[t]) t=context.cellskip[t];
-      if (!sheetobj.cells[t] || !sheetobj.cells[t].bt)
-         stylestr+="border-bottom:"+context.gridCSS;
-   }
-
-   num=cell.bl;
-   if (num && typeof(sheetobj.borderstyles[num]) !== "undefined") stylestr+="border-left:"+sheetobj.borderstyles[num]+";";
-
+   // COMMENT
    if (cell.comment) {
       result.title = cell.comment;
       if (context.showGrid) {
@@ -127,10 +101,10 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
       }
    }
 
+   // READONLY
    if (cell.readonly) {
-      if (!cell.comment) {
-         result.title = context.readonlyComment;
-      }
+      if (!cell.comment) result.title = context.readonlyComment;
+
       if (context.showGrid) {
          if (context.readonlyClassName) {
             result.className = (result.className ? result.className+" " : "") + context.readonlyClassName;
