@@ -50,7 +50,6 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    spreadsheet.spreadsheetDiv = document.querySelector('.socialcalc-main-container');
    spreadsheet.$container = $(spreadsheet.spreadsheetDiv);
    spreadsheet.editor.$appContainer = spreadsheet.$container;
-   console.log(spreadsheet.editor);
 
    spreadsheet.InitializeToolBar();
 

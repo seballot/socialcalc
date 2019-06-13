@@ -91,8 +91,6 @@ SocialCalc.CreateSheetSave = function(sheetobj, range, canonicalize) {
    result.push(""); // one extra to get extra \n
 
    delete sheetobj.xlt; // clean up
-   console.log(xlt);
-   console.log(result.join("\n"));
 
    return result.join("\n");
 }

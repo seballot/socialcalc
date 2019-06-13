@@ -45,7 +45,6 @@ SocialCalc.InitializeSpreadsheetToolBar = function(spreadsheet) {
    $tableTools.find('input[data-command="style.border-color"]').spectrum("set", scc.defaultCellBorderOnColor);
 
    $tableTools.find('.style-input, .style-select').change(function() {
-      console.log("change");
       SocialCalc.HandleStyleButtonClicked(this);
    });
 
@@ -95,7 +94,6 @@ SocialCalc.InitializeSpreadsheetToolBar = function(spreadsheet) {
 
 function setSelectBox(object, value) {
    var $element = object.siblings('.sel__box').find('.sel__box__options[value="' + value + '"]');
-   console.log('value', value, 'element', $element);
    handleSelectBoxOptionSelected($element, false);
 };
 
