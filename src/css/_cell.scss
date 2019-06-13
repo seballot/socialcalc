@@ -26,10 +26,12 @@
   &.insert-up:after {
     border: none;
     border-top: 4px dashed $primary-color;
+    background-color: $cell-selected-range-bg;
   }
   &.insert-left:after {
     border: none;
     border-left: 4px dashed $primary-color;
+    background-color: $cell-selected-range-bg;
   }
 
   // fix border collapse, the top right corner remain not colored

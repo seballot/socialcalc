@@ -175,12 +175,16 @@ SocialCalc.CellHandlesMouseDown = function(e) {
    cellhandles.mouseDown = true;
 
    mouseinfo.editor = editor; // remember for later
-
    coord = editor.ecell.coord; // start with cell with handles
 
    cellhandles.startingcoord = coord;
    cellhandles.startingX = clientX;
    cellhandles.startingY = clientY;
+
+   var startCol = editor.ecell.col
+   cellhandles.initialRangeRelativeWidth = editor.range2.right == startCol ? editor.range2.left - startCol : editor.range2.right - startCol
+   var startRow = editor.ecell.row
+   cellhandles.initialRangeRelativeHeight = editor.range2.top == startRow ? editor.range2.bottom - startRow : editor.range2.top - startRow
 
    mouseinfo.mouselastcoord = coord;
 
@@ -260,9 +264,8 @@ SocialCalc.CellHandlesMouseMove = function(e) {
       case "MoveC":
          if (result.coord != mouseinfo.mouselastcoord) {
             editor.MoveECell(result.coord);
-            c = editor.range2.right - editor.range2.left + result.col;
-            r = editor.range2.bottom - editor.range2.top + result.row;
-            editor.RangeAnchor(SocialCalc.crToCoord(c, r));
+
+            editor.RangeAnchor(SocialCalc.crToCoord(result.col + cellhandles.initialRangeRelativeWidth, result.row + cellhandles.initialRangeRelativeHeight));
             editor.RangeExtend();
          }
          break;
@@ -392,7 +395,7 @@ SocialCalc.CellHandlesMouseUp = function(e) {
          cstr = "movepaste "+
                      SocialCalc.crToCoord(editor.range2.left, editor.range2.top) + ":" +
                      SocialCalc.crToCoord(editor.range2.right, editor.range2.bottom)
-                     +" "+editor.ecell.coord+cmdtype2;
+                     +" "+SocialCalc.crToCoord(result.col + cellhandles.initialRangeRelativeWidth, result.row + cellhandles.initialRangeRelativeHeight)+cmdtype2;
          editor.EditorScheduleSheetCommands(cstr, true, false);
          editor.Range2Remove();
 
