@@ -454,104 +454,10 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
       case "filldown":
       case "fillup":
       case "fillleft":
-         sheet.renderneeded = true;
-         sheet.changedrendervalues = true;
-         if (saveundo) changes.AddUndo("changedrendervalues"); // to take care of undone pasted spans
          what = cmd.NextToken();
          rest = cmd.RestOfString();
          ParseRange();
-
-         function increment_amount(horizontal, inverse) {
-            function valid_datatype(type) {
-              return type == "v" || type == "c";
-         }
-            var editor = SocialCalc.GetSpreadsheetControlObject().editor;
-            var range = editor.range2;
-            var returnval = undefined;
-
-            if (range.hasrange) {
-               var startcell, endcell;
-               startcell = sheet.GetAssuredCell(SocialCalc.crToCoord(range.left, range.top))
-               if (horizontal /*&& range.left != range.right*/)
-                  endcell = sheet.GetAssuredCell(SocialCalc.crToCoord(range.left + 1, range.top))
-               else /*if (!horizontal && (range.bottom - range.top == 1) && range.left == range.right)*/
-                  endcell = sheet.GetAssuredCell(SocialCalc.crToCoord(range.left, range.top + 1))
-
-               if (valid_datatype(startcell.datatype) && valid_datatype(endcell.datatype))
-                  returnval =  endcell.datavalue - startcell.datavalue;
-            }
-            editor.Range2Remove();
-            return returnval;
-         }
-
-         var inc, horizontal, inverse, crStart, crEnd;
-
-         if (cmd1 == "fillright") {
-            horizontal = true; inverse = false; }
-         else if (cmd1 == "fillleft") {
-            horizontal = true; inverse = true; }
-         else if (cmd1 == "filldown") {
-            horizontal = false; inverse = false; }
-         else if (cmd1 == "fillup") {
-            horizontal = false; inverse = true; }
-
-         // when selecting multiple cell and filling, we may want to increament the list like
-         // selecting "1,2,3" and filling will produce "5,6,7,8..."
-         inc = increment_amount(horizontal, inverse);
-
-         if (inverse) {
-            crStart = cr2; crEnd = cr1; }
-         else {
-            crStart = cr1; crEnd = cr2; }
-
-         row = crStart.row; col = crStart.col;
-
-         do {
-            if (row < crEnd.row) row++;
-            if (row > crEnd.row) row--;
-            do {
-               if (col < crEnd.col) col++;
-               if (col > crEnd.col) col--;
-
-               cr = SocialCalc.crToCoord(col, row);
-               cell = sheet.GetAssuredCell(cr);
-               if (cell.readonly) continue;
-               if (saveundo) changes.AddUndo("set "+cr+" all", sheet.CellToString(cell));
-
-               coloffset = col - crStart.col;
-               rowoffset = row - crStart.row;
-               basecell = sheet.GetAssuredCell(SocialCalc.crToCoord(crStart.col, crStart.row));
-
-               if (rest == "all" || rest == "formats") {
-                  for (attrib in cellProperties) {
-                     if (cellProperties[attrib] == 1) continue; // copy only format attributes
-                     if (typeof basecell[attrib] === undefined || cellProperties[attrib] == 3)
-                        delete cell[attrib];
-                     else
-                        cell[attrib] = basecell[attrib];
-                  }
-               }
-               if (rest == "all" || rest == "formulas") {
-
-                  if (inc !== undefined)
-                     cell.datavalue = basecell.datavalue + (horizontal ? coloffset : rowoffset)*inc;
-                  else
-                     cell.datavalue = basecell.datavalue;
-
-                  cell.datatype = basecell.datatype;
-                  cell.valuetype = basecell.valuetype;
-                  if (cell.datatype == "f")  // offset relative coords, even in sheet references
-                     cell.formula = SocialCalc.OffsetFormulaCoords(basecell.formula, coloffset, rowoffset);
-                  else
-                     cell.formula = basecell.formula;
-                  delete cell.parseinfo;
-                  cell.errors = basecell.errors;
-               }
-               delete cell.displaystring;
-
-            } while (col != crEnd.col)
-         } while (row != crEnd.row)
-
+         SocialCalc.CommandFill(sheet, saveundo, changes, cmd1, rest, cr1, cr2);
          attribs.needsrecalc = "yes";
          break;
 
