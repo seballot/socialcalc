@@ -62,12 +62,20 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
       cell.displaystring = SocialCalc.FormatValueForDisplay(sheetobj, cell.datavalue, coord, (linkstyle || context.defaultlinkstyle));
    }
 
-   result.innerHTML = cell.displaystring;
    result.className += "cell"
+
+   var contentStyle = "display: block; width:" + context.colwidth[colnum] + "px;";
+   var contentClass = "cell-content " + (cell.style['content-overflow'] || '')
+
+   if (!cell.displaystring || cell.displaystring.length == 0 || cell.displaystring == "&nbsp;") {
+      result.className += " empty";
+      result.innerHTML = "";
+   }
+   else result.innerHTML = "<span class='" + contentClass + "' style='" + contentStyle +"'>" + cell.displaystring + "</span>";
 
    // ALL STYLE PROPERTIES (font-weight, color etc...)
    for(var property in cell.style) {
-      if (property.indexOf('border') == -1)
+      if (property.indexOf('border') == -1 && property.indexOf('content-overflow') == -1)
          stylestr += property + ":" + cell.style[property] + ";";
    }
 

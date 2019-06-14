@@ -1,9 +1,31 @@
 .cell {
-  padding: 2px;
+  padding: 2px 4px;
   color: #3c4042;
   position: relative;
   border-top: 1px solid #e2e3e3;
   border-left: 1px solid #e2e3e3;
+  z-index: 5;
+  background-color: white;
+
+  &.empty { background-color: transparent; z-index: 1; }
+
+  .cell-content {
+    &.over {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      z-index: 2;
+      white-space: nowrap;
+    }
+    &.crop {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    &.multiline {
+      white-space: normal;
+    }
+  }
 
   &.selected-range:after, &.selected-range-initial:after {
     position: relative;
@@ -52,6 +74,7 @@
   text-align: center;
   line-height: 22px;
   font-size: 10px;
+  padding: 0px 5px;
   // position: static;
   &.selected { background-color: #e8eaed; }
 }
@@ -62,11 +85,12 @@
 .column-cell:not(.upper-left-cell):after {
   content: "";
   float: right;
-  margin-right: -3px;
-  width: 6px;
+  margin-right: -9px;
+  width: 8px;
   height: 22px;
   background: transparent;
   cursor: col-resize;
+  z-index: 500;
 }
 
 // fake div to show resize cursor
@@ -75,10 +99,11 @@
   position: absolute;
   width: 100%;
   left: 0;
-  bottom: -3px;
-  height: 6px;
+  bottom: -5px;
+  height: 8px;
   background: transparent;
   cursor: row-resize;
+  z-index: 500;
 }
 
 .spacing-cell {
