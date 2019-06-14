@@ -91,6 +91,15 @@
     }
   }
 
+  .border-options {
+    display: inline-block;
+    width: 0;
+    height: 32px;
+    overflow: hidden;
+    vertical-align: top;
+  }
+  .border-options + .divider { margin-left: 0; }
+
   // spectrum color-picker
   .sp-replacer {
     padding: 0;
@@ -111,6 +120,9 @@
     .sp-preview { margin: 0; border: none; height: 5px; }
     .sp-dd { display: none; }
   }
+
+  [data-command="style.border-color"] + .sp-replacer { margin-left: -4px; }
+
 }
 
 .sp-container {

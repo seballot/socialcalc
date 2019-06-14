@@ -335,6 +335,7 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
                      } else {
                         delete cell.style.border;
                      }
+                     SocialCalc.UpdateToolBarStateFromCell(cell);
                   }
                   else if (attrib.split('.')[0] == 'style') { // exple: style.font-weight
                      if (rest && rest != "null") cell.style[attrib.split('.')[1]] = rest; // save the attribute value in the cell (useful to use for rendering)
