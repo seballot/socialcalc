@@ -89,7 +89,6 @@ SocialCalc.InitializeSpreadsheetToolBar = function(spreadsheet) {
    $('.sel__box__options').click(function() {
       handleSelectBoxOptionSelected($(this), true);
    });
-
 }
 
 function setSelectBox(object, value) {
