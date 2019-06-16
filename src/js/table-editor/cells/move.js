@@ -133,6 +133,9 @@ SocialCalc.MoveECell = function(editor, newcell) {
    editor.ecell.coord = newcell;
    cell = SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
 
+   ecell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
+   SocialCalc.UpdateToolBarStateFromCell(ecell);
+
    highlights[newcell] = "cursor";
 
    for (f in editor.MoveECellCallback) { // let others know
@@ -154,9 +157,5 @@ SocialCalc.MoveECell = function(editor, newcell) {
       editor.EnsureECellVisible();
    }
 
-   cell = editor.context.sheetobj.GetAssuredCell(editor.ecell.coord);
-   SocialCalc.UpdateToolBarStateFromCell(cell);
-
    return newcell;
-
 }
