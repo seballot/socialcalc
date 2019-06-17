@@ -20,6 +20,7 @@ $scrollbar-thickness: 12px;
     height: $scrollbar-thickness;
     position: absolute;
     bottom: 1px;
+    z-index: 500;
     left: 0;
     right: 0;
     display: flex;

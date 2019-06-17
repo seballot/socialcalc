@@ -1,0 +1,42 @@
+<div class="modal" id="functions-list-modal">
+
+   <div class="modal-header">
+      <div class="title">%loc!Function List!</div>
+      <div class="btn-close" onclick="SocialCalc.SpreadsheetControl.HideFunctions();">&#10005;</div>
+   </div>
+
+   <div class="modal-content">
+      <div class="categories-list">
+         <h3>%loc!Category!</h3>
+         {% set functionCategories = SocialCalc.Constants.function_classlist %}
+         <select id="SocialCalc-functionclass" size="{{ functionCategories|length }}"
+                 onchange="SocialCalc.SpreadsheetControl.FunctionClassChosen(this.options[this.selectedIndex].value);">
+            {% for category in functionCategories %}
+               <option value="{{ category }}" {{ "selected" if loop.first else ""}}>
+                  {{ SocialCalc.Formula.FunctionClasses[category].name }}
+               </option>
+            {% endfor %}
+         </select>
+      </div>
+
+      <div class="functions-list" id="SocialCalc-functionlist">
+         <h3>%loc!Functions!</h3>
+         {% set functionList = SocialCalc.Formula.FunctionClasses['all'].items %}
+         <select id="SocialCalc-functionname" size="{{ functionList|length }}"
+                 onchange="SocialCalc.SpreadsheetControl.FunctionChosen(this.options[this.selectedIndex].value);"
+                 ondblclick="SocialCalc.SpreadsheetControl.DoFunctionPaste();">
+            {% for function in functionList %}
+               <option value="{{ function }}" {{ "selected" if loop.first else ""}}>{{ function }}</option>
+            {% endfor %}
+         </select>
+      </div>
+
+      <div class="function-description-container" id="SocialCalc-functiondesc">
+      </div>
+   </div>
+
+   <div class="modal-footer">
+      <button onclick="SocialCalc.SpreadsheetControl.DoFunctionPaste();">%loc!Paste!</button>
+      <button onclick="SocialCalc.SpreadsheetControl.HideFunctions();">%loc!Cancel!</button>
+   </div>
+</div>

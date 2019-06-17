@@ -99,12 +99,10 @@ SocialCalc.SpreadsheetControl.prototype.CreateSheetSave = function() {return thi
 
 SocialCalc.GetSpreadsheetControlObject = function() {
 
-  // if in viewer mode return CurrentSpreadsheetViewerObject because CurrentSpreadsheetControlObject is null (bug fix)
+   // if in viewer mode return CurrentSpreadsheetViewerObject because CurrentSpreadsheetControlObject is null (bug fix)
    var csco = (SocialCalc.CurrentSpreadsheetControlObject != null)
    ? SocialCalc.CurrentSpreadsheetControlObject : SocialCalc.CurrentSpreadsheetViewerObject;
    if (csco) return csco;
-
-//   throw ("No current SpreadsheetControl object.");
 
 }
 

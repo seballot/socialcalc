@@ -33,10 +33,12 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    spreadsheet.parentNode = node;
    $(node).empty();
 
+   SocialCalc.Formula.FillFunctionInfo();
+
    // Render HTML
 
    nunjucks = nunjucks.configure('../src/views', { autoescape: true });
-   html = nunjucks.render('layout.html.njk', { idPrefix: spreadsheet.idPrefix, imagePrefix: spreadsheet.imagePrefix })
+   html = nunjucks.render('layout.html.njk', { idPrefix: spreadsheet.idPrefix, imagePrefix: spreadsheet.imagePrefix, SocialCalc: SocialCalc })
 
    html = html.replace(/\%s\./g, "SocialCalc.");
    html = html.replace(/\%id\./g, spreadsheet.idPrefix);
@@ -52,8 +54,6 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    spreadsheet.editor.$appContainer = spreadsheet.$container;
 
    spreadsheet.InitializeToolBar();
-
-   SocialCalc.Formula.FillFunctionInfo();
 
    // Initialize formula bar
 
