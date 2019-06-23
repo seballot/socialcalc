@@ -96,36 +96,13 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
    // COMMENT
    if (cell.comment) {
       result.title = cell.comment;
-      if (context.showGrid) {
-         if (context.commentClassName) {
-            result.className = (result.className ? result.className+" " : "") + context.commentClassName;
-         }
-         stylestr+=context.commentCSS;
-      }
-      else {
-         if (context.commentNoGridClassName) {
-            result.className = (result.className ? result.className+" " : "") + context.commentNoGridClassName;
-         }
-         stylestr+=context.commentNoGridCSS;
-      }
+      result.className += " commented"
    }
 
    // READONLY
    if (cell.readonly) {
-      if (!cell.comment) result.title = context.readonlyComment;
-
-      if (context.showGrid) {
-         if (context.readonlyClassName) {
-            result.className = (result.className ? result.className+" " : "") + context.readonlyClassName;
-         }
-         stylestr+=context.readonlyCSS;
-      }
-      else {
-         if (context.readonlyNoGridClassName) {
-            result.className = (result.className ? result.className+" " : "") + context.readonlyNoGridClassName;
-         }
-         stylestr+=context.readonlyNoGridCSS;
-      }
+      if (!cell.comment) result.title = scc.defaultReadonlyComment;
+      result.className += " read-only"
    }
 
    result.style.cssText=stylestr;
@@ -135,7 +112,7 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
    // csss needs to be parsed into pieces to override just the attributes specified, not all with assignment to cssText.
    if (cell.cssc !== undefined) {
       noElement ? (result.className = (result.className ? result.className + ' ' : '') + cell.cssc) : result.classList.add(cell.cssc);
-}
+   }
 
    t = context.highlights[coord];
    if (t) { // this is a highlit cell: Override style appropriately

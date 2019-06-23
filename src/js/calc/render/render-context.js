@@ -62,17 +62,6 @@ SocialCalc.RenderContext = function(sheetobj) {
 
    this.defaultlayout = scc.defaultCellLayout;
 
-   this.commentClassName = scc.defaultCommentClass; // for cells with non-blank comments when this.showGrid is true
-   this.commentCSS = scc.defaultCommentStyle; // any combination of classnames and styles may be used
-   this.commentNoGridClassName = scc.defaultCommentNoGridClass; // for cells when this.showGrid is false
-   this.commentNoGridCSS = scc.defaultCommentNoGridStyle; // any combination of classnames and styles may be used
-
-   this.readonlyClassName = scc.defaultReadonlyClass; // for readonly cells with non-blank comments when this.showGrid is true
-   this.readonlyCSS = scc.defaultReadonlyStyle; // any combination of classnames and styles may be used
-   this.readonlyNoGridClassName = scc.defaultReadonlyNoGridClass; // for readonly cells when this.showGrid is false
-   this.readonlyNoGridCSS = scc.defaultReadonlyNoGridStyle; // any combination of classnames and styles may be used
-   this.readonlyComment = scc.defaultReadonlyComment;
-
    this.classnames = // any combination of classnames and explicitStyles can be used
       {
          colname: "column-cell",
