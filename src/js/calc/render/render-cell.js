@@ -64,7 +64,7 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
 
    result.className += "cell"
 
-   var contentStyle = "display: block; width:" + context.colwidth[colnum] + "px;";
+   var contentStyle = "display: block; min-width:" + context.colwidth[colnum] + "px;width: 100%";
    var contentClass = "cell-content " + (cell.style['content-overflow'] || '')
 
    if (!cell.displaystring || cell.displaystring.length == 0 || cell.displaystring == "&nbsp;") {
