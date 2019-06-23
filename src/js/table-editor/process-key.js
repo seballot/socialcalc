@@ -38,7 +38,7 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
          if (ch=="[f2]") {
             if (editor.noEdit || editor.ECellReadonly()) return true;
             SocialCalc.EditorOpenCellEdit(editor);
-            editor.state="inputboxdirect"; // arrow keys move left and right, rather than select cells
+            editor.state="input";
             return false;
          }
 
@@ -56,9 +56,8 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
          editor.inputBox.element.disabled = false; // make sure editable
          editor.state = "input";
          editor.inputBox.ShowInputBox(true);
-         editor.inputBox.Focus();
-         editor.inputBox.SetText(ch);
-         editor.inputBox.Select("end");
+         editor.inputEcho.Focus();
+         editor.inputEcho.SetText(ch);
          wval.partialexpr = "";
          wval.ecoord = editor.ecell.coord;
          wval.erow = editor.ecell.row;
@@ -67,52 +66,17 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
          break;
 
       case "input":
-         // handle navigating in input function prompt with arrow
-         var $prompt = $(editor.inputEcho.prompt);
-         var inputEchoPromptVisible = $prompt.is(':visible');
-         var selectedPrompt = $prompt.find('.function-container.selected').first();
-         var newSelectedPrompt;
-         var topPos = selectedPrompt.length ? selectedPrompt[0].offsetTop : 0;
-         if (inputEchoPromptVisible && ch == "[adown]") {
-            $prompt.find('.function-container.selected').removeClass('selected');
-            if (!selectedPrompt.length || !selectedPrompt.next().length) {
-               newSelectedPrompt = $prompt.find('.function-container').first().addClass('selected');
-               $prompt.scrollTop(0);
-            }
-            else {
-               newSelectedPrompt = selectedPrompt.next().addClass('selected');
-               if (topPos - $prompt.scrollTop() + selectedPrompt.outerHeight() > $prompt.outerHeight() - 50)
-                  $prompt.scrollTop(topPos);
-            }
-            return false;
-         }
-         if (inputEchoPromptVisible && $prompt.is(':visible') && ch == "[aup]") {
-            $prompt.find('.function-container.selected').removeClass('selected');
-            if (!selectedPrompt.length || !selectedPrompt.prev().length) {
-               newSelectedPrompt = $prompt.find('.function-container').last().addClass('selected');
-               $prompt.scrollTop($prompt[0].scrollHeight);
-            }
-            else {
-               newSelectedPrompt = selectedPrompt.prev().addClass('selected');
-               if (topPos - $prompt.scrollTop() <= 30)
-                  $prompt.scrollTop(topPos - selectedPrompt.outerHeight());
-            }
-
-            return false;
-         }
-         if (selectedPrompt.length > 0 && ch == "[enter]") {
-            selectedPrompt.click(); // simulate click
-            return false;
-         }
-         // end of navigating prompt
-
          inputtext = editor.inputBox.GetText(); // should not get here if no inputBox
+         if (("(+-*/,:!&<>=^".indexOf(inputtext.slice(-1))>=0 && inputtext.slice(0,1)=="=") ||
+             (inputtext == "=")) {
+            wval.partialexpr = inputtext;
+         }
+         if (!wval.partialexpr) { // if in pointing operation
+            if (SocialCalc.HandlePromptKey(editor, ch)) return;
+         }
+
          if (editor.inputBox.skipOne) return false; // ignore a key already handled
          if (ch=="[esc]" || ch=="[enter]" || ch=="[tab]" || (ch && ch.substr(0,2)=="[a")) {
-            if (("(+-*/,:!&<>=^".indexOf(inputtext.slice(-1))>=0 && inputtext.slice(0,1)=="=") ||
-                (inputtext == "=")) {
-               wval.partialexpr = inputtext;
-            }
             if (wval.partialexpr) { // if in pointing operation
                if (e.shiftKey && ch.substr(0,2)=="[a") {
                   ch = ch + "shifted";
@@ -175,6 +139,9 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
 
       case "inputboxdirect":
          inputtext = editor.inputBox.GetText(); // should not get here if no inputBox
+
+         if (SocialCalc.HandlePromptKey(editor, ch)) return;
+
          if (ch=="[esc]" || ch=="[enter]" || ch=="[tab]") {
             editor.inputBox.Blur();
             editor.inputBox.ShowInputBox(false);
@@ -213,4 +180,43 @@ SocialCalc.EditorProcessKey = function(editor, ch, e) {
 
    return false;
 
+}
+
+SocialCalc.HandlePromptKey = function(editor, ch) {
+   var $prompt = $(editor.inputEcho.prompt);
+   var inputEchoPromptVisible = $prompt.is(':visible');
+   var selectedPrompt = $prompt.find('.function-container.selected').first();
+   var newSelectedPrompt;
+   var topPos = selectedPrompt.length ? selectedPrompt[0].offsetTop : 0;
+   if (inputEchoPromptVisible && ch == "[adown]") {
+      $prompt.find('.function-container.selected').removeClass('selected');
+      if (!selectedPrompt.length || !selectedPrompt.next().length) {
+         newSelectedPrompt = $prompt.find('.function-container').first().addClass('selected');
+         $prompt.scrollTop(0);
+      }
+      else {
+         newSelectedPrompt = selectedPrompt.next().addClass('selected');
+         if (topPos - $prompt.scrollTop() + selectedPrompt.outerHeight() > $prompt.outerHeight() - 50)
+            $prompt.scrollTop(topPos);
+      }
+      return true;
+   }
+   if (inputEchoPromptVisible && $prompt.is(':visible') && ch == "[aup]") {
+      $prompt.find('.function-container.selected').removeClass('selected');
+      if (!selectedPrompt.length || !selectedPrompt.prev().length) {
+         newSelectedPrompt = $prompt.find('.function-container').last().addClass('selected');
+         $prompt.scrollTop($prompt[0].scrollHeight);
+      }
+      else {
+         newSelectedPrompt = selectedPrompt.prev().addClass('selected');
+         if (topPos - $prompt.scrollTop() <= 30)
+            $prompt.scrollTop(topPos - selectedPrompt.outerHeight());
+      }
+      return true;
+   }
+   if (selectedPrompt.length > 0 && ch == "[enter]") {
+      selectedPrompt.click(); // simulate click
+      return true;
+   }
+   return false;
 }

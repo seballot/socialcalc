@@ -34,13 +34,19 @@ SocialCalc.InputBox = function(element, editor) {
       if (e.state!="start") return; // if not in normal keyboard mode don't replace formula bar
       editor.inputBox.DisplayCellContents(e.ecell.coord);
    };
+
+   $(element).on('keyup', function() {
+      editor.inputEcho.SetText($(this).val());
+   })
 }
 
 
 // Methods:
 
 SocialCalc.InputBox.prototype.DisplayCellContents = function(coord) {SocialCalc.InputBoxDisplayCellContents(this, coord);};
-SocialCalc.InputBox.prototype.ShowInputBox = function(show) {this.editor.inputEcho.Show(show);};
+SocialCalc.InputBox.prototype.ShowInputBox = function(show) {
+   this.editor.inputEcho.Show(show);
+};
 SocialCalc.InputBox.prototype.GetText = function() {return this.element.value;};
 SocialCalc.InputBox.prototype.SetText = function(newtext) {
    if (!this.element) return;
@@ -92,7 +98,7 @@ SocialCalc.InputBoxDisplayCellContents = function(inputbox, coord) {
      if (!inputbox.editor) return; // not initialized yet
      if (!inputbox.editor.ecell) return; // not initialized yet
      coord = inputbox.editor.ecell.coord;
-}
+   }
    var text = inputbox.editor.context.sheetobj.GetCellContents(coord);
    if (text.indexOf("\n")!=-1) {
       text = scc.s_inputboxdisplaymultilinetext;
@@ -105,7 +111,6 @@ SocialCalc.InputBoxDisplayCellContents = function(inputbox, coord) {
       inputbox.element.disabled = false;
    }
    inputbox.SetText(text);
-
 }
 
 //

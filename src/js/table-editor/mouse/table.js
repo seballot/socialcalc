@@ -104,6 +104,7 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
 
    switch (editor.state) { // editing a cell - shouldn't get here if no inputBox
       case "input":
+      case "inputboxdirect":
          inputtext = editor.inputBox.GetText();
          wval = editor.workingvalues;
          if (("(+-*/,:!&<>=^".indexOf(inputtext.slice(-1))>=0 && inputtext.slice(0,1)=="=") ||
@@ -113,13 +114,15 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
 
          if (wval.partialexpr) { // if in pointing operation
             if (coord) {
-               if (range.hasrange) {
-                  editor.inputBox.SetText(wval.partialexpr + SocialCalc.crToCoord(range.left, range.top) + ":" +
-                     SocialCalc.crToCoord(range.right, range.bottom));
-               }
-               else {
-                  editor.inputBox.SetText(wval.partialexpr + coord);
-               }
+               if (range.hasrange)
+                  newval = wval.partialexpr + SocialCalc.crToCoord(range.left, range.top) + ":" +
+                     SocialCalc.crToCoord(range.right, range.bottom)
+               else
+                  newval = wval.partialexpr + coord
+
+               editor.inputEcho.SetText(newval);
+               editor.inputBox.SetText(newval);
+               editor.inputFocused.focus();
             }
          }
          else { // not in point -- done editing
@@ -130,15 +133,6 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
             editor.EditorSaveEdit();
             editor.inputBox.DisplayCellContents(null);
          }
-         break;
-
-      case "inputboxdirect":
-         editor.inputBox.Blur();
-         editor.inputBox.ShowInputBox(false);
-         editor.state = "start";
-         editor.cellhandles.ShowCellHandles(true);
-         editor.EditorSaveEdit();
-         editor.inputBox.DisplayCellContents(null);
          break;
    }
 }

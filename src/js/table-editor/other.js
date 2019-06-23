@@ -7,13 +7,13 @@ SocialCalc.SafariPasteFunction = function(e) {
 SocialCalc.EditorOpenCellEdit = function(editor) {
 
    var wval;
-
+   console.log("EditorOpenCellEdit", editor.ecell)
+   editor.state = 'input';
    if (!editor.ecell) return true; // no ecell
    if (!editor.inputBox) return true; // no input box, so no editing (happens on noEdit)
    if (editor.inputBox.element.disabled) return true; // multi-line: ignore
-   editor.inputBox.ShowInputBox(true);
-   editor.inputBox.Focus();
-   editor.inputBox.SetText("");
+   editor.inputEcho.Show(true);
+   editor.inputEcho.SetText(editor.inputBox.GetText());
    editor.inputBox.DisplayCellContents();
    editor.inputBox.Select("end");
    wval = editor.workingvalues;
@@ -26,19 +26,16 @@ SocialCalc.EditorOpenCellEdit = function(editor) {
 
 }
 
-
-
-
+// When function is selected from functions list popup
 SocialCalc.EditorAddToInput = function(editor, str, prefix) {
 
    var wval = editor.workingvalues;
-
+   console.log("add to input", str, prefix)
    if (editor.noEdit || editor.ECellReadonly()) return;
 
    switch (editor.state) {
       case "start":
          editor.state = "input";
-         editor.inputBox.ShowInputBox(true);
          editor.inputBox.element.disabled = false; // make sure editable and overwrite old
          editor.inputBox.Focus();
          editor.inputBox.SetText((prefix||"")+str);
@@ -59,7 +56,8 @@ SocialCalc.EditorAddToInput = function(editor, str, prefix) {
             editor.RangeRemove();
             editor.MoveECell(wval.ecoord);
          }
-         editor.inputBox.SetText(editor.inputBox.GetText()+str);
+         var text = editor.inputBox.GetText().length == 0 ? (prefix||"")+str : editor.inputBox.GetText()+str
+         editor.inputBox.SetText(text);
          break;
 
       default:

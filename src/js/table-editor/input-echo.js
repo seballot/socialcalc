@@ -20,22 +20,23 @@ SocialCalc.InputEcho = function(editor) {
    this.container = document.createElement("div");
    this.container.id = "input-echo";
    this.container.className = "cell";
-   this.main = document.createElement("div");
-   this.main.className = "input-echo-text";
+   this.main = document.createElement("input");
+   this.main.className = "input-echo-text input-cell";
    this.container.appendChild(this.main);
+   this.fakeMain = document.createElement("div");
+   this.fakeMain.className = "input-echo-fake-text";
+   this.container.appendChild(this.fakeMain);
    this.prompt = document.createElement("div");
    this.prompt.className = "input-echo-prompt custom-scroll-bar";
    this.container.appendChild(this.prompt);
 
    $(editor.toplevel).find('#te_griddiv').append(this.container);
-   var that = this;
-   $(this.main).click(function(e) { that.HandleInputEchoMouseDown(e); });
+
+   $(this.main).on('keyup', function() {
+      editor.inputBox.element.value = $(this).val();
+   })
 
    SocialCalc.MouseWheelRegister(this.prompt, "donothing"); // handle scrolling prompt results
-
-   // variable to make make the _ blink
-   this.showCursor = true;
-   this.count = 0;
 }
 
 // Functions:
@@ -54,8 +55,9 @@ SocialCalc.InputEcho.prototype.Show = function(show) {
       this.container.style.left = $(cell.element).position().left - offsetLeft + "px";
       this.container.style.top = $(cell.element).position().top - offsetTop + "px";
       this.container.style['min-width'] = $(cell.element).outerWidth(true) + 1 + "px";
-      this.container.style['min-height'] = $(cell.element).outerHeight(true) + 1 + "px";
+      this.container.style['min-height'] = $(cell.element).outerHeight(true) + 2 + "px";
       this.container.style.display = "block";
+      this.main.focus();
 
       // reduce the size and change position of prompt when close to the bottom right border
       var leftOffset = this.editor.verticaltablecontrol.$main.offset().left - $(this.container).offset().left - $(this.prompt).width() - 20;
@@ -66,6 +68,7 @@ SocialCalc.InputEcho.prototype.Show = function(show) {
       if (this.interval) window.clearInterval(this.interval); // just in case
       var that = this;
       this.interval = window.setInterval(function() { that.HandleInputEchoHeartbeat() }, 50);
+      this.container.style.width = $('.input-echo-fake-text').width() + 20 + "px";
    }
    else {
       if (this.interval) window.clearInterval(this.interval);
@@ -76,16 +79,16 @@ SocialCalc.InputEcho.prototype.Show = function(show) {
 
 // Do not call that method directly, this is just a mirror of the input value
 // call instead editor.inputBox.SetText
-SocialCalc.InputEcho.prototype.SetText  = function(str) {
+SocialCalc.InputEcho.prototype.SetText  = function(str, focus) {
 
    var scc = SocialCalc.Constants;
    var fname, fstr = "";
    var newstr = SocialCalc.special_chars(str).replace(/\n/g,"<br>");
-   var newstrWithoutUnderscore = newstr.replace('_','');
 
-   if (this.text != newstrWithoutUnderscore) {
-      this.main.innerHTML = newstr;
-      this.text = newstrWithoutUnderscore;
+   if (this.text != newstr) {
+      $(this.main).val(newstr);
+      this.fakeMain.innerHTML = newstr;
+      this.text = newstr;
 
       if (str.charAt(0) == "=") {
          var fullFunctionName = str.indexOf('(') > -1;
@@ -127,6 +130,9 @@ SocialCalc.InputEcho.prototype.SetText  = function(str) {
             }
          }
       }
+
+      this.container.style.width = $('.input-echo-fake-text').width() + 20 + "px";
+
       if (fstr) {
          this.prompt.innerHTML = fstr;
          this.prompt.style.display = "block";
@@ -138,22 +144,39 @@ SocialCalc.InputEcho.prototype.SetText  = function(str) {
          this.prompt.innerHTML = "";
          this.prompt.style.display = "none";
       }
+
+      if ($(this.main).is(':focus')) {
+         this.container.appendChild(this.prompt);
+         this.editor.inputFocused = this.main;
+      }
+      else if ($(this.editor.inputBox.element).is(':focus')) {
+         $(this.editor.inputBox.element).parent()[0].appendChild(this.prompt);
+         this.editor.inputFocused = this.editor.inputBox.element;
+      }
    }
 }
 
 SocialCalc.InputEcho.prototype.HandleInputEchoHeartbeat = function() {
-   this.SetText(this.editor.inputBox.GetText() + (this.showCursor ? '_' : ''));
-   if (this.count++ % 15 == 0) this.showCursor = !this.showCursor;
+   this.SetText(this.main.value);
 }
 
-SocialCalc.InputEcho.prototype.HandleInputEchoMouseDown = function(e) {
-   this.editor.inputBox.element.focus();
-};
+SocialCalc.InputEcho.prototype.Focus = function() {
+   this.editor.inputBox.Focus();
+   this.main.focus();
+}
+
+SocialCalc.InputEcho.prototype.Blur = function() {
+   this.main.blur();
+}
 
 SocialCalc.InputEcho.prototype.HandlePromptMouseDown = function(e) {
    var event = e || window.event;
    var ele = event.target || event.srcElement;
    var fname = $(ele).data('function') || $(ele).closest('.function-container').data('function');
-   if (fname) this.editor.inputBox.SetText('=' + fname + '(');
-   this.editor.inputBox.element.focus();
+   var val = '=' + fname + '(';
+   if (fname) {
+      this.SetText(val);
+      this.editor.inputBox.SetText(val);
+   }
+   $(this.prompt).parent().find('.input-cell').focus();
 }

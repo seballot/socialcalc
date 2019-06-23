@@ -6,42 +6,62 @@
   border: 2px solid $primary-color;
   box-shadow: 0 2px 6px 2px rgba(60,64,67,.15);
 
-  .input-echo-prompt {
-    display:none;
-    position: absolute;
-    top: calc(100% + 3px);
-    left: -2px;
-    right: -300%;
-    width: 500px;
-    max-height: 400px;
-    overflow: auto;
-    box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.13);
+  // used to get the proper width of the input echo
+  .input-echo-fake-text {
+    visibility: hidden;
+    position: fixed;
+  }
 
-    .function-container {
-      &:not(:last-child) { border-bottom: 1px solid #e2e3e3; }
-      background-color: white;
-      padding: 10px;
-      transition: background-color .3s;
-      &[data-function]:hover, &.selected {
-        cursor: pointer;
-        background-color: #ebeff0;
-      }
+  .input-echo-text {
+    margin: 0;
+    border: none;
+    padding: 0;
+    outline: none;
+    width: 100%;
+  }
+}
 
-      .function-title {
-        .function-name {
-          font-weight: bold;
-          letter-spacing: 1px;
-        }
-        .function-args {
-          font-style: italic;
-          opacity: .8;
-        }
+.input-echo-prompt {
+  display:none;
+  position: absolute;
+  top: calc(100% + 3px);
+  left: -2px;
+  z-index: 500;
+  right: -300%;
+  width: 500px;
+  max-height: 400px;
+  overflow: auto;
+  box-shadow: -1px 2px 7px 1px rgba(0, 0, 0, 0.13);
+
+  .function-container {
+    &:not(:last-child) { border-bottom: 1px solid #e2e3e3; }
+    background-color: white;
+    padding: 10px;
+    transition: background-color .3s;
+    &[data-function]:hover, &.selected {
+      cursor: pointer;
+      background-color: #ebeff0;
+    }
+
+    .function-title {
+      .function-name {
+        font-weight: bold;
+        letter-spacing: 1px;
       }
-      .function-description {
+      .function-args {
+        font-style: italic;
         opacity: .8;
-        font-size: .9em;
-        padding-top: 5px;
       }
     }
+    .function-description {
+      opacity: .8;
+      font-size: .9em;
+      padding-top: 5px;
+    }
   }
+}
+
+.formula-group > .input-echo-prompt {
+  left: 24px !important;
+  top: calc(100% + 1px);
 }
