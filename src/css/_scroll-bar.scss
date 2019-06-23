@@ -2,10 +2,13 @@ $scrollbar-thickness: 12px;
 
 .tc-main {
   background-color: white;
+  z-index: 500;
 
   &.vertical {
     width: $scrollbar-thickness;
-    position: relative;
+    position: absolute;
+    top: 0;
+    right: 0;
     display: flex;
     flex-flow: column;
     height: calc(100% - 13px);

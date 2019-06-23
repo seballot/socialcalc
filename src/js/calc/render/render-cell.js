@@ -69,9 +69,10 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
 
    if (!cell.displaystring || cell.displaystring.length == 0 || cell.displaystring == "&nbsp;") {
       result.className += " empty";
-      result.innerHTML = "";
    }
-   else result.innerHTML = "<span class='" + contentClass + "' style='" + contentStyle +"'>" + cell.displaystring + "</span>";
+   //    result.innerHTML = "<span class='" + contentClass + "' style='" + contentStyle +"'>" + "" + "</span>";
+   // }
+   result.innerHTML = "<span class='" + contentClass + "' style='" + contentStyle +"'>" + cell.displaystring + "</span>";
 
    // ALL STYLE PROPERTIES (font-weight, color etc...)
    for(var property in cell.style) {

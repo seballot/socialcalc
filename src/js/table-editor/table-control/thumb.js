@@ -22,6 +22,7 @@ SocialCalc.TCTDragFunctionMove = function(event, draginfo, dobj) {
 
    var control = dobj.functionobj.control;
    var editor = control.editor;
+   editor.cellhandles.ShowCellHandles(false, false, false);
 
    // keep the thumb inside scroll area
    if (dobj.vertical) {

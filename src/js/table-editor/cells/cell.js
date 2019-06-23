@@ -74,10 +74,6 @@ SocialCalc.EnsureECellVisible = function(editor) {
    if (vamount!=0 || hamount!=0) {
       editor.ScrollRelativeBoth(vamount, hamount);
    }
-   else {
-      editor.cellhandles.ShowCellHandles(true);
-   }
-
 }
 
 SocialCalc.ReplaceCell = function(editor, cell, row, col) {

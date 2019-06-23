@@ -53,7 +53,7 @@ SocialCalc.ProcessEditorMouseDown = function(e) {
    if (!range.hasrange) {
       if (e.shiftKey) editor.RangeAnchor();
    }
-   coord = editor.MoveECell(result.coord);
+   coord = editor.MoveECell(result.coord, ensureVisisble = false);
 
    if(SocialCalc._app == true) { // "app" wigets need to keep focus - needed because "coord" always equals A1
       SocialCalc.CmdGotFocus(true); // cell widgets need to keep focus
@@ -156,8 +156,8 @@ SocialCalc.ProcessEditorMouseMove = function(e) {
    element = mouseinfo.element;
 
    var pos = SocialCalc.GetElementPositionWithScroll(editor.toplevel);
-   var clientX = event.clientX - pos.left;
-   var clientY = event.clientY - pos.top;
+   var clientX = Math.max(0, event.clientX - pos.left);
+   var clientY = Math.max(0, event.clientY - pos.top);
    result = SocialCalc.GridMousePosition(editor, clientX, clientY); // get cell with move
 
    if (!result) return;

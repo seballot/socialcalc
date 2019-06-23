@@ -3,17 +3,12 @@
 
   // LAYOUT
   #te_toplevel {
-    display: flex;
-    flex-flow: column;
+    // display: flex;
+    // flex-flow: column;
     height: 100%;
     position: relative;
 
-    .vertical-content {
-      flex: auto;
-      display: flex;
-
-      #te_griddiv { flex: auto; }
-    }
+    #te_griddiv { width: 100%; height: 100%; }
   }
 
   // TABLE ITSELF
@@ -66,6 +61,7 @@
 
   #SocialCalc-statusline {
     position: absolute;
+    z-index: 500;
     right: $scrollbar-thickness;
     bottom: $scrollbar-thickness;
     margin-right: 1px;

@@ -101,10 +101,10 @@ SocialCalc.MoveECellWithKey = function(editor, ch) {
 // different if newecell is covered by a span).
 //
 
-SocialCalc.MoveECell = function(editor, newcell) {
+SocialCalc.MoveECell = function(editor, newcell, ensureVisible) {
 
    var cell, f;
-
+   if (typeof(ensureVisible)==='undefined') ensureVisible = true;
    var highlights = editor.context.highlights;
 
    // adjust against user max col/row
@@ -149,13 +149,14 @@ SocialCalc.MoveECell = function(editor, newcell) {
       editor.StatusCallback[f].func(editor, "moveecell", newcell, editor.StatusCallback[f].params);
    }
 
-   if (editor.busy) {
+   if (editor.busy || !ensureVisible) {
       editor.ensureecell = true; // wait for when not busy
    }
    else {
       editor.ensureecell = false;
       editor.EnsureECellVisible();
    }
+   editor.cellhandles.ShowCellHandles(true);
 
    return newcell;
 }

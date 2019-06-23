@@ -6,12 +6,11 @@ SocialCalc.CreateTableEditor = function(editor) {
    editor.toplevel = editor.$appContainer.find("#te_toplevel")[0]
    editor.griddiv = editor.$appContainer.find("#te_griddiv")[0]
 
-   // TODO deal on resize
-   editor.tableheight = editor.griddiv.offsetHeight
-   editor.tablewidth = editor.griddiv.offsetWidth
+   editor.ResizeTableEditor();
 
-   editor.FitToEditTable();
-   editor.EditorRenderSheet();
+   window.onresize = function(event) {
+      editor.ResizeTableEditor();
+   };
 
    editor.griddiv.appendChild(editor.fullgrid);
 
@@ -26,7 +25,7 @@ SocialCalc.CreateTableEditor = function(editor) {
    if (SocialCalc._app == true) { // no scroll bar in app
      editor.verticaltablecontrol.main.style.display = "none"
      editor.horizontaltablecontrol.main.style.display = "none"
-}
+   }
 
    if (!editor.noEdit) {
       editor.inputEcho = new SocialCalc.InputEcho(editor);
@@ -54,6 +53,29 @@ SocialCalc.CreateTableEditor = function(editor) {
 
    return editor.toplevel;
 
+}
+
+//
+// SocialCalc.ResizeTableEditor(editor, width, height)
+//
+// Move things around as appropriate and resize
+//
+SocialCalc.ResizeTableEditor = function(editor, width, height) {
+
+   if (!width) width = editor.griddiv.offsetWidth;
+   if (!height) height = editor.griddiv.offsetHeight;
+   editor.tableheight = height;
+   editor.tablewidth = width;
+
+   if (editor.verticaltablecontrol) {
+      editor.verticaltablecontrol.PositionTableControlElements();
+      editor.horizontaltablecontrol.PositionTableControlElements();
+   }
+
+   editor.FitToEditTable();
+   editor.EditorRenderSheet();
+
+   return;
 }
 
 
